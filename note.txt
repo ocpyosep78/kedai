@@ -1,0 +1,207 @@
+Website Iklan Baris seperti Toko Bagus
+-----------------------------------------------------------------------------------------------
+Common & Global
+-----------------------------------------------------------------------------------------------
+Lokasi member dicatat (ada history untuk login "ip dan kota")
+
+Email yang disimpan di db diencript (mcript yang ada keynya)
+
+Additional Input
+- additional input ini melekat pada sub kategori
+- punya additional input, jumlah tak terbatas
+- additional input bisa berupa text, select, checkbox
+- additional input bisa punya child, dan seterusnya
+- additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
+- referensi
+  - http://www.tokobagus.com/pasang.asp
+  - http://www2.mudah.my/ai/form/1
+- contoh kategori mobil
+  - ada additional input "merk mobil" dengan pilihan : pilihan honda, toyota, suzuki
+  - jika dipilih honda maka akan keluar additional input jenis mobil dari merk honda saja
+  - contoh detail : http://www.tokobagus.com/mobil/baru/
+- halaman masing2 sub kategori akan berbeda2 karena filternya juga berbeda2
+
+Filter Harga Pencarian
+- setiap sub kategori akan memiliki filter range harga yang bisa di masukan oleh admin
+- terdiri dari 2 filter (harga min & harga max)
+
+Verify User
+- ada 2 jenis Verify (email & lokasi)
+- di admin ada fitur untuk get verify location yang akan mengenerate no yang no tersebut akan
+  dikirim admin ke lokasi si request via pos dan si request akan memasukan no tersebut untuk melakukan verifikasi
+- batas untuk verify lokasi sebanyak 3x, jika sudah lebih dari 3x gagal maka user tersebut tidak bisa melakukan verifikasi lagi
+
+Validasi
+- sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
+
+Follow Publisher
+- jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
+- pengiriman emailnya ketika iklan yang dipasang penjual telah di approve oleh admin dan dilakukan oleh cron
+- follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
+
+Session Login
+- session ada umurnya (2 jam)
+-----------------------------------------------------------------------------------------------
+Back End Panel
+-----------------------------------------------------------------------------------------------
+Template
+- http://shoperindo.com/malaysia/admin/ atau http://flatfull.com/themes/note/index.html
+
+Login History
+- mencatat tanggal akses (login), ip dan lokasi
+- di dashboard panel ditampilan 3 history lastest login
+
+Listing Iklan
+- page nya seperti http://shoperindo.com/malaysia/admin/myad.html
+- status iklan : review, re-review, uproverd, ditolak
+- status default : review
+
+Membership
+- jenis membership
+  - free = 10 max ads
+  - 3 bulan = 20 max ads
+  - 6 bulan 30 max ads..
+
+Subscriber
+- pengiriman nya pakai cron
+- sekali kirim bisa mencapai 5 rb email
+
+User Setting
+- ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
+
+User Note
+- masing2 user punya note sendiri2
+- note ini seperti notifikasi facebook yang ada di atas
+- contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
+-----------------------------------------------------------------------------------------------
+Website
+-----------------------------------------------------------------------------------------------
+Form Entri Iklan Baris
+- form seperti http://shoperindo.com/malaysia/post.htm
+
+Listing Page
+- http://shoperindo.com/malaysia/listing.htm
+
+Single Page
+- http://shoperindo.com/malaysia/single.htm
+- dibagian bawah ada 3 tab (fitur)
+
+Pengiriman Pesan dari Single Page
+- pesan yang dikirim akan masuk ke http://shoperindo.com/malaysia/admin/message.html
+- kirim info ke email pemasang iklan karena ada yang contact yang masuk (singkat saja)
+- email yang dikirim, juga di cc ke ridwanamirsene@yahoo.com
+- catat ip dan lokasi
+-----------------------------------------------------------------------------------------------
+Tamabahan
+-----------------------------------------------------------------------------------------------
+Form Registrasi
+- registrasi harus validasi email
+
+Form Forget Password
+- untuk mereset password
+
+Link Profile User
+- link : namadomain.com/namasaya
+- pakai nama alias
+
+Form Update Profile
+- upload foto profile & foto banner
+
+Notebook
+- link : http://shoperindo.com/malaysia/admin/notebook.html
+- max text areanya 1000 karakter
+
+Previlege
+- Admin & Editor bisa ganti kategory & subkategory
+- Admin & Editor bisa approval saja
+
+Website Note
+- linknya seperti : 
+  - website.com/tags/
+  - website.com/region/ => region atau propinsi
+  - website.com/sub kategory/
+  - website.com/kategory/
+  - website.com/city/
+
+Profile User Back End
+- punya foto profile & foto banner
+- dapat men-disable member
+
+Website Back End
+- data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
+
+Session
+- session ada umurnya (2 jam)
+
+Login
+- login dari www atau tanpa www juga bisa
+
+Error
+- shopermarket tidak bisa login dari www
+
+Sub Kategory - Back End
+- ada link custom seperti shopermarket
+
+Member - Back End
+- ada fitur untuk non aktifkan member
+- ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
+
+Iklan - Back End
+- ada penanda klo item ini sudah terjual / sold
+
+Iklan - Note
+- iklan yang di appove hanya tayang 60 hari
+- setelah 60 hari sistem akan kirim notifikasi ke email / message bahwa iklan sudah expired dan ada tombol re-submit
+- iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
+- gambar iklan yang besar saja di watermark
+- iklan punya code id (9 digit angka random)
+
+Website - Note
+- ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
+
+Widget - Back End
+- ada form widget
+- ini bisa diakses dengan 2 versi link seperti :
+  - website.com/widget-name
+  - website.com/page/widget-name
+
+Website Common :
+- folder view/controller/model klo bisa direname agar ngak ditebak orang lain
+
+Iklan - Back End
+- ketika di approve oleh admin maka mengirim notifikasi seperti :
+	iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+	Hi User, <nama register>
+
+	Terima kasih telah menggunakan kedai.com sebagai media iklan online Anda.
+
+	ID: 38411838
+	Judul: FSDFJSDJFJSDFSD
+
+	<text area> Saat ini iklan Anda belum dapat ditayangkan karena terdapat unsur-unsur yang dapat mengurangi kualitas produk/jasa yang ditawarkan oleh kedai.com dan kurang dapat dipertanggungjawabkan keberadaan maupun kualitasnya.
+
+	Salam hangat,
+
+	kedai.com
+	iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+- ketika di approve akan keluar popup dengan form untuk text area
+- saat di email formatnya sesuai diatas
+
+Iklan - Front End
+- gambar bisa banyak seperti toko bagus
+- gambar bisa di hapus kembali
+- link : http://shoperindo.com/malaysia/post.htm
+- ada IC Number / Other ID Number (centang)
+  - referensi : http://www2.mudah.my/ai/form/0
+- user yang belum login juga bisa pasang iklan, form bisa contoh toko bagus
+- user juga bisa login disini
+
+Next Development Plan
+- bisa connect fb
+- kategori bisa punya template sendiri2
+- ada sistem token seperti phpmyadmin
+
+Biaya
+- biaya pengembangan 7 jt
+- engine bahasa inggris
+
