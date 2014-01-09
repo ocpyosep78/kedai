@@ -9,7 +9,7 @@ Email yang disimpan di db diencript (mcript yang ada keynya)
 Additional Input
 - additional input ini melekat pada sub kategori
 - punya additional input, jumlah tak terbatas
-- additional input bisa berupa text, select, checkbox
+- additional input bisa berupa text, select, checkbox, parent
 - additional input bisa punya child, dan seterusnya
 - additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
 - referensi
