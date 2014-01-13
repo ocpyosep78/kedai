@@ -63,6 +63,9 @@ Template
 Note Common
 - data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
 
+Advert Type
+- masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
+
 Previlege
 - Admin & Editor bisa ganti kategory & subkategory
 - Admin & Editor bisa approval saja

@@ -16,7 +16,28 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('SHA_SECRET',							'OraNgerti');
 
+define('ADVERT',								'advert');
+define('ADVERT_PIC',							'advert_pic');
+define('ADVERT_STATUS',							'advert_status');
+define('ADVERT_TAG',							'advert_tag');
+define('ADVERT_TYPE',							'advert_type');
+define('ADVERT_TYPE_SUB',						'advert_type_sub');
 define('CATEGORY',								'category');
+define('CATEGORY_INPUT',						'category_input');
+define('CATEGORY_PRICE',						'category_price');
+define('CATEGORY_SUB',							'category_sub');
+define('CITY',									'city');
+define('INPUT_TYPE',							'input_type');
+define('MEMBERSHIP',							'membership');
 define('PAGE_STATIC',							'page_static');
+define('REGION',								'region');
+define('TAG',									'tag');
 define('USER',									'user');
+define('USER_CONTACT',							'user_contact');
+define('USER_FOLLOW',							'user_follow');
+define('USER_LOG',								'user_log');
+define('USER_MEMBERSHIP',						'user_membership');
+define('USER_NOTE',								'user_note');
+define('USER_SETTING',							'user_setting');
 define('USER_TYPE',								'user_type');
+define('VERIFY_ADDRESS',						'verify_address');
