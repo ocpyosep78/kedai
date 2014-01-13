@@ -6,20 +6,12 @@ class home extends CI_Controller {
 	}
 	
 	function index() {
-		$this->load->view( 'panel/home');
-	}
-	
-	function check() {
-		$is_login = $this->User_model->is_login(true);
-		
-		$result['success'] = false;
+		$is_login = $this->User_model->is_login();
 		if ($is_login) {
-			$result['success'] = true;
-			$result['menu'] = $this->User_model->get_menu();
+			$this->load->view( 'panel/home');
+		} else {
+			$this->load->view( 'panel/login');
 		}
-		
-		echo json_encode($result);
-		exit;
 	}
 	
 	function login() {
@@ -51,9 +43,5 @@ class home extends CI_Controller {
 		$this->User_model->del_session();
 		header("Location: ".base_url());
 		exit;
-	}
-	
-	function dashboard() {
-		$this->load->view( 'panel/dashboard');
 	}
 }

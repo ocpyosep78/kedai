@@ -1,20 +1,26 @@
 <?php
-	$page_title = (isset($page_title)) ? $page_title : '';
-    $ext = base_url('static/js/extjs');
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en-AU">
-<head>
-	<title><?php echo $page_title; ?></title>
+	$web['base'] = base_url();
 	
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo base_url('static/js/extjs/resources/css/ext-all.css'); ?>" />
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo base_url('static/js/extjs/examples/ux/grid/css/GridFilters.css'); ?>" />
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo base_url('static/js/extjs/examples/ux/grid/css/RangeMenu.css'); ?>" />
-	<link rel="stylesheet" type="text/css" media="all" href="<?php echo base_url('static/js/extjs/resources/css/admin.css'); ?>" />
-	<script type="text/javascript">
-		URLS = <?php echo json_encode( array( 'base' => base_url(), 'ext' => $ext ) ); ?>;
-	</script>
-	<script type="text/javascript" src="<?php echo base_url('static/js/jquery.js'); ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('static/js/extjs/ext-all.js'); ?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('static/panel/ext.common.js'); ?>"></script>
+	$html_class = (!empty($html_class)) ? $html_class : 'app';
+?>
+<!DOCTYPE html>
+<html lang="en" class="<?php echo $html_class; ?>">
+<head>
+	<meta charset="utf-8" />
+	<title>Notebook | Web Application</title>
+	<meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+	<link rel="stylesheet" href="static/css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" href="static/css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="static/css/font-awesome.min.css" type="text/css" />
+	<link rel="stylesheet" href="static/css/font.css" type="text/css" />
+	<link rel="stylesheet" href="static/js/calendar/bootstrap_calendar.css" type="text/css" />
+	<link rel="stylesheet" href="static/css/app.css" type="text/css" />
+	
+	<script type="text/javascript">var web = <?php echo json_encode($web); ?></script>
+	<!--[if lt IE 9]>
+	<script src="static/js/ie/html5shiv.js" cache="false"></script>
+	<script src="static/js/ie/respond.min.js" cache="false"></script>
+	<script src="static/js/ie/excanvas.js" cache="false"></script>
+	<![endif]-->
 </head>

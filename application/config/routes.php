@@ -1,6 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 	
 $is_website = true;
+$is_panel = false;
 
 $string_link_check = (isset($_SERVER['argv']) && isset($_SERVER['argv'][0])) ? $_SERVER['argv'][0] : '';
 $string_link_check = (empty($string_link_check) && isset($_SERVER['REDIRECT_QUERY_STRING'])) ? $_SERVER['REDIRECT_QUERY_STRING'] : $string_link_check;
@@ -9,7 +10,9 @@ $array_arg = explode('/', $url_arg);
 
 if (count($array_arg) >= 1) {
 	$key = $array_arg[0];
+	
 	if (in_array($key, array( 'panel' ))) {
+		$is_panel = true;
 		$is_website = false;
 	}
 }
@@ -17,9 +20,10 @@ if (count($array_arg) >= 1) {
 if ($is_website) {
 	$route['(anime|film|tv-serial|cartoon)'] = "website/category";
 	$route['(anime|film|tv-serial|cartoon)/(:any)'] = "website/category";
+} else if ($is_panel) {
+	$route['panel'] = "panel/home";
 }
 
-$route['panel'] = "panel/home";
 
 $route['default_controller'] = "website/home";
 $route['404_override'] = '';
