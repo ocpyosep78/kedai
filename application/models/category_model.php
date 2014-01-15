@@ -55,7 +55,7 @@ class Category_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS Category.*
+			SELECT SQL_CALC_FOUND_ROWS Category.*, Category.name name1, Category.name name2, Category.name name3, Category.name name4, Category.name name5
 			FROM ".CATEGORY." Category
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
@@ -63,7 +63,7 @@ class Category_model extends CI_Model {
 		";
         $select_result = mysql_query($select_query) or die(mysql_error());
 		while ( $row = mysql_fetch_assoc( $select_result ) ) {
-			$array[] = $this->sync($row, @$param['column']);
+			$array[] = $this->sync($row, $param);
 		}
 		
         return $array;
@@ -88,9 +88,12 @@ class Category_model extends CI_Model {
         return $result;
     }
 	
-	function sync($row, $column = array()) {
+	function sync($row, $param = array()) {
 		$row = StripArray($row);
-		$row['link'] = base_url($row['alias']);
+		
+		if (count(@$param['column']) > 0) {
+			$row = dt_view_set($row, $param);
+		}
 		
 		return $row;
 	}

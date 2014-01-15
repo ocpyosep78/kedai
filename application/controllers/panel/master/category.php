@@ -9,10 +9,14 @@ class category extends KEDAI_Controller {
     }
 	
 	function grid() {
-		$result['rows'] = $this->Category_model->get_array($_POST);
-		$result['count'] = $this->Category_model->get_count();
+		$_POST['is_edit'] = 1;
+		$_POST['column'] = array( 'name' );
 		
-		echo json_encode($result);
+		$array = $this->Category_model->get_array($_POST);
+		$count = $this->Category_model->get_count();
+		$grid = array( 'sEcho' => $_POST['sEcho'], 'aaData' => $array, 'iTotalRecords' => $count, 'iTotalDisplayRecords' => $count );
+		
+		echo json_encode($grid);
 	}
 	
 	function action() {

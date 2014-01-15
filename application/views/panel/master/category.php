@@ -63,7 +63,6 @@
 							<header class="header bg-white b-b clearfix">
 								<div class="row m-t-sm">
 									<div class="col-sm-8 m-b-xs">
-										<a href="#subNav" data-toggle="class:hide" class="btn btn-sm btn-default active"><i class="fa fa-caret-right text fa-lg"></i><i class="fa fa-caret-left text-active fa-lg"></i></a>
 										<div class="btn-group">
 											<button type="button" class="btn btn-sm btn-default" title="Refresh"><i class="fa fa-refresh"></i></button>
 											<button type="button" class="btn btn-sm btn-default" title="Remove"><i class="fa fa-trash-o"></i></button>
@@ -77,7 +76,7 @@
 												<li><a href="#">Separated link</a></li>
 											</ul>
 										</div>
-										<a href="modal.html" data-toggle="ajaxModal" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> Create</a>
+										<a class="btn btn-sm btn-default show-dialog"><i class="fa fa-plus"></i> Create</a>
 									</div>
 									<div class="col-sm-4 m-b-xs">
 										<div class="input-group">
@@ -91,14 +90,11 @@
 							</header>
 							
 							<div class="table-responsive">
-								<table class="table table-striped m-b-none" data-ride="datatable">
+								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="20%">Rendering engine</th>
-										<th width="25%">Browser</th>
-										<th width="25%">Platform(s)</th>
-										<th width="15%">Engine version</th>
-										<th width="15%">CSS grade</th>
+										<th width="50%">Rendering engine</th>
+										<th width="50%">&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -116,21 +112,39 @@
 
 <script>
 $(document).ready(function() {
-	$('[data-ride="datatable"]').each(function() {
-		var oTable = $(this).dataTable( {
-			"bProcessing": true,
-			"sAjaxSource": web.base + 'static/js/data/datatable.json',
-			"sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col-sm-6'p>>",
-			"sPaginationType": "full_numbers",
-			"aoColumns": [
-				{ "mData": "engine" },
-				{ "mData": "browser" },
-				{ "mData": "platform" },
-				{ "mData": "version" },
-				{ "mData": "grade" }
-			]
-		} );
+	$('.show-dialog').click(function() {
+		$('#modal').modal();
 	});
+	
+	// grid
+	var param = {
+		id: 'datatable',
+		source: web.base + 'panel/master/category/grid',
+		column: [ { }, { bSortable: false, sClass: "center" } ],
+		callback: function() {
+			$('#datatable .btn-edit').click(function() {
+				var raw_record = $(this).siblings('.hide').text();
+				eval('var record = ' + raw_record);
+				
+				Func.ajax({ url: web.host + 'panel/master/jenis_angsuran/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+					$('#form-jenis-angsuran [name="id"]').val(result.id);
+					$('#form-jenis-angsuran [name="name"]').val(result.name);
+					page.show_form_jenis_angsuran();
+				} });
+			});
+			
+			$('#datatable .btn-delete').click(function() {
+				var raw_record = $(this).siblings('.hide').text();
+				eval('var record = ' + raw_record);
+				
+				Func.confirm_delete({
+					data: { action: 'delete', id: record.id },
+					url: web.host + 'panel/master/jenis_angsuran/action', callback: function() { dt.reload(); }
+				});
+			});
+		}
+	}
+	dt = Func.init_datatable(param);
 });
 </script>
 

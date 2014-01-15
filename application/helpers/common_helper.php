@@ -750,17 +750,14 @@
             
 			$temp_column = '';
             if ($param['is_edit'] == 1) {
-                $temp_column .= '<img class="button-cursor edit" src="'.base_url('static/img/button_edit.png').'"> ';
-                $temp_column .= '<img class="button-cursor delete" src="'.base_url('static/img/button_delete.png').'"> ';
+                $temp_column .= '<i class="cursor-button fa fa-pencil"></i> ';
+                $temp_column .= '<i class="cursor-button fa fa-power-off"></i> ';
             }
             if (isset($param['is_edit_only']) && $param['is_edit_only'] == 1) {
-                $temp_column .= '<img class="button-cursor edit" src="'.base_url('static/img/button_edit.png').'"> ';
+                $temp_column .= '<i class="cursor-button fa fa-pencil"></i> ';
             }
             if ($param['is_delete'] == 1) {
-                $temp_column .= '<img class="button-cursor delete" src="'.base_url('static/img/button_delete.png').'"> ';
-            }
-            if ($param['is_detail'] == 1) {
-                $temp_column .= '<img class="button-cursor detail" src="'.base_url('static/img/details_open.png').'"> ';
+                $temp_column .= '<i class="cursor-button fa fa-power-off"></i> ';
             }
             if (!empty($param['is_custom'])) {
                 $temp_column = $param['is_custom'];
