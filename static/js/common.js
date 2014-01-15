@@ -479,14 +479,14 @@ var Func = {
 		cnt_modal += '<div class="modal-content">';
 		cnt_modal += '<div class="modal-header">';
 		cnt_modal += '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-		cnt_modal += '<h4 class="modal-title">Confirmation</h4>';
+		cnt_modal += '<h4 class="modal-title">Delete Confirmation !!</h4>';
 		cnt_modal += '</div>';
 		cnt_modal += '<div class="modal-body">';
-		cnt_modal += '<p>Apa anda yakin ?</p>';
+		cnt_modal += '<p>Are you sure ?</p>';
 		cnt_modal += '</div>';
 		cnt_modal += '<div class="modal-footer">';
-		cnt_modal += '<button type="button" class="btn btn-close btn-default" data-dismiss="modal" aria-hidden="true">Tidak</button>';
-		cnt_modal += '<button type="button" class="btn btn-primary">Ya</button>';
+		cnt_modal += '<button type="button" class="btn btn-close btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>';
+		cnt_modal += '<button type="button" class="btn btn-primary">Yes</button>';
 		cnt_modal += '</div>';
 		cnt_modal += '</div>';
 		cnt_modal += '</div>';
@@ -499,7 +499,7 @@ var Func = {
 				eval('var result = ' + RawResult);
 				
 				$('#cnt-confirm .btn-close').click();
-				noty({ text: result.message, layout: 'topRight', type: 'success', timeout: 1500 });
+				$.notify(result.message, "success");
 				
 				if (p.callback != null) {
 					p.callback();

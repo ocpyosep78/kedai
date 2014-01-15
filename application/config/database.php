@@ -7,7 +7,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	$db['default']['hostname'] = 'localhost';
 	$db['default']['username'] = 'root';
 	$db['default']['password'] = '';
-	$db['default']['database'] = 'basic_db';
+	$db['default']['database'] = 'kedai_db';
 }
 
 $db['default']['dbdriver'] = 'mysql';

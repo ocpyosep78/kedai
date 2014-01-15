@@ -1,3 +1,4 @@
+	<div id="cnt-temp"></div>
 	<style>
 		.notifyjs-corner { top: 50px !important; }
 	</style>
@@ -16,6 +17,8 @@
 	<script src="<?php echo base_url('static/js/calendar/demo.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/sortable/jquery.sortable.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/notify.min.js'); ?>"></script>
+	<script src="<?php echo base_url('static/js/parsley/parsley.min.js'); ?>"></script>
+	<script src="<?php echo base_url('static/js/parsley/parsley.extend.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/datatables/jquery.dataTables.min.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/common.js'); ?>"></script>
 </body>

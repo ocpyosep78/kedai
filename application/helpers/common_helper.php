@@ -750,8 +750,8 @@
             
 			$temp_column = '';
             if ($param['is_edit'] == 1) {
-                $temp_column .= '<i class="cursor-button fa fa-pencil"></i> ';
-                $temp_column .= '<i class="cursor-button fa fa-power-off"></i> ';
+                $temp_column .= '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
+                $temp_column .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
             }
             if (isset($param['is_edit_only']) && $param['is_edit_only'] == 1) {
                 $temp_column .= '<i class="cursor-button fa fa-pencil"></i> ';

@@ -205,3 +205,13 @@ Biaya
 
 Error
 - shopermarket tidak bisa login dari www
+
+
+Priority :
+- Advert Type
+- Category
+- Category Price
+- Category Member
+- City
+- Page Static
+- Region

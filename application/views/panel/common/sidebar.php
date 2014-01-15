@@ -91,15 +91,51 @@
 							
 							<ul class="nav lt">
 								<li>
-									<a href="profile.html">
+									<a href="<?php echo base_url('panel/master/advert_type'); ?>">
 										<i class="fa fa-angle-right"></i>
-										<span>Master 1</span>
+										<span>Advert Type</span>
 									</a>
 								</li>
 								<li>
-									<a href="get-verified.html">
+									<a href="<?php echo base_url('panel/master/category'); ?>">
 										<i class="fa fa-angle-right"></i>
-										<span>Master 2</span>
+										<span>Category</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/master/category_price'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Category Price</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/master/category_member'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Category Member</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/master/city'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>City</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/master/page_static'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Page Static</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/master/region'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Region</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/master/widget'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Widget</span>
 									</a>
 								</li>
 							</ul>
@@ -110,6 +146,7 @@
 		</section>
 		
 		<footer class="footer lt hidden-xs b-t b-dark">
+			<!--
 			<div id="chat" class="dropup">
 				<section class="dropdown-menu on aside-md m-l-n">
 					<section class="panel bg-white">
@@ -134,14 +171,17 @@
 					</section>
 				</section>
 			</div>
+			-->
 			<a href="#nav" data-toggle="class:nav-xs" class="pull-right btn btn-sm btn-dark btn-icon">
 				<i class="fa fa-angle-left text"></i>
 				<i class="fa fa-angle-right text-active"></i>
 			</a>
+			<!--
 			<div class="btn-group hidden-nav-xs">
 				<button type="button" title="Chats" class="btn btn-icon btn-sm btn-dark" data-toggle="dropdown" data-target="#chat"><i class="fa fa-comment-o"></i></button>
 				<button type="button" title="Contacts" class="btn btn-icon btn-sm btn-dark" data-toggle="dropdown" data-target="#invite"><i class="fa fa-facebook"></i></button>
 			</div>
+			-->
 		</footer>
 	</section>
 </aside>
