@@ -15,6 +15,7 @@ define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('SHA_SECRET',							'OraNgerti');
+define('USER_TYPE_ADMINISTRATOR',				1);
 
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');

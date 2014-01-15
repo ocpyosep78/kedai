@@ -14,7 +14,7 @@ $config['current_date'] = date("Y-m-d");
 $config['current_time'] = date("H:i:s");
 $config['current_datetime'] = date('Y-m-d H:i:s');
 $config['encryption_key'] = 'dota';
-$config['subclass_prefix'] = 'XX_';
+$config['subclass_prefix'] = 'KEDAI_';
 
 $config['index_page'] = 'index.php';
 $config['uri_protocol']	= 'AUTO';

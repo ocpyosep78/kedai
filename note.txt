@@ -54,6 +54,13 @@ Website - Note
 
 Website Common :
 - folder view/controller/model klo bisa direname agar ngak ditebak orang lain
+
+User Alias :
+- untuk dafault user alias berupa random number
+- nanti alias ini bisa diubah oleh user sebagai nama toko dia
+
+User Profile
+- field : first name, last name, about, tag of me
 -----------------------------------------------------------------------------------------------
 Back End Panel
 -----------------------------------------------------------------------------------------------
@@ -118,6 +125,7 @@ Form Membership
 Subscriber
 - pengiriman nya pakai cron
 - sekali kirim bisa mencapai 5 rb email
+- buatnya seperti punya shopermarket
 
 User Setting
 - ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
