@@ -42,3 +42,4 @@ define('USER_NOTE',								'user_note');
 define('USER_SETTING',							'user_setting');
 define('USER_TYPE',								'user_type');
 define('VERIFY_ADDRESS',						'verify_address');
+define('WIDGET',								'widget');

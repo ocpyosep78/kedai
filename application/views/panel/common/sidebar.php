@@ -103,15 +103,15 @@
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/category_price'); ?>">
+									<a href="<?php echo base_url('panel/master/category_sub'); ?>">
 										<i class="fa fa-angle-right"></i>
-										<span>Category Price</span>
+										<span>Sub Category</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/category_member'); ?>">
+									<a href="<?php echo base_url('panel/master/category_price'); ?>">
 										<i class="fa fa-angle-right"></i>
-										<span>Category Member</span>
+										<span>Category Price</span>
 									</a>
 								</li>
 								<li>

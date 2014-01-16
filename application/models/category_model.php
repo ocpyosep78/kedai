@@ -16,14 +16,14 @@ class Category_model extends CI_Model {
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil disimpan.';
+            $result['message'] = 'Data successfully saved.';
         } else {
             $update_query  = GenerateUpdateQuery($this->field, $param, CATEGORY);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil diperbaharui.';
+            $result['message'] = 'Data successfully updated.';
         }
        
         return $result;
@@ -55,7 +55,7 @@ class Category_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS Category.*, Category.name name1, Category.name name2, Category.name name3, Category.name name4, Category.name name5
+			SELECT SQL_CALC_FOUND_ROWS Category.*
 			FROM ".CATEGORY." Category
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
@@ -83,7 +83,7 @@ class Category_model extends CI_Model {
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
-		$result['message'] = 'Data berhasil dihapus.';
+		$result['message'] = 'Data successfully deleted.';
 
         return $result;
     }

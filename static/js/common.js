@@ -534,9 +534,11 @@ var Func = {
 		if (p.aaSorting != null) {
 			dt_param.aaSorting = p.aaSorting;
 		}
+		if (p.bPaginate != null) {
+			dt_param.bPaginate = p.bPaginate;
+		}
 		
-		$(cnt_id).dataTable(dt_param);
-		$(cnt_id + '_wrapper input').attr("placeholder", "Search here...");
+		var table = $(cnt_id).dataTable(dt_param);
 		
 		// initiate
 		if (p.init != null) {
@@ -544,6 +546,7 @@ var Func = {
 		}
 		
 		var dt = {
+			table: table,
 			reload: function() {
 				if ($(cnt_id + '_paginate .paginate_active').length > 0) {
 					$(cnt_id + '_paginate .paginate_active').click();
@@ -552,6 +555,12 @@ var Func = {
 				}
 			}
 		}
+		
+		// init search
+		$(cnt_id).parents('.panel-table').find('.btn-search').click(function() {
+			var value = $(cnt_id).parents('.panel-table').find('.input-keyword').val();
+			dt.table.fnFilter( value );
+		});
 		
 		return dt;
 	},

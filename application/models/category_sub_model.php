@@ -16,14 +16,14 @@ class Category_Sub_model extends CI_Model {
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil disimpan.';
+            $result['message'] = 'Data successfully saved.';
         } else {
             $update_query  = GenerateUpdateQuery($this->field, $param, CATEGORY_SUB);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil diperbaharui.';
+            $result['message'] = 'Data successfully updated.';
         }
        
         return $result;
@@ -48,20 +48,22 @@ class Category_Sub_model extends CI_Model {
         $array = array();
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND CategorySub.name LIKE '%".$param['namelike']."%'" : '';
+		$string_category = (!empty($param['category_id'])) ? "AND CategorySub.category_id = '".$param['category_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS CategorySub.*
+			SELECT SQL_CALC_FOUND_ROWS CategorySub.*, Category.name category_name
 			FROM ".CATEGORY_SUB." CategorySub
-			WHERE 1 $string_namelike $string_filter
+			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+			WHERE 1 $string_namelike $string_category $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
         $select_result = mysql_query($select_query) or die(mysql_error());
 		while ( $row = mysql_fetch_assoc( $select_result ) ) {
-			$array[] = $this->sync($row, @$param['column']);
+			$array[] = $this->sync($row, $param);
 		}
 		
         return $array;
@@ -81,13 +83,17 @@ class Category_Sub_model extends CI_Model {
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
-		$result['message'] = 'Data berhasil dihapus.';
+		$result['message'] = 'Data successfully deleted.';
 
         return $result;
     }
 	
-	function sync($row, $column = array()) {
+	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		
+		if (count(@$param['column']) > 0) {
+			$row = dt_view_set($row, $param);
+		}
 		
 		return $row;
 	}

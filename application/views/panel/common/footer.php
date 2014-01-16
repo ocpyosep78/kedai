@@ -20,6 +20,9 @@
 	<script src="<?php echo base_url('static/js/parsley/parsley.min.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/parsley/parsley.extend.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/datatables/jquery.dataTables.min.js'); ?>"></script>
+	<script src="<?php echo base_url('static/js/wysiwyg/jquery.hotkeys.js'); ?>"></script>
+	<script src="<?php echo base_url('static/js/wysiwyg/bootstrap-wysiwyg.js'); ?>"></script>
+	<script src="<?php echo base_url('static/js/wysiwyg/demo.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/common.js'); ?>"></script>
 </body>
 </html>

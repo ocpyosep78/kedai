@@ -4,7 +4,7 @@ class Page_Static_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'alias', 'name', 'desc' );
+        $this->field = array( 'id', 'alias', 'name', 'content' );
     }
 
     function update($param) {
@@ -16,14 +16,14 @@ class Page_Static_model extends CI_Model {
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil disimpan.';
+            $result['message'] = 'Data successfully saved.';
         } else {
             $update_query  = GenerateUpdateQuery($this->field, $param, PAGE_STATIC);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil diperbaharui.';
+            $result['message'] = 'Data successfully updated.';
         }
        
         return $result;
@@ -62,7 +62,7 @@ class Page_Static_model extends CI_Model {
 		";
         $select_result = mysql_query($select_query) or die(mysql_error());
 		while ( $row = mysql_fetch_assoc( $select_result ) ) {
-			$array[] = $this->sync($row);
+			$array[] = $this->sync($row, $param);
 		}
 		
         return $array;
@@ -82,14 +82,17 @@ class Page_Static_model extends CI_Model {
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
-		$result['message'] = 'Data berhasil dihapus.';
+		$result['message'] = 'Data successfully deleted.';
 
         return $result;
     }
 	
-	function sync($row) {
+	function sync($row, $param = array()) {
 		$row = StripArray($row);
-		$row['page_link'] = base_url($row['alias']);
+		
+		if (count(@$param['column']) > 0) {
+			$row = dt_view_set($row, $param);
+		}
 		
 		return $row;
 	}

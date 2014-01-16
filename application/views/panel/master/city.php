@@ -1,9 +1,12 @@
+<?php
+	$array_region = $this->Region_model->get_array();
+?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
 	
-	<div class="modal fade" id="modal-category">
+	<div class="modal fade" id="modal-city">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form data-validate="parsley">
@@ -12,7 +15,7 @@
 					
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Category Form</h4>
+						<h4 class="modal-title">City Form</h4>
 					</div>
 					<div class="modal-body">
 						<section class="panel panel-default">
@@ -22,8 +25,10 @@
 									<input type="text" class="form-control" name="name" data-required="true" />
 								</div>
 								<div class="form-group">
-									<label>Alias</label>
-									<input type="text" class="form-control" name="alias" data-required="true" readonly="readonly" />
+									<label>Region</label>
+									<select name="region_id" class="form-control" data-required="true">
+										<?php echo ShowOption(array( 'Array' => $array_region, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
+									</select>
 								</div>
 							</div>
 						</section>
@@ -45,7 +50,7 @@
 				<section class="vbox">
 					<section class="scrollable padder">
 						<div class="m-b-md">
-							<h3 class="m-b-none">Category</h3>
+							<h3 class="m-b-none">City</h3>
 						</div>
 						
 						<section class="panel panel-default panel-table">
@@ -70,7 +75,7 @@
 								<thead>
 									<tr>
 										<th width="40%">Title</th>
-										<th width="40%">Alias</th>
+										<th width="40%">Region</th>
 										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
@@ -92,18 +97,18 @@ $(document).ready(function() {
 	// grid
 	var param = {
 		id: 'datatable',
-		source: web.base + 'panel/master/category/grid',
+		source: web.base + 'panel/master/city/grid',
 		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					$('#modal-category [name="id"]').val(result.id);
-					$('#modal-category [name="name"]').val(result.name);
-					$('#modal-category [name="alias"]').val(result.alias);
-					$('#modal-category').modal();
+				Func.ajax({ url: web.base + 'panel/master/city/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+					$('#modal-city [name="id"]').val(result.id);
+					$('#modal-city [name="name"]').val(result.name);
+					$('#modal-city [name="region_id"]').val(result.region_id);
+					$('#modal-city').modal();
 				} });
 			});
 			
@@ -113,7 +118,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category/action', callback: function() { dt.reload(); }
+					url: web.base + 'panel/master/city/action', callback: function() { dt.reload(); }
 				});
 			});
 		}
@@ -121,29 +126,25 @@ $(document).ready(function() {
 	var dt = Func.init_datatable(param);
 	
 	// form
-	var form = $('#modal-category form').parsley();
-	$('#modal-category [name="name"]').keyup(function() {
-		var value = Func.GetName($(this).val());
-		$('#modal-category [name="alias"]').val(value);
-	});
+	var form = $('#modal-city form').parsley();
 	$('.show-dialog').click(function() {
-		$('#modal-category').modal();
-		$('#modal-category form')[0].reset();
-		$('#modal-category [name="id"]').val(0);
+		$('#modal-city').modal();
+		$('#modal-city form')[0].reset();
+		$('#modal-city [name="id"]').val(0);
 	});
-	$('#modal-category form').submit(function(e) {
+	$('#modal-city form').submit(function(e) {
 		e.preventDefault();
 		if (! form.isValid()) {
 			return false;
 		}
 		
-		var param = Site.Form.GetValue('modal-category form');
-		Func.ajax({ url: web.base + 'panel/master/category/action', param: param, callback: function(result) {
+		var param = Site.Form.GetValue('modal-city form');
+		Func.ajax({ url: web.base + 'panel/master/city/action', param: param, callback: function(result) {
 			if (result.status == 1) {
 				dt.reload();
-				$('#modal-category').modal('hide');
+				$('#modal-city').modal('hide');
 				$.notify(result.message, "success");
-				$('#modal-category form')[0].reset();
+				$('#modal-city form')[0].reset();
 			} else {
 				$.notify(result.message, "error");
 			}

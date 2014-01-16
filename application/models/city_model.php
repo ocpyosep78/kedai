@@ -16,14 +16,14 @@ class City_model extends CI_Model {
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil disimpan.';
+            $result['message'] = 'Data successfully saved.';
         } else {
             $update_query  = GenerateUpdateQuery($this->field, $param, CITY);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
             $result['status'] = '1';
-            $result['message'] = 'Data berhasil diperbaharui.';
+            $result['message'] = 'Data successfully updated.';
         }
        
         return $result;
@@ -47,21 +47,25 @@ class City_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
+		$param['field_replace']['name'] = 'City.name';
+		$param['field_replace']['region_name'] = 'Region.name';
+		
 		$string_namelike = (!empty($param['namelike'])) ? "AND City.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS City.*
+			SELECT SQL_CALC_FOUND_ROWS City.*, Region.name region_name
 			FROM ".CITY." City
+			LEFT JOIN ".REGION." Region ON Region.id = City.region_id
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
         $select_result = mysql_query($select_query) or die(mysql_error());
 		while ( $row = mysql_fetch_assoc( $select_result ) ) {
-			$array[] = $this->sync($row, @$param['column']);
+			$array[] = $this->sync($row, $param);
 		}
 		
         return $array;
@@ -81,13 +85,17 @@ class City_model extends CI_Model {
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
-		$result['message'] = 'Data berhasil dihapus.';
+		$result['message'] = 'Data successfully deleted.';
 
         return $result;
     }
 	
-	function sync($row, $column = array()) {
+	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		
+		if (count(@$param['column']) > 0) {
+			$row = dt_view_set($row, $param);
+		}
 		
 		return $row;
 	}

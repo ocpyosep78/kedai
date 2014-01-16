@@ -1,19 +1,19 @@
 <?php
-class page_static extends KEDAI_Controller {
+class advert_type extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }
     
     function index() {
-		$this->load->view( 'panel/master/page_static' );
+		$this->load->view( 'panel/master/advert_type' );
     }
 	
 	function grid() {
 		$_POST['is_edit'] = 1;
 		$_POST['column'] = array( 'name' );
 		
-		$array = $this->Page_Static_model->get_array($_POST);
-		$count = $this->Page_Static_model->get_count();
+		$array = $this->Advert_Type_model->get_array($_POST);
+		$count = $this->Advert_Type_model->get_count();
 		$grid = array( 'sEcho' => $_POST['sEcho'], 'aaData' => $array, 'iTotalRecords' => $count, 'iTotalDisplayRecords' => $count );
 		
 		echo json_encode($grid);
@@ -29,11 +29,11 @@ class page_static extends KEDAI_Controller {
 				$_POST['desc'] = clean_html_style($_POST['desc']);
 			}
 			
-			$result = $this->Page_Static_model->update($_POST);
+			$result = $this->Advert_Type_model->update($_POST);
 		} else if ($action == 'get_by_id') {
-			$result = $this->Page_Static_model->get_by_id(array( 'id' => $_POST['id'] ));
+			$result = $this->Advert_Type_model->get_by_id(array( 'id' => $_POST['id'] ));
 		} else if ($action == 'delete') {
-			$result = $this->Page_Static_model->delete($_POST);
+			$result = $this->Advert_Type_model->delete($_POST);
 		}
 		
 		echo json_encode($result);

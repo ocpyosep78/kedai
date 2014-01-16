@@ -3,7 +3,7 @@
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
 	
-	<div class="modal fade" id="modal-category">
+	<div class="modal fade" id="modal-advert-type">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form data-validate="parsley">
@@ -12,7 +12,7 @@
 					
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Category Form</h4>
+						<h4 class="modal-title">Advert Type Form</h4>
 					</div>
 					<div class="modal-body">
 						<section class="panel panel-default">
@@ -20,10 +20,6 @@
 								<div class="form-group">
 									<label>Title</label>
 									<input type="text" class="form-control" name="name" data-required="true" />
-								</div>
-								<div class="form-group">
-									<label>Alias</label>
-									<input type="text" class="form-control" name="alias" data-required="true" readonly="readonly" />
 								</div>
 							</div>
 						</section>
@@ -45,7 +41,7 @@
 				<section class="vbox">
 					<section class="scrollable padder">
 						<div class="m-b-md">
-							<h3 class="m-b-none">Category</h3>
+							<h3 class="m-b-none">Advert Type</h3>
 						</div>
 						
 						<section class="panel panel-default panel-table">
@@ -69,9 +65,8 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="40%">Title</th>
-										<th width="40%">Alias</th>
-										<th width="20%">&nbsp;</th>
+										<th width="50%">Title</th>
+										<th width="50%">&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -92,18 +87,17 @@ $(document).ready(function() {
 	// grid
 	var param = {
 		id: 'datatable',
-		source: web.base + 'panel/master/category/grid',
-		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		source: web.base + 'panel/master/advert_type/grid',
+		column: [ { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					$('#modal-category [name="id"]').val(result.id);
-					$('#modal-category [name="name"]').val(result.name);
-					$('#modal-category [name="alias"]').val(result.alias);
-					$('#modal-category').modal();
+				Func.ajax({ url: web.base + 'panel/master/advert_type/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+					$('#modal-advert-type [name="id"]').val(result.id);
+					$('#modal-advert-type [name="name"]').val(result.name);
+					$('#modal-advert-type').modal();
 				} });
 			});
 			
@@ -113,7 +107,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category/action', callback: function() { dt.reload(); }
+					url: web.base + 'panel/master/advert_type/action', callback: function() { dt.reload(); }
 				});
 			});
 		}
@@ -121,29 +115,25 @@ $(document).ready(function() {
 	var dt = Func.init_datatable(param);
 	
 	// form
-	var form = $('#modal-category form').parsley();
-	$('#modal-category [name="name"]').keyup(function() {
-		var value = Func.GetName($(this).val());
-		$('#modal-category [name="alias"]').val(value);
-	});
+	var form = $('#modal-advert-type form').parsley();
 	$('.show-dialog').click(function() {
-		$('#modal-category').modal();
-		$('#modal-category form')[0].reset();
-		$('#modal-category [name="id"]').val(0);
+		$('#modal-advert-type').modal();
+		$('#modal-advert-type form')[0].reset();
+		$('#modal-advert-type [name="id"]').val(0);
 	});
-	$('#modal-category form').submit(function(e) {
+	$('#modal-advert-type form').submit(function(e) {
 		e.preventDefault();
 		if (! form.isValid()) {
 			return false;
 		}
 		
-		var param = Site.Form.GetValue('modal-category form');
-		Func.ajax({ url: web.base + 'panel/master/category/action', param: param, callback: function(result) {
+		var param = Site.Form.GetValue('modal-advert-type form');
+		Func.ajax({ url: web.base + 'panel/master/advert_type/action', param: param, callback: function(result) {
 			if (result.status == 1) {
 				dt.reload();
-				$('#modal-category').modal('hide');
+				$('#modal-advert-type').modal('hide');
 				$.notify(result.message, "success");
-				$('#modal-category form')[0].reset();
+				$('#modal-advert-type form')[0].reset();
 			} else {
 				$.notify(result.message, "error");
 			}

@@ -10,7 +10,7 @@ class category extends KEDAI_Controller {
 	
 	function grid() {
 		$_POST['is_edit'] = 1;
-		$_POST['column'] = array( 'name' );
+		$_POST['column'] = array( 'name', 'alias' );
 		
 		$array = $this->Category_model->get_array($_POST);
 		$count = $this->Category_model->get_count();
@@ -33,9 +33,5 @@ class category extends KEDAI_Controller {
 		}
 		
 		echo json_encode($result);
-	}
-	
-	function view() {
-		$this->load->view( 'panel/master/popup/category' );
 	}
 }
