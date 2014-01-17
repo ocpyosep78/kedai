@@ -25,10 +25,6 @@ class category_sub extends KEDAI_Controller {
 		
 		$result = array();
 		if ($action == 'update') {
-			if (isset($_POST['desc'])) {
-				$_POST['desc'] = clean_html_style($_POST['desc']);
-			}
-			
 			$result = $this->Category_Sub_model->update($_POST);
 		} else if ($action == 'get_by_id') {
 			$result = $this->Category_Sub_model->get_by_id(array( 'id' => $_POST['id'] ));

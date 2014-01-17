@@ -128,7 +128,7 @@ $(document).ready(function() {
 	// grid
 	var param_min = {
 		id: 'price-minimum',
-		source: web.base + 'panel/master/category_price/grid',
+		source: web.base + 'panel/setup/category_price/grid',
 		column: [ { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		fnServerParams: function (aoData) {
 			aoData.push(
@@ -147,7 +147,7 @@ $(document).ready(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category_price/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+				Func.ajax({ url: web.base + 'panel/setup/category_price/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
 					$('#modal-category-price [name="id"]').val(result.id);
 					$('#modal-category-price [name="price"]').val(result.price);
 					$('#modal-category-price [name="price_type"]').val(result.price_type);
@@ -161,7 +161,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category_price/action', callback: function() { dt_min.reload(); }
+					url: web.base + 'panel/setup/category_price/action', callback: function() { dt_min.reload(); }
 				});
 			});
 		}
@@ -169,7 +169,7 @@ $(document).ready(function() {
 	var dt_min = Func.init_datatable(param_min);
 	var param_max = {
 		id: 'price-maximum',
-		source: web.base + 'panel/master/category_price/grid',
+		source: web.base + 'panel/setup/category_price/grid',
 		column: [ { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		fnServerParams: function (aoData) {
 			aoData.push(
@@ -188,7 +188,7 @@ $(document).ready(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category_price/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+				Func.ajax({ url: web.base + 'panel/setup/category_price/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
 					$('#modal-category-price [name="id"]').val(result.id);
 					$('#modal-category-price [name="price"]').val(result.price);
 					$('#modal-category-price [name="price_type"]').val(result.price_type);
@@ -202,7 +202,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category_price/action', callback: function() { dt_max.reload(); }
+					url: web.base + 'panel/setup/category_price/action', callback: function() { dt_max.reload(); }
 				});
 			});
 		}
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		
 		var param = Site.Form.GetValue('modal-category-price form');
 		param.category_sub_id = $('[name="category_sub_id"]').val();
-		Func.ajax({ url: web.base + 'panel/master/category_price/action', param: param, callback: function(result) {
+		Func.ajax({ url: web.base + 'panel/setup/category_price/action', param: param, callback: function(result) {
 			if (result.status == 1) {
 				dt_min.reload();
 				dt_max.reload();

@@ -1,5 +1,5 @@
 var DATE_FORMAT = 'dd-mm-yyyy';
-var NO_IMAGE = web.host + 'static/img/no-images.jpg';
+var NO_IMAGE = web.base + 'static/img/no-images.jpg';
 // var TIME_FORMAT = 'H:i';
 
 String.prototype.strpad = function str_pad(pad_length, pad_string, pad_type) {
@@ -37,7 +37,7 @@ function str_pad(input, pad_length, pad_string, pad_type) {
 }
 
 var Site = {
-    Host: web.host,
+    Host: web.base,
     IsValidEmail: function (Email) {
         var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailPattern.test(Email);  
@@ -606,11 +606,33 @@ var Func = {
 }
 
 var combo = {
+	category_sub: function(p) {
+		p.category_id = (p.category_id == null) ? 0 : p.category_id;
+		
+		var ajax_param = {
+			is_json: 0, url: web.base + 'panel/combo',
+			param: { action: 'category_sub', category_id: p.category_id },
+			callback: function(option) {
+				p.target.html(option);
+				
+				// set value
+				if (typeof(p.value) != 'undefined') {
+					p.target.val(p.value);
+				}
+				
+				if (p.callback != null) {
+					p.callback();
+				}
+			}
+		}
+		Func.ajax(ajax_param);
+	},
+	
 	kota: function(p) {
 		p.propinsi_id = (p.propinsi_id == null) ? 0 : p.propinsi_id;
 		
 		var ajax_param = {
-			is_json: 0, url: web.host + 'panel/combo',
+			is_json: 0, url: web.base + 'panel/combo',
 			param: { action: 'kota', propinsi_id: p.propinsi_id },
 			callback: function(option) {
 				p.target.html(option);
@@ -626,7 +648,7 @@ var combo = {
 		p.kategori_id = (p.kategori_id == null) ? 0 : p.kategori_id;
 		
 		var ajax_param = {
-			is_json: 0, url: web.host + 'panel/combo',
+			is_json: 0, url: web.base + 'panel/combo',
 			param: { action: 'subkategori', kategori_id: p.kategori_id },
 			callback: function(option) {
 				p.target.html(option);

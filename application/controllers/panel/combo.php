@@ -8,13 +8,15 @@ class combo extends CI_Controller {
 	function index() {
 		$action = (!empty($_POST['action'])) ? $_POST['action'] : '';
 		
-		if ($action == 'category') {
-			$array = $this->Category_model->get_array(array( ));
-		} else if ($action == 'user_type') {
-			$array = $this->User_Type_model->get_array(array( ));
+		// default id & name
+		$id = 'id';
+		$title = 'name';
+		
+		if ($action == 'category_sub') {
+			$array = $this->Category_Sub_model->get_array($_POST);
 		}
 		
-		echo json_encode($array);
+		echo ShowOption(array( 'Array' => $array, 'ArrayID' => $id, 'ArrayTitle' => $title ));
 		exit;
 	}
 }                                                

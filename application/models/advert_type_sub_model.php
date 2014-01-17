@@ -33,7 +33,18 @@ class Advert_Type_Sub_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".ADVERT_TYPE_SUB." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT AdvertTypeSub.*,
+					AdvertType.name advert_type_name,
+					Category.name category_name, Category.id category_id,
+					CategorySub.name category_sub_name, CategorySub.id category_sub_id
+				FROM ".ADVERT_TYPE_SUB." AdvertTypeSub
+				LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = AdvertTypeSub.advert_type_id
+				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = AdvertTypeSub.category_sub_id
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				WHERE AdvertTypeSub.id = '".$param['id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -47,14 +58,24 @@ class Advert_Type_Sub_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND AdvertStatus.name LIKE '%".$param['namelike']."%'" : '';
+		$param['field_replace']['category_name'] = 'Category.name';
+		$param['field_replace']['advert_type_name'] = 'AdvertType.name';
+		$param['field_replace']['category_sub_name'] = 'CategorySub.name';
+		
+		$string_namelike = (!empty($param['namelike'])) ? "AND AdvertTypeSub.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS AdvertStatus.*
-			FROM ".ADVERT_TYPE_SUB." AdvertStatus
+			SELECT SQL_CALC_FOUND_ROWS AdvertTypeSub.*,
+				AdvertType.name advert_type_name,
+				Category.name category_name, Category.id category_id,
+				CategorySub.name category_sub_name, CategorySub.id category_sub_id
+			FROM ".ADVERT_TYPE_SUB." AdvertTypeSub
+			LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = AdvertTypeSub.advert_type_id
+			LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = AdvertTypeSub.category_sub_id
+			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit

@@ -86,6 +86,68 @@
 									<i class="fa fa-angle-down text"></i>
 									<i class="fa fa-angle-up text-active"></i>
 								</span>
+								<span>User</span>
+							</a>
+							
+							<ul class="nav lt">
+								<li>
+									<a href="<?php echo base_url('panel/user/user'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>User</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/user/verify_address'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Verify Address</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/user/membership'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Membership Request</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a>
+								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
+								<span class="pull-right">
+									<i class="fa fa-angle-down text"></i>
+									<i class="fa fa-angle-up text-active"></i>
+								</span>
+								<span>Setup</span>
+							</a>
+							
+							<ul class="nav lt">
+								<li>
+									<a href="<?php echo base_url('panel/setup/advert_type_sub'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Advert Type</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/setup/membership'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Membership</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/setup/category_price'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Category Price</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a>
+								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
+								<span class="pull-right">
+									<i class="fa fa-angle-down text"></i>
+									<i class="fa fa-angle-up text-active"></i>
+								</span>
 								<span>Master</span>
 							</a>
 							
@@ -106,12 +168,6 @@
 									<a href="<?php echo base_url('panel/master/category_sub'); ?>">
 										<i class="fa fa-angle-right"></i>
 										<span>Sub Category</span>
-									</a>
-								</li>
-								<li>
-									<a href="<?php echo base_url('panel/master/category_price'); ?>">
-										<i class="fa fa-angle-right"></i>
-										<span>Category Price</span>
 									</a>
 								</li>
 								<li>
