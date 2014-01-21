@@ -620,6 +620,20 @@ var Func = {
 			} });
 		});
 	},
+	init_tree: function(p) {
+		$(p.cnt + ' .tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+		$(p.cnt + ' .tree li.parent_li > span').on('click', function (e) {
+			var children = $(this).parent('li.parent_li').find(' > ul > li');
+			if (children.is(":visible")) {
+				children.hide('fast');
+				$(this).attr('title', 'Expand this branch').find(' > i').addClass('fa-plus').removeClass('fa-minus-circle');
+			} else {
+				children.show('fast');
+				$(this).attr('title', 'Collapse this branch').find(' > i').addClass('fa-minus-circle').removeClass('fa-plus');
+			}
+			e.stopPropagation();
+		});
+	},
 	get_date_time: function(value, default_value) {
 		if (value == null) {
 			var t = new Date();

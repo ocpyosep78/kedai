@@ -1,5 +1,6 @@
 <?php
 	$array_category = $this->Category_model->get_array();
+	$array_input_type = $this->Input_Type_model->get_array();
 ?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
@@ -8,6 +9,28 @@
 	<input type="hidden" name="category_id" value="0" />
 	<input type="hidden" name="category_sub_id" value="0" />
 	<input type="hidden" name="advert_type_sub_id" value="0" />
+	
+	<div class="modal fade" id="modal-category-input">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form data-validate="parsley">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Category Price Form</h4>
+					</div>
+					<div class="modal-body">
+						<section class="panel panel-default">
+							<div class="select"></div>
+						</section>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-info">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	
     <section>
 		<section class="hbox stretch">
@@ -20,7 +43,7 @@
 							<h3 class="m-b-none">Category Input</h3>
 						</div>
 						
-						<section class="panel panel-default panel-table">
+						<section class="panel panel-default panel-table tree-list-view">
 							<header class="header bg-white b-b clearfix">
 								<div class="row m-t-sm">
 									<div class="col-sm-8 m-b-xs">
@@ -49,15 +72,72 @@
 											</button>
 											<ul class="dropdown-menu"></ul>
 										</div>
-										<a class="btn btn-sm btn-default show-dialog" data-price-type="1"><i class="fa fa-plus"></i> Create</a>
+										<a class="btn btn-sm btn-default show-form" data-price-type="1"><i class="fa fa-plus"></i> Create</a>
 									</div>
 								</div>
 							</header>
 						</section>
 						
-						<section class="panel panel-default panel-table">
-							<div class="table-responsive" style="padding: 10px;">
-								<?php $this->load->view( 'panel/common/form_tree' ); ?>
+						<section class="panel panel-default panel-table tree-list-view">
+							<div class="table-responsive cnt-tree" style="padding: 10px;"></div>
+						</section>
+						
+						<section class="panel panel-default tree-form-view hide">
+							<header class="panel-heading font-bold">Category Input Form</header>
+							<div class="panel-body">
+								<form class="bs-example form-horizontal" data-validate="parsley">
+									<input type="hidden" name="id" value="0" />
+									<input type="hidden" name="parent_id" value="0" />
+									
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Parent</label>
+										<div class="col-lg-7">
+											<input type="title_parent" class="form-control" placeholder="Parent" />
+										</div>
+										<div class="col-lg-3">
+											<button type="button" class="btn btn-default modal-tree">Select Parent</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Input Type</label>
+										<div class="col-lg-10">
+											<select name="input_type_id" class="form-control" data-required="true">
+												<?php echo ShowOption(array( 'Array' => $array_input_type, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Title</label>
+										<div class="col-lg-10">
+											<input type="text" name="title" class="form-control" placeholder="Title" data-required="true" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Label</label>
+										<div class="col-lg-10">
+											<input type="text" name="label" class="form-control" placeholder="Label" data-required="true" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Max Length</label>
+										<div class="col-lg-10">
+											<input type="text" name="max_length" class="form-control" placeholder="Max Length" />
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="is_required" /> Required</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<button type="button" class="btn btn-sm btn-default show-tree">Cancel</button>
+											<button type="submit" class="btn btn-sm btn-info">Save</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</section>
 					</section>
@@ -71,7 +151,90 @@
 
 <script>
 $(document).ready(function() {
+	var page = {
+		show_tree: function() {
+			$('.tree-list-view').show();
+			$('.tree-form-view').hide();
+		},
+		show_form: function() {
+			$('.tree-list-view').hide();
+			$('.tree-form-view').show();
+		},
+		tree: {
+			load: function() {
+				Func.ajax({
+					is_json: 0,
+					url: web.base + 'panel/setup/category_input/view',
+					param: {
+						view_name: 'form_tree',
+						advert_type_sub_id: $('input[name="advert_type_sub_id"]').val()
+					},
+					callback: function(result) {
+						// set tree
+						$('.cnt-tree').html(result);
+						Func.init_tree({ cnt: '.cnt-tree' });
+					}
+				});
+			}
+		}
+	}
+	
+	// form
+	var form = $('.tree-form-view form').parsley();
+	$('.tree-form-view form').submit(function(e) {
+		e.preventDefault();
+		if (! form.isValid()) {
+			return false;
+		}
+		
+		var param = Site.Form.GetValue('.tree-form-view form');
+		Func.ajax({ url: web.base + 'panel/setup/category_input/action', param: param, callback: function(result) {
+			if (result.status == 1) {
+				page.tree.load();
+				page.show_tree();
+				$.notify(result.message, "success");
+			} else {
+				$.notify(result.message, "error");
+			}
+		} });
+		
+		return false;
+	});
+	
 	// helper
+	$('.show-form').click(function() {
+		var advert_type_sub_id = $('[name="advert_type_sub_id"]').val();
+		if (advert_type_sub_id == 0) {
+			$.notify('Please select Advert Type', "warning");
+			return false;
+		}
+		
+		page.show_form();
+		$('.tree-form-view form')[0].reset();
+		$('.tree-form-view [name="id"]').val(0);
+	});
+	$('.show-tree').click(function() {
+		page.show_tree();
+	});
+	$('.modal-tree').click(function() {
+		Func.ajax({
+			is_json: 0,
+			url: web.base + 'panel/setup/category_input/view',
+			param: {
+				view_name: 'form_tree',
+				advert_type_sub_id: $('input[name="advert_type_sub_id"]').val()
+			},
+			callback: function(result) {
+				// set tree
+				$('#modal-category-input .select').html(result);
+				Func.init_tree({ cnt: '#modal-category-input .select' });
+				$('#modal-category-input').modal();
+			}
+		});
+		
+		
+		
+	});
 	Func.combo({
 		category_change: function(category) {
 			$('input[name="category_id"]').val(category.id);
@@ -84,6 +247,7 @@ $(document).ready(function() {
 		advert_type_sub_change: function(advert_type_sub) {
 			$('input[name="advert_type_sub_id"]').val(advert_type_sub.id);
 			$('.group-advert-type-sub .title-replace').text(advert_type_sub.advert_type_name);
+			page.tree.load();
 		}
 	});
 });

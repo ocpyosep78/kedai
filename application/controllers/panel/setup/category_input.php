@@ -34,4 +34,11 @@ class category_input extends KEDAI_Controller {
 		
 		echo json_encode($result);
 	}
+	
+	function view() {
+		$view_name = (isset($_POST['view_name'])) ? $_POST['view_name'] : 'form_tree';
+		unset($_POST['view_name']);
+		
+		$this->load->view( 'panel/common/'.$view_name );
+	}
 }
