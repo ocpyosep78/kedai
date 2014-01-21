@@ -249,29 +249,19 @@ $(document).ready(function() {
 		$('#modal-category-price [name="id"]').val(0);
 		$('#modal-category-price [name="price_type"]').val(price_type);
 	});
-	$('.group-category .select-category').click(function() {
-		var category = $(this).data('row');
-		
-		// set record
-		$('input[name="category_id"]').val(category.id);
-		$('.group-category .title-replace').text(category.name);
-		
-		// set select child
-		Func.ajax({ url: web.base + 'panel/dropdown', param: { action: 'category_sub', category_id: category.id }, is_json: 0, callback: function(result) {
-			$('.group-category-sub .dropdown-menu').html(result);
+	Func.combo({
+		category_change: function(category) {
+			$('input[name="category_id"]').val(category.id);
+			$('.group-category .title-replace').text(category.name);
+		},
+		category_sub_change: function(category_sub) {
+			$('input[name="category_sub_id"]').val(category_sub.id);
+			$('.group-category-sub .title-replace').text(category_sub.name);
 			
-			$('.group-category-sub .select-category-sub').click(function() {
-				var category_price = $(this).data('row');
-				
-				// set record
-				$('input[name="category_sub_id"]').val(category_price.id);
-				$('.group-category-sub .title-replace').text(category_price.name);
-				
-				// reload table
-				dt_min.reload();
-				dt_max.reload();
-			});
-		} });
+			// reload table
+			dt_min.reload();
+			dt_max.reload();
+		}
 	});
 });
 </script>

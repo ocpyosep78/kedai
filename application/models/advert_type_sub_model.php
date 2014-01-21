@@ -63,8 +63,9 @@ class Advert_Type_Sub_model extends CI_Model {
 		$param['field_replace']['category_sub_name'] = 'CategorySub.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND AdvertTypeSub.name LIKE '%".$param['namelike']."%'" : '';
+		$string_category_sub = (!empty($param['category_sub_id'])) ? "AND AdvertTypeSub.category_sub_id = '".$param['category_sub_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'AdvertType.name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
@@ -76,7 +77,7 @@ class Advert_Type_Sub_model extends CI_Model {
 			LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = AdvertTypeSub.advert_type_id
 			LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = AdvertTypeSub.category_sub_id
 			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
-			WHERE 1 $string_namelike $string_filter
+			WHERE 1 $string_namelike $string_category_sub $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";

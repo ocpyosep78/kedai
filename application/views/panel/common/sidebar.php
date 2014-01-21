@@ -139,6 +139,12 @@
 										<span>Category Price</span>
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo base_url('panel/setup/category_input'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Category Input</span>
+									</a>
+								</li>
 							</ul>
 						</li>
 						<li>

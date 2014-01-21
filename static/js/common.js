@@ -565,23 +565,60 @@ var Func = {
 		return dt;
 	},
 	
-	get_seeker: function() {
-		var seeker_temp = $('.cnt-seeker').text();
-		eval('var seeker = ' + seeker_temp);
+	combo: function(p) {
+		// default value
+		if (typeof(p.category_combo) == 'undefined') {
+			p.category_combo = '.group-category .select-category';
+		}
+		if (typeof(p.category_sub_combo) == 'undefined') {
+			p.category_sub_combo = '.group-category-sub .select-category-sub';
+		}
+		if (typeof(p.category_sub_option) == 'undefined') {
+			p.category_sub_option = '.group-category-sub .dropdown-menu';
+		}
+		if (typeof(p.advert_type_sub_combo) == 'undefined') {
+			p.advert_type_sub_combo = '.group-advert-type-sub .select-advert-type-sub';
+		}
+		if (typeof(p.advert_type_sub_option) == 'undefined') {
+			p.advert_type_sub_option = '.group-advert-type-sub .dropdown-menu';
+		}
 		
-		return seeker;
-	},
-	get_company: function() {
-		var company_temp = $('.cnt-company').text();
-		eval('var company = ' + company_temp);
-		
-		return company;
-	},
-	get_editor: function() {
-		var editor_temp = $('.cnt-editor').text();
-		eval('var editor = ' + editor_temp);
-		
-		return editor;
+		$(p.category_combo).click(function() {
+			var category = $(this).data('row');
+			
+			// category change
+			if (typeof(p.category_change) != 'undefined') {
+				p.category_change(category);
+			}
+			
+			// load category sub
+			Func.ajax({ url: web.base + 'panel/dropdown', param: { action: 'category_sub', category_id: category.id }, is_json: 0, callback: function(result) {
+				$(p.category_sub_option).html(result);
+				
+				$(p.category_sub_combo).click(function() {
+					var category_sub = $(this).data('row');
+					
+					// category sub change
+					if (typeof(p.category_sub_change) != 'undefined') {
+						p.category_sub_change(category_sub);
+					}
+					
+					// load advert type sub
+					Func.ajax({ url: web.base + 'panel/dropdown', param: { action: 'advert_type_sub', category_sub_id: category_sub.id }, is_json: 0, callback: function(result) {
+						$(p.advert_type_sub_option).html(result);
+						
+						$(p.advert_type_sub_combo).click(function() {
+							var advert_type_sub = $(this).data('row');
+							
+							// advert type sub change
+							if (typeof(p.advert_type_sub_change) != 'undefined') {
+								p.advert_type_sub_change(advert_type_sub);
+							}
+						});
+					} });
+				});
+			} });
+		});
 	},
 	get_date_time: function(value, default_value) {
 		if (value == null) {
