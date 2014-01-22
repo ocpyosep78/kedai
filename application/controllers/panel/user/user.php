@@ -1,5 +1,5 @@
 <?php
-class user extends XX_Controller {
+class user extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }
@@ -9,10 +9,14 @@ class user extends XX_Controller {
     }
 	
 	function grid() {
-		$result['rows'] = $this->User_model->get_array($_POST);
-		$result['count'] = $this->User_model->get_count();
+		$_POST['is_edit'] = 1;
+		$_POST['column'] = array( 'advert_count', 'advert_time' );
 		
-		echo json_encode($result);
+		$array = $this->User_model->get_array($_POST);
+		$count = $this->User_model->get_count();
+		$grid = array( 'sEcho' => $_POST['sEcho'], 'aaData' => $array, 'iTotalRecords' => $count, 'iTotalDisplayRecords' => $count );
+		
+		echo json_encode($grid);
 	}
 	
 	function action() {
@@ -37,9 +41,5 @@ class user extends XX_Controller {
 		}
 		
 		echo json_encode($result);
-	}
-	
-	function view() {
-		$this->load->view( 'panel/user/popup/user' );
 	}
 }
