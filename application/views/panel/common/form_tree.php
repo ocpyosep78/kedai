@@ -1,4 +1,6 @@
 <?php
+	$array_tree = $this->Category_Input_model->get_tree($_POST);
+	/*
 	$array_tree = array(
 		array(
 			'title' => 'Parent No 1', 'label' => 'Goes somewhere', 'child' => array(
@@ -11,6 +13,7 @@
 			'title' => 'Parent No 2', 'label' => 'Goes somewhere', 'child' => array()
 		)
 	);
+	/*	*/
 	
 	function show_tree($array_tree) {
 		$result = '';
@@ -25,7 +28,8 @@
 			
 			$result .= '
 				<li>
-					<span><i class="fa '.$style_class.'"></i> '.$row['title'].'</span> <a class="cursor">'.$row['label'].'</a>
+					<span class="cursor tree-option" data-row=\''.json_encode($row).'\'><i class="fa '.$style_class.'"></i></span>
+					<a class="cursor tree-option tree-edit" data-row=\''.json_encode($row).'\'>'.$row['title'].'</a>
 					'.$child_tree.'
 				</li>
 			';

@@ -4,7 +4,7 @@ class Category_Input_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'parent_id', 'input_type_id', 'title', 'label', 'is_required', 'max_length', 'value' );
+        $this->field = array( 'id', 'parent_id', 'input_type_id', 'advert_type_sub_id', 'title', 'label', 'is_required', 'max_length', 'value' );
     }
 
     function update($param) {
@@ -48,6 +48,9 @@ class Category_Input_model extends CI_Model {
         $array = array();
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND CategoryInput.label LIKE '%".$param['namelike']."%'" : '';
+		$string_parent = (isset($param['parent_id'])) ? "AND CategoryInput.parent_id = '".$param['parent_id']."'" : '';
+		$string_advert_type_sub = (!empty($param['advert_type_sub_id'])) ? "AND CategoryInput.advert_type_sub_id = '".$param['advert_type_sub_id']."'" : '';
+		
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'label ASC');
 		$string_limit = GetStringLimit($param);
@@ -55,7 +58,7 @@ class Category_Input_model extends CI_Model {
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS CategoryInput.*
 			FROM ".CATEGORY_INPUT." CategoryInput
-			WHERE 1 $string_namelike $string_filter
+			WHERE 1 $string_namelike $string_parent $string_advert_type_sub $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -75,6 +78,26 @@ class Category_Input_model extends CI_Model {
 		
 		return $TotalRecord;
     }
+	
+	function get_tree($param = array()) {
+		$param['parent_id'] = (isset($param['parent_id'])) ? $param['parent_id'] : 0;
+		
+		$result = array();
+		$array_input = $this->get_array($param);
+		foreach ($array_input as $key => $row) {
+			$param_child['parent_id'] = $row['id'];
+			$param_child['advert_type_sub_id'] = $param['advert_type_sub_id'];
+			$array_child = $this->get_tree($param_child);
+			
+			$array = array( 'id' => $row['id'], 'label' => $row['label'], 'title' => $row['title'] );
+			if (count($array_child) > 0) {
+				$array['child'] = $array_child;
+			}
+			$result[] = $array;
+		}
+		
+		return $result;
+	}
 	
     function delete($param) {
 		$delete_query  = "DELETE FROM ".CATEGORY_INPUT." WHERE id = '".$param['id']."' LIMIT 1";

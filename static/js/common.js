@@ -261,8 +261,7 @@ var Site = {
 				var value = Input.eq(i).val();
 				
 				if (Input.eq(i).attr('type') == 'checkbox') {
-					var Checked = Input.eq(i).attr('checked');
-					if (typeof(Checked) == 'string' && Checked == 'checked') {
+					if (Input.eq(i).is(':checked')) {
 						Data = set_value(Data, name, value);
 					} else {
 						Data = set_value(Data, name, 0);
@@ -563,6 +562,24 @@ var Func = {
 		});
 		
 		return dt;
+	},
+	populate: function(p) {
+		for (var form_name in p.record) {
+			if (p.record.hasOwnProperty(form_name)) {
+				var input = $(p.cnt + ' [name="' + form_name + '"]');
+				var value = p.record[form_name];
+				if (input.attr('type') == 'checkbox') {
+					input.attr('checked', false);
+					if (value == 1) {
+						input.click();
+					}
+				} else if (input.hasClass('datepicker')) {
+					input.val(Func.SwapDate(value));
+				} else {
+					input.val(value);
+				}
+			}
+		}
 	},
 	
 	combo: function(p) {

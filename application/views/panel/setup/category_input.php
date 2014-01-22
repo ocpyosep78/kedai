@@ -19,13 +19,7 @@
 						<h4 class="modal-title">Category Price Form</h4>
 					</div>
 					<div class="modal-body">
-						<section class="panel panel-default">
-							<div class="select"></div>
-						</section>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-info">Save changes</button>
+						<section><div class="select"></div></section>
 					</div>
 				</form>
 			</div>
@@ -88,11 +82,12 @@
 								<form class="bs-example form-horizontal" data-validate="parsley">
 									<input type="hidden" name="id" value="0" />
 									<input type="hidden" name="parent_id" value="0" />
+									<input type="hidden" name="action" value="update" />
 									
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Parent</label>
 										<div class="col-lg-7">
-											<input type="title_parent" class="form-control" placeholder="Parent" />
+											<input type="text" name="parent_title" class="form-control" placeholder="Parent" />
 										</div>
 										<div class="col-lg-3">
 											<button type="button" class="btn btn-default modal-tree">Select Parent</button>
@@ -127,14 +122,15 @@
 									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
 											<div class="checkbox">
-												<label><input type="checkbox" name="is_required" /> Required</label>
+												<label><input type="checkbox" name="is_required" value="1" /> Required</label>
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
-											<button type="button" class="btn btn-sm btn-default show-tree">Cancel</button>
 											<button type="submit" class="btn btn-sm btn-info">Save</button>
+											<button type="button" class="btn btn-sm btn-danger">Delete</button>
+											<button type="button" class="btn btn-sm btn-default show-tree">Cancel</button>
 										</div>
 									</div>
 								</form>
@@ -173,6 +169,18 @@ $(document).ready(function() {
 						// set tree
 						$('.cnt-tree').html(result);
 						Func.init_tree({ cnt: '.cnt-tree' });
+						
+						// editable
+						$('.cnt-tree .tree-edit').click(function() {
+							var row = $(this).data('row');
+							Func.ajax({ url: web.base + 'panel/setup/category_input/action', param: { action: 'get_by_id', id: row.id }, callback: function(result) {
+								a = result;
+								result = a;
+								
+								Func.populate({ cnt: '.tree-form-view form', record: result });
+								page.show_form();
+							} });
+						});
 					}
 				});
 			}
@@ -188,6 +196,7 @@ $(document).ready(function() {
 		}
 		
 		var param = Site.Form.GetValue('.tree-form-view form');
+		param.advert_type_sub_id = $('input[name="advert_type_sub_id"]').val();
 		Func.ajax({ url: web.base + 'panel/setup/category_input/action', param: param, callback: function(result) {
 			if (result.status == 1) {
 				page.tree.load();
@@ -199,6 +208,16 @@ $(document).ready(function() {
 		} });
 		
 		return false;
+	});
+	$('.tree-form-view form .btn-danger').click(function() {
+		var record = Site.Form.GetValue('.tree-form-view form');
+		Func.confirm_delete({
+			data: { action: 'delete', id: record.id },
+			url: web.base + 'panel/setup/category_input/action', callback: function() {
+				page.show_tree();
+				page.tree.load();
+			}
+		});
 	});
 	
 	// helper
@@ -229,6 +248,14 @@ $(document).ready(function() {
 				$('#modal-category-input .select').html(result);
 				Func.init_tree({ cnt: '#modal-category-input .select' });
 				$('#modal-category-input').modal();
+				
+				// event
+				$('#modal-category-input .tree-option').click(function() {
+					var row = $(this).data('row');
+					$('.tree-form-view form [name="parent_id"]').val(row.id);
+					$('.tree-form-view form [name="parent_title"]').val(row.title);
+					$('#modal-category-input').modal('hide');
+				});
 			}
 		});
 		

@@ -12,8 +12,8 @@ class category_input extends KEDAI_Controller {
 		$_POST['is_edit'] = 1;
 		$_POST['column'] = array( 'price_text' );
 		
-		$array = $this->Category_Price_model->get_array($_POST);
-		$count = $this->Category_Price_model->get_count();
+		$array = $this->Category_Input_model->get_array($_POST);
+		$count = $this->Category_Input_model->get_count();
 		$grid = array( 'sEcho' => $_POST['sEcho'], 'aaData' => $array, 'iTotalRecords' => $count, 'iTotalDisplayRecords' => $count );
 		
 		echo json_encode($grid);
@@ -25,11 +25,11 @@ class category_input extends KEDAI_Controller {
 		
 		$result = array();
 		if ($action == 'update') {
-			$result = $this->Category_Price_model->update($_POST);
+			$result = $this->Category_Input_model->update($_POST);
 		} else if ($action == 'get_by_id') {
-			$result = $this->Category_Price_model->get_by_id(array( 'id' => $_POST['id'] ));
+			$result = $this->Category_Input_model->get_by_id(array( 'id' => $_POST['id'] ));
 		} else if ($action == 'delete') {
-			$result = $this->Category_Price_model->delete($_POST);
+			$result = $this->Category_Input_model->delete($_POST);
 		}
 		
 		echo json_encode($result);
