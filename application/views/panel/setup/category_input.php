@@ -174,9 +174,6 @@ $(document).ready(function() {
 						$('.cnt-tree .tree-edit').click(function() {
 							var row = $(this).data('row');
 							Func.ajax({ url: web.base + 'panel/setup/category_input/action', param: { action: 'get_by_id', id: row.id }, callback: function(result) {
-								a = result;
-								result = a;
-								
 								Func.populate({ cnt: '.tree-form-view form', record: result });
 								page.show_form();
 							} });

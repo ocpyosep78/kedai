@@ -581,6 +581,20 @@ var Func = {
 			}
 		}
 	},
+	update: function(p) {
+		
+		Func.ajax({ url: p.link, param: p.param, callback: function(result) {
+			if (result.status == 1) {
+				if (typeof(p.callback) != 'undefined') {
+					p.callback();
+				}
+				
+				$.notify(result.message, "success");
+			} else {
+				$.notify(result.message, "error");
+			}
+		} });
+	},
 	
 	combo: function(p) {
 		// default value
