@@ -1,11 +1,14 @@
 <?php
-	$array_category = $this->Category_model->get_array();
-	$array_input_type = $this->Input_Type_model->get_array();
+	$array_user_type = $this->User_Type_model->get_array();
 ?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
+	<div class="hide">
+		<iframe name="iframe_thumbnail_profile" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail_profile'); ?>"></iframe>
+		<iframe name="iframe_thumbnail_banner" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail_banner'); ?>"></iframe>
+	</div>
 	
     <section>
 		<section class="hbox stretch">
@@ -39,8 +42,11 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="40%">Title</th>
-										<th width="40%">Alias</th>
+										<th width="20%">Email</th>
+										<th width="15%">Alias</th>
+										<th width="15%">First Name</th>
+										<th width="15%">Last Name</th>
+										<th width="15%">User Type</th>
 										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
@@ -54,39 +60,125 @@
 							<div class="panel-body">
 								<form class="bs-example form-horizontal" data-validate="parsley">
 									<input type="hidden" name="id" value="0" />
-									<input type="hidden" name="parent_id" value="0" />
 									<input type="hidden" name="action" value="update" />
 									
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Input Type</label>
 										<div class="col-lg-10">
-											<select name="input_type_id" class="form-control" data-required="true">
-												<?php echo ShowOption(array( 'Array' => $array_input_type, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
+											<select name="user_type_id" class="form-control" data-required="true">
+												<?php echo ShowOption(array( 'Array' => $array_user_type, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
 											</select>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Title</label>
+										<label class="col-lg-2 control-label">Email</label>
 										<div class="col-lg-10">
-											<input type="text" name="title" class="form-control" placeholder="Title" data-required="true" />
+											<input type="text" name="email" class="form-control" placeholder="Email" data-required="true" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Label</label>
+										<label class="col-lg-2 control-label">Alias</label>
 										<div class="col-lg-10">
-											<input type="text" name="label" class="form-control" placeholder="Label" data-required="true" />
+											<input type="text" name="alias" class="form-control" placeholder="Alias" data-required="true" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Max Length</label>
+										<label class="col-lg-2 control-label">First Name</label>
 										<div class="col-lg-10">
-											<input type="text" name="max_length" class="form-control" placeholder="Max Length" />
+											<input type="text" name="first_name" class="form-control" placeholder="First Name" data-required="true" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Last Name</label>
+										<div class="col-lg-10">
+											<input type="text" name="last_name" class="form-control" placeholder="Last Name" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Password</label>
+										<div class="col-lg-10">
+											<input type="password" name="passwd" class="form-control" placeholder="Password" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Confirm Password</label>
+										<div class="col-lg-10">
+											<input type="password" name="passwd_confirm" class="form-control" placeholder="Confirm Password" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Address</label>
+										<div class="col-lg-10">
+											<textarea name="address" class="form-control" placeholder="Address"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Phone</label>
+										<div class="col-lg-10">
+											<input type="text" name="phone" class="form-control" placeholder="Phone" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">BB PIN</label>
+										<div class="col-lg-10">
+											<input type="text" name="bb_pin" class="form-control" placeholder="BB PIN" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Membership Date</label>
+										<div class="col-lg-10">
+											<input type="text" name="membership_date" class="form-control" placeholder="Membership Date" disabled="disabled" />
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
 											<div class="checkbox">
-												<label><input type="checkbox" name="is_required" value="1" /> Required</label>
+												<label><input type="checkbox" name="verify_email" value="1" disabled="disabled" /> Verified Email</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="verify_address" value="1" disabled="disabled" /> Verified Address</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Thumbnail Profile</label>
+										<div class="col-lg-7">
+											<input type="text" name="thumbnail_profile" class="form-control" placeholder="Thumbnail Profile" />
+										</div>
+										<div class="col-lg-3">
+											<button type="button" class="btn btn-default browse-thumbnail-profile">Select Picture</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">Thumbnail Banner</label>
+										<div class="col-lg-7">
+											<input type="text" name="thumbnail_banner" class="form-control" placeholder="Thumbnail Banner" />
+										</div>
+										<div class="col-lg-3">
+											<button type="button" class="btn btn-default browse-thumbnail-banner">Select Picture</button>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="is_ic_number" value="1" /> IC Number</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-lg-2 control-label">IC Number</label>
+										<div class="col-lg-10">
+											<input type="text" name="ic_number" class="form-control" placeholder="IC Number" />
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="is_active" value="1" /> Active</label>
 											</div>
 										</div>
 									</div>
@@ -124,15 +216,17 @@ $(document).ready(function() {
 	// grid
 	var param = {
 		id: 'datatable',
-		source: web.base + 'panel/master/category/grid',
-		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		source: web.base + 'panel/user/user/grid',
+		column: [ { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+				Func.ajax({ url: web.base + 'panel/user/user/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
 					Func.populate({ cnt: '.form-view form', record: result });
+					$('.form-view form [type="password"]').val('');
+					
 					page.show_form();
 				} });
 			});
@@ -142,8 +236,8 @@ $(document).ready(function() {
 				eval('var record = ' + raw_record);
 				
 				Func.confirm_delete({
-					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category/action', callback: function() { dt.reload(); }
+					data: { action: 'update', id: record.id, is_delete: 1 },
+					url: web.base + 'panel/user/user/action', callback: function() { dt.reload(); }
 				});
 			});
 		}
@@ -161,7 +255,7 @@ $(document).ready(function() {
 		var param = Site.Form.GetValue('.form-view form');
 		Func.update({
 			param: param,
-			link: web.base + 'panel/setup/membership/action',
+			link: web.base + 'panel/user/user/action',
 			callback: function() {
 				dt.reload();
 				page.show_grid();
@@ -178,6 +272,16 @@ $(document).ready(function() {
 	$('.show-grid').click(function() {
 		page.show_grid();
 	});
+	
+	// upload
+	$('.browse-thumbnail-profile').click(function() { window.iframe_thumbnail_profile.browse() });
+	set_thumbnail_profile = function(p) {
+		$('.form-view form [name="thumbnail_profile"]').val(p.file_name);
+	}
+	$('.browse-thumbnail-banner').click(function() { window.iframe_thumbnail_banner.browse() });
+	set_thumbnail_banner = function(p) {
+		$('.form-view form [name="thumbnail_banner"]').val(p.file_name);
+	}
 });
 </script>
 

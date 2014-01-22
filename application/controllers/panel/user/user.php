@@ -10,7 +10,7 @@ class user extends KEDAI_Controller {
 	
 	function grid() {
 		$_POST['is_edit'] = 1;
-		$_POST['column'] = array( 'advert_count', 'advert_time' );
+		$_POST['column'] = array( 'email', 'alias', 'first_name', 'last_name', 'user_type_name' );
 		
 		$array = $this->User_model->get_array($_POST);
 		$count = $this->User_model->get_count();

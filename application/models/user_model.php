@@ -4,9 +4,12 @@ class User_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_type_id', 'email', 'fullname', 'passwd', 'address', 'register_date', 'is_active' );
+        $this->field = array(
+			'id', 'user_type_id', 'email', 'alias', 'first_name', 'last_name', 'passwd', 'address', 'phone', 'bb_pin', 'register_date', 'membership_date', 'reset_key',
+			'verify_profile', 'verify_email', 'verify_address', 'thumbnail_profile', 'thumbnail_banner', 'ic_number', 'is_ic_number', 'is_active', 'is_delete'
+		);
     }
-
+	
     function update($param) {
         $result = array();
        
@@ -57,8 +60,12 @@ class User_model extends CI_Model {
 	
     function get_array($param = array()) {
         $array = array();
+		$param['is_delete'] = (isset($param['is_delete'])) ? $param['is_delete'] : '0';
+		
+		$param['field_replace']['user_type_name'] = 'UserType.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND User.email LIKE '%".$param['namelike']."%'" : '';
+		$string_delete = "AND (User.is_delete = '".$param['is_delete']."' OR 'x' = '".$param['is_delete']."')";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
@@ -67,7 +74,7 @@ class User_model extends CI_Model {
 			SELECT SQL_CALC_FOUND_ROWS User.*, UserType.name user_type_name
 			FROM ".USER." User
 			LEFT JOIN ".USER_TYPE." UserType ON UserType.id = User.user_type_id
-			WHERE 1 $string_namelike $string_filter
+			WHERE 1 $string_namelike $string_delete $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -99,7 +106,12 @@ class User_model extends CI_Model {
     }
 	
 	function sync($row, $param = array()) {
-		$row = StripArray($row);
+		$row = StripArray($row, array( 'membership_date' ));
+		
+		// delete password
+		if (isset($row['passwd'])) {
+			unset($row['passwd']);
+		}
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);
