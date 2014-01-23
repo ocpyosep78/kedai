@@ -87,9 +87,10 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Parent</label>
 										<div class="col-lg-7">
-											<input type="text" name="parent_title" class="form-control" placeholder="Parent" />
+											<input type="text" name="parent_title" class="form-control" placeholder="Parent" readonly="readonly" />
 										</div>
 										<div class="col-lg-3">
+											<button type="button" class="btn btn-default parent-clear">Clear</button>
 											<button type="button" class="btn btn-default modal-tree">Select Parent</button>
 										</div>
 									</div>
@@ -231,6 +232,10 @@ $(document).ready(function() {
 	});
 	$('.show-tree').click(function() {
 		page.show_tree();
+	});
+	$('.parent-clear').click(function() {
+		$('.tree-form-view [name="parent_id"]').val(0);
+		$('.tree-form-view [name="parent_title"]').val('');
 	});
 	$('.modal-tree').click(function() {
 		Func.ajax({

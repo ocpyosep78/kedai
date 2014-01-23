@@ -33,14 +33,20 @@ class Category_Input_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".CATEGORY_INPUT." WHERE id = '".$param['id']."' LIMIT 1";
-        } 
-       
+            $select_query  = "
+				SELECT CategoryInput.*, CategoryParent.title parent_title
+				FROM ".CATEGORY_INPUT." CategoryInput
+				LEFT JOIN ".CATEGORY_INPUT." CategoryParent ON CategoryParent.id = CategoryInput.parent_id
+				WHERE CategoryInput.id = '".$param['id']."'
+				LIMIT 1
+			";
+        }
+		
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row);
         }
-       
+		
         return $array;
     }
 	

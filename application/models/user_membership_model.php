@@ -4,7 +4,7 @@ class User_Membership_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_id', 'membership_id', 'request_time', 'is_approve' );
+        $this->field = array( 'id', 'user_id', 'membership_id', 'request_time', 'status' );
     }
 
     function update($param) {
@@ -33,7 +33,16 @@ class User_Membership_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".USER_MEMBERSHIP." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT SQL_CALC_FOUND_ROWS UserMembership.*,
+					User.email, User.first_name, User.last_name, User.advert_count user_advert_count, User.membership_date user_membership_date,
+					Membership.advert_count, Membership.advert_time
+				FROM ".USER_MEMBERSHIP." UserMembership
+				LEFT JOIN ".USER." User ON User.id = UserMembership.user_id
+				LEFT JOIN ".MEMBERSHIP." Membership ON Membership.id = UserMembership.membership_id
+				WHERE UserMembership.id = '".$param['id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -53,8 +62,12 @@ class User_Membership_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS UserMembership.*
+			SELECT SQL_CALC_FOUND_ROWS UserMembership.*,
+				User.email, User.first_name, User.last_name,
+				Membership.advert_count, Membership.advert_time
 			FROM ".USER_MEMBERSHIP." UserMembership
+			LEFT JOIN ".USER." User ON User.id = UserMembership.user_id
+			LEFT JOIN ".MEMBERSHIP." Membership ON Membership.id = UserMembership.membership_id
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
@@ -87,12 +100,52 @@ class User_Membership_model extends CI_Model {
     }
 	
 	function sync($row, $param = array()) {
-		$row = StripArray($row);
+		$row = StripArray($row, array( 'user_membership_date' ));
+		
+		// decript email
+		if (isset($row['email'])) {
+			$row['email'] = mcrypt_decode($row['email']);
+		}
 		
 		if (count(@$param['column']) > 0) {
+			// user membership
+			if (isset($param['user_membership']) && $param['user_membership']) {
+				if ($row['status'] == 'pending') {
+					$param['is_custom']  = '<i class="cursor-button fa fa-check btn-approve"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-reject"></i> ';
+				} else {
+					$param['is_custom']  = '&nbsp;';
+				}
+			}
+			
 			$row = dt_view_set($row, $param);
 		}
 		
 		return $row;
+	}
+	
+	function renew_membership($param) {
+		$user = $this->User_model->get_by_id(array( 'id' => $param['user_id'] ));
+		$membership = $this->Membership_model->get_by_id(array( 'id' => $param['membership_id'] ));
+		
+		// user id
+		$param_update['id'] = $param['user_id'];
+		
+		// add advert count
+		$param_update['advert_count'] = $user['advert_count'] + $membership['advert_count'];
+		
+		// add membership date
+		if (empty($user['membership_date'])) {
+			$start_date = date("Y-m-d");
+		} else if (ConvertToUnixTime(date("Y-m-d")) > ConvertToUnixTime($user['membership_date'])) {
+			$start_date = date("Y-m-d");
+		} else {
+			$start_date = $user['membership_date'];
+		}
+		$membership_date = date("Y-m-d", strtotime($start_date . ' + '.$membership['advert_time']));
+		$param_update['membership_date'] = $membership_date;
+		
+		// execute
+		$this->User_model->update($param_update);
 	}
 }

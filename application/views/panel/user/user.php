@@ -97,13 +97,13 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Password</label>
 										<div class="col-lg-10">
-											<input type="password" name="passwd" class="form-control" placeholder="Password" />
+											<input type="password" name="passwd" class="form-control input_passwd" id="" placeholder="Password" data-equalto=".input_passwd_confirm" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Confirm Password</label>
 										<div class="col-lg-10">
-											<input type="password" name="passwd_confirm" class="form-control" placeholder="Confirm Password" />
+											<input type="password" name="passwd_confirm" class="form-control input_passwd_confirm" placeholder="Confirm Password" data-equalto=".input_passwd" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -165,11 +165,11 @@
 									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
 											<div class="checkbox">
-												<label><input type="checkbox" name="is_ic_number" value="1" /> IC Number</label>
+												<label><input type="checkbox" name="is_ic_number" value="1" /> Check this box if you are a Foreigner/Army/Police</label>
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group" id="cnt-ic-number">
 										<label class="col-lg-2 control-label">IC Number</label>
 										<div class="col-lg-10">
 											<input type="text" name="ic_number" class="form-control" placeholder="IC Number" />
@@ -210,6 +210,17 @@ $(document).ready(function() {
 		show_form: function() {
 			$('.grid-view').hide();
 			$('.form-view').show();
+			page.ic_number();
+		},
+		ic_number: function() {
+			var param = Site.Form.GetValue('.form-view form');
+			if (param.is_ic_number == 1) {
+				$('#cnt-ic-number label').text('Other ID Number');
+				$('#cnt-ic-number input').attr('placeholder', 'Other ID Number');
+			} else {
+				$('#cnt-ic-number label').text('IC Number');
+				$('#cnt-ic-number input').attr('placeholder', 'IC Number');
+			}
 		}
 	}
 	
@@ -271,6 +282,9 @@ $(document).ready(function() {
 	});
 	$('.show-grid').click(function() {
 		page.show_grid();
+	});
+	$('[name="is_ic_number"]').click(function(){
+		page.ic_number();
 	});
 	
 	// upload

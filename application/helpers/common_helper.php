@@ -760,7 +760,7 @@
                 $temp_column .= '<i class="cursor-button fa fa-power-off"></i> ';
             }
             if (!empty($param['is_custom'])) {
-                $temp_column = $param['is_custom'];
+                $temp_column .= $param['is_custom'];
             }
 			
 			// populate required data

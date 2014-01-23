@@ -6,13 +6,19 @@ class User_model extends CI_Model {
 		
         $this->field = array(
 			'id', 'user_type_id', 'email', 'alias', 'first_name', 'last_name', 'passwd', 'address', 'phone', 'bb_pin', 'register_date', 'membership_date', 'reset_key',
-			'verify_profile', 'verify_email', 'verify_address', 'thumbnail_profile', 'thumbnail_banner', 'ic_number', 'is_ic_number', 'is_active', 'is_delete'
+			'verify_profile', 'verify_email', 'verify_address', 'thumbnail_profile', 'thumbnail_banner', 'ic_number', 'is_ic_number', 'is_active', 'is_delete',
+			'advert_count'
 		);
     }
 	
     function update($param) {
         $result = array();
-       
+		
+		// encript email
+		if (isset($param['email'])) {
+			$param['email'] = mcrypt_encode($param['email']);
+		}
+		
         if (empty($param['id'])) {
 			// default value
 			$param['register_date'] = (isset($param['register_date'])) ? $param['register_date'] : $this->config->item('current_datetime');
@@ -111,6 +117,11 @@ class User_model extends CI_Model {
 		// delete password
 		if (isset($row['passwd'])) {
 			unset($row['passwd']);
+		}
+		
+		// decript email
+		if (isset($row['email'])) {
+			$row['email'] = mcrypt_decode($row['email']);
 		}
 		
 		if (count(@$param['column']) > 0) {
