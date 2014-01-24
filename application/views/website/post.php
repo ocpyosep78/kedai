@@ -2,7 +2,6 @@
 	$array_category = $this->Category_model->get_array();
 	$array_condition = $this->Condition_model->get_array();
 	$array_region = $this->Region_model->get_array();
-	// 'id', 'user_id', 'city_id', 'advert_type_id', 'advert_status_id', 'category_sub_id', 'name', 'code', 'content', 'price', 'negotiable', 'thumbnail', 'post_time', 'sold_time', 'is_delete'
 ?>
 <?php $this->load->view('website/common/meta'); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
@@ -19,6 +18,8 @@
 			<section class="col-lg-99 col-md-9 col-sm-12 col-xs-12 main-column">
 				<div id="content">
 					<form class="sky-form" id="form-advert">
+						<input type="hidden" name="id" value="0" />
+						
 						<fieldset>
 							<section>
 								<label class="label">Select Category (statis)</label>
@@ -92,8 +93,21 @@
 							<section>
 								<label class="label">Title Ad (statis)</label>
 								<label class="input">
-									<input value="" type="text" name="name" placeholder="Title Ad" />
+									<input type="text" name="name" placeholder="Title Ad" />
 								</label>
+							</section>
+							<section>
+								<label class="label">Price</label>
+								<label class="input">
+									<input type="text" name="price" placeholder="Price" />
+								</label>
+							</section>
+							<section>
+								<div class="row">
+									<div class="col col-4">
+										<label class="checkbox"><input name="negotiable" type="checkbox" value="1" /><i></i>Negotiable</label>
+									</div>
+								</div>
 							</section>
 						</fieldset>
 						
@@ -152,31 +166,31 @@
 							<section>
 								<label class="label">Your Name</label>
 								<label class="input">
-									<input value="" type="text">
+									<input type="text">
 								</label>
 							</section>
 							<section>
 								<label class="label">Email</label>
 								<label class="input">
-									<input value="" type="text">
+									<input type="text">
 								</label>
 							</section>
 							<section>
 								<label class="label">IC Number / Other ID Number (centang)</label>
 								<label class="input">
-									<input value="" type="text">
+									<input type="text">
 								</label>
 							</section>
 							<section>
 								<label class="label">Phone number</label>
 								<label class="input">
-									<input value="" type="text">
+									<input type="text">
 								</label>
 							</section>		
 							<section>
 								<label class="label">Blackberry (Optional)</label>
 								<label class="input">
-									<input value="" type="text">
+									<input type="text">
 								</label>
 							</section>					
 						</section>
@@ -223,6 +237,11 @@
 				
 				$('.cnt-advert-type .inline-group').html(content);
 				$('#form-advert [name="advert_type_id"]').eq(0).click();
+				
+				// init category input
+				$('#form-advert [name="advert_type_id"]').click(function() {
+					console.log('load tree');
+				});
 			}
 		});
 	});
