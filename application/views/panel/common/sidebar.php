@@ -4,7 +4,7 @@
 			<div class="btn-group">
 				<button type="button" class="btn btn-sm btn-dark btn-icon" title="New project"><i class="fa fa-plus"></i></button>
 				<div class="btn-group hidden-nav-xs">
-					<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+					<button type="button" class="btn btn-sm btn-primary dropdown-toggle link-post" data-toggle="dropdown">
 						Entry Ad
 						<span class="caret"></span>
 					</button>
@@ -247,3 +247,9 @@
 		</footer>
 	</section>
 </aside>
+
+<script>
+$('.link-post').click(function() {
+	window.location = web.base + 'post';
+});
+</script>

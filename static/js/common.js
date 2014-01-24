@@ -709,6 +709,27 @@ var combo = {
 		}
 		Func.ajax(ajax_param);
 	},
+	city: function(p) {
+		p.region_id = (p.region_id == null) ? 0 : p.region_id;
+		
+		var ajax_param = {
+			is_json: 0, url: web.base + 'panel/combo',
+			param: { action: 'city', region_id: p.region_id },
+			callback: function(option) {
+				p.target.html(option);
+				
+				// set value
+				if (typeof(p.value) != 'undefined') {
+					p.target.val(p.value);
+				}
+				
+				if (p.callback != null) {
+					p.callback();
+				}
+			}
+		}
+		Func.ajax(ajax_param);
+	},
 	
 	kota: function(p) {
 		p.propinsi_id = (p.propinsi_id == null) ? 0 : p.propinsi_id;

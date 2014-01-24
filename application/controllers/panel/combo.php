@@ -11,9 +11,12 @@ class combo extends CI_Controller {
 		// default id & name
 		$id = 'id';
 		$title = 'name';
+		$array = array();
 		
 		if ($action == 'category_sub') {
 			$array = $this->Category_Sub_model->get_array($_POST);
+		} else if ($action == 'city') {
+			$array = $this->City_model->get_array($_POST);
 		}
 		
 		echo ShowOption(array( 'Array' => $array, 'ArrayID' => $id, 'ArrayTitle' => $title ));

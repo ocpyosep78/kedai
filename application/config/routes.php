@@ -18,8 +18,8 @@ if (count($array_arg) >= 1) {
 }
 
 if ($is_website) {
-	$route['(anime|film|tv-serial|cartoon)'] = "website/category";
-	$route['(anime|film|tv-serial|cartoon)/(:any)'] = "website/category";
+	$route['post'] = "website/post";
+	$route['post/(:any)'] = "website/post";
 } else if ($is_panel) {
 	$route['panel'] = "panel/home";
 }

@@ -28,6 +28,7 @@ define('CATEGORY_INPUT',						'category_input');
 define('CATEGORY_PRICE',						'category_price');
 define('CATEGORY_SUB',							'category_sub');
 define('CITY',									'city');
+define('CONDITION',								'condition');
 define('INPUT_TYPE',							'input_type');
 define('MEMBERSHIP',							'membership');
 define('PAGE_STATIC',							'page_static');

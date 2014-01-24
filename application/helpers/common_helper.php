@@ -35,6 +35,7 @@
         }
     }
     
+	// ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' ));
     if (! function_exists('ShowOption')) {
         function ShowOption($Param) {
             $Param['OptAll'] = (isset($Param['OptAll'])) ? $Param['OptAll'] : false;

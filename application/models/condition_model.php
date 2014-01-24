@@ -1,24 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class City_model extends CI_Model {
+class Condition_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'region_id', 'name' );
+        $this->field = array( 'id', 'name' );
     }
 
     function update($param) {
         $result = array();
        
         if (empty($param['id'])) {
-            $insert_query  = GenerateInsertQuery($this->field, $param, CITY);
+            $insert_query  = GenerateInsertQuery($this->field, $param, CONDITION);
             $insert_result = mysql_query($insert_query) or die(mysql_error());
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
             $result['message'] = 'Data successfully saved.';
         } else {
-            $update_query  = GenerateUpdateQuery($this->field, $param, CITY);
+            $update_query  = GenerateUpdateQuery($this->field, $param, CONDITION);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
@@ -33,7 +33,7 @@ class City_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".CITY." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "SELECT * FROM `".CONDITION."` WHERE id = '".$param['id']."' LIMIT 1";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -47,20 +47,15 @@ class City_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$param['field_replace']['name'] = 'City.name';
-		$param['field_replace']['region_name'] = 'Region.name';
-		
-		$string_namelike = (!empty($param['namelike'])) ? "AND City.name LIKE '%".$param['namelike']."%'" : '';
-		$string_region = (!empty($param['region_id'])) ? "AND City.region_id = '".$param['region_id']."'" : '';
+		$string_namelike = (!empty($param['namelike'])) ? "AND Kondisi.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS City.*, Region.name region_name
-			FROM ".CITY." City
-			LEFT JOIN ".REGION." Region ON Region.id = City.region_id
-			WHERE 1 $string_namelike $string_region $string_filter
+			SELECT SQL_CALC_FOUND_ROWS Kondisi.*
+			FROM `".CONDITION."` Kondisi
+			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -82,7 +77,7 @@ class City_model extends CI_Model {
     }
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".CITY." WHERE id = '".$param['id']."' LIMIT 1";
+		$delete_query  = "DELETE FROM `".CONDITION."` WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
