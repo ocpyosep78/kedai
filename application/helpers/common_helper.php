@@ -283,7 +283,7 @@
                 $StringFilter = "";
                 if ( $Param['sSearch'] != "" ) {
                     $StringFilter = "AND (";
-                    $aWords = preg_split('/\s+/', $Param['sSearch']);
+                    $aWords = array( $Param['sSearch'] );
                     for ($j = 0; $j < count($aWords); $j++) {
                         if ( $aWords[$j] != "" ) {
                             $StringFilter .= "(";

@@ -86,6 +86,25 @@
 									<i class="fa fa-angle-down text"></i>
 									<i class="fa fa-angle-up text-active"></i>
 								</span>
+								<span>Manage</span>
+							</a>
+							
+							<ul class="nav lt">
+								<li>
+									<a href="<?php echo base_url('panel/manage/advert'); ?>">
+										<i class="fa fa-angle-right"></i>
+										<span>Advert</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a>
+								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
+								<span class="pull-right">
+									<i class="fa fa-angle-down text"></i>
+									<i class="fa fa-angle-up text-active"></i>
+								</span>
 								<span>User</span>
 							</a>
 							
@@ -250,6 +269,6 @@
 
 <script>
 $('.link-post').click(function() {
-	window.location = web.base + 'post';
+	window.open(web.base + 'post');
 });
 </script>

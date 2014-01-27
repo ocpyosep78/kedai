@@ -13,3 +13,7 @@
 - ALTER TABLE `advert` ADD `condition_id` INT NOT NULL AFTER `city_id` ;
 - CREATE TABLE IF NOT EXISTS `condition` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 - INSERT INTO `condition` (`id`, `name`) VALUES (1, 'New'), (2, 'Second');
+
+2014-01-27 :
+- ALTER TABLE `advert` ADD `address` VARCHAR( 255 ) NOT NULL AFTER `content` ;
+- ALTER TABLE `advert` ADD `metadata` LONGTEXT NOT NULL AFTER `negotiable` ;

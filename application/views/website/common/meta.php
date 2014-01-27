@@ -37,6 +37,7 @@
 	<script type="text/javascript" src="<?php echo base_url('static/theme/shoper/js/tabs.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('static/theme/shoper/js/jquery.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('static/theme/shoper/js/notify.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo base_url('static/js/jquery.validate.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('static/js/common.js'); ?>"></script>
 <style id="notify-bootstrap" type="text/css">
 .notifyjs-bootstrap-base {

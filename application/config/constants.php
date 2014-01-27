@@ -17,6 +17,11 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('SHA_SECRET',							'OraNgerti');
 define('USER_TYPE_ADMINISTRATOR',				1);
 
+define('ADVERT_STATUS_REVIEW',					1);
+define('ADVERT_STATUS_RE_REVIEW',				2);
+define('ADVERT_STATUS_APPROVE',					3);
+define('ADVERT_STATUS_REJECT',					4);
+
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
 define('ADVERT_STATUS',							'advert_status');

@@ -6,7 +6,7 @@ class Advert_model extends CI_Model {
 		
         $this->field = array(
 			'id', 'user_id', 'city_id', 'advert_type_id', 'advert_status_id', 'category_sub_id', 'name', 'code', 'content', 'price', 'negotiable', 'thumbnail',
-			'post_time', 'sold_time', 'is_delete'
+			'post_time', 'sold_time', 'is_delete', 'metadata'
 		);
     }
 
@@ -36,7 +36,15 @@ class Advert_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".ADVERT." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT Advert.*,
+					Category.name category_name, CategorySub.category_id, CategorySub.name category_sub_name
+				FROM ".ADVERT." Advert
+				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				WHERE Advert.id = '".$param['id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -49,16 +57,28 @@ class Advert_model extends CI_Model {
 	
     function get_array($param = array()) {
         $array = array();
+		$param['is_delete'] = (isset($param['is_delete'])) ? $param['is_delete'] : '0';
+		
+		$param['field_replace']['name'] = 'Advert.name';
+		$param['field_replace']['category_name'] = 'Category.name';
+		$param['field_replace']['category_sub_name'] = 'CategorySub.name';
+		$param['field_replace']['advert_status_name'] = 'AdvertStatus.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND Advert.name LIKE '%".$param['namelike']."%'" : '';
+		$string_delete = "AND (Advert.is_delete = '".$param['is_delete']."' OR 'x' = '".$param['is_delete']."')";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS Advert.*
+			SELECT SQL_CALC_FOUND_ROWS Advert.*,
+				AdvertStatus.name advert_status_name,
+				Category.name category_name, CategorySub.name category_sub_name
 			FROM ".ADVERT." Advert
-			WHERE 1 $string_namelike $string_filter
+			LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
+			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+			LEFT JOIN ".ADVERT_STATUS." AdvertStatus ON AdvertStatus.id = Advert.advert_status_id
+			WHERE 1 $string_namelike $string_delete $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -90,7 +110,10 @@ class Advert_model extends CI_Model {
     }
 	
 	function sync($row, $param = array()) {
-		$row = StripArray($row);
+		$row = StripArray($row, array( 'post_time' ));
+		
+		// link edit
+		$row['edit_link'] = base_url('post/'.$row['id']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

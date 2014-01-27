@@ -62,8 +62,9 @@ class Category_Input_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS CategoryInput.*
+			SELECT SQL_CALC_FOUND_ROWS CategoryInput.*, InputType.name input_type_name
 			FROM ".CATEGORY_INPUT." CategoryInput
+			LEFT JOIN ".INPUT_TYPE." InputType ON InputType.id = CategoryInput.input_type_id
 			WHERE 1 $string_namelike $string_parent $string_advert_type_sub $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
@@ -95,7 +96,15 @@ class Category_Input_model extends CI_Model {
 			$param_child['advert_type_sub_id'] = $param['advert_type_sub_id'];
 			$array_child = $this->get_tree($param_child);
 			
-			$array = array( 'id' => $row['id'], 'label' => $row['label'], 'title' => $row['title'] );
+			$array = array(
+				'id' => $row['id'],
+				'label' => $row['label'],
+				'title' => $row['title'],
+				'value' => $row['value'],
+				'max_length' => $row['max_length'],
+				'is_required' => $row['is_required'],
+				'input_type_name' => $row['input_type_name']
+			);
 			if (count($array_child) > 0) {
 				$array['child'] = $array_child;
 			}

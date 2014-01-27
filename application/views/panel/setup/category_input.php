@@ -128,6 +128,12 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-lg-2 control-label">Value</label>
+										<div class="col-lg-10">
+											<input type="text" name="value" class="form-control" placeholder="Please use coma sign for separate value at select box" />
+										</div>
+									</div>
+									<div class="form-group">
 										<div class="col-lg-offset-2 col-lg-10">
 											<button type="submit" class="btn btn-sm btn-info">Save</button>
 											<button type="button" class="btn btn-sm btn-danger">Delete</button>
