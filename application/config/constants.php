@@ -47,5 +47,7 @@ define('USER_MEMBERSHIP',						'user_membership');
 define('USER_NOTE',								'user_note');
 define('USER_SETTING',							'user_setting');
 define('USER_TYPE',								'user_type');
+define('VEHICLE_BRAND',							'vehicle_brand');
+define('VEHICLE_TYPE',							'vehicle_type');
 define('VERIFY_ADDRESS',						'verify_address');
 define('WIDGET',								'widget');

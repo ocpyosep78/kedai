@@ -45,25 +45,35 @@ class Advert_Type_Sub_model extends CI_Model {
 				WHERE AdvertTypeSub.id = '".$param['id']."'
 				LIMIT 1
 			";
-        } 
+        } else if (isset($param['advert_type_id']) && isset($param['category_sub_id'])) {
+			$select_query  = "
+				SELECT AdvertTypeSub.*
+				FROM ".ADVERT_TYPE_SUB." AdvertTypeSub
+				WHERE
+					AdvertTypeSub.advert_type_id = '".$param['advert_type_id']."'
+					AND AdvertTypeSub.category_sub_id = '".$param['category_sub_id']."'
+				LIMIT 1
+			";
+        }
        
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row);
         }
-       
+		
         return $array;
     }
 	
     function get_array($param = array()) {
         $array = array();
+		$param['category_sub_id'] = (isset($param['category_sub_id'])) ? $param['category_sub_id'] : 0;
 		
 		$param['field_replace']['category_name'] = 'Category.name';
 		$param['field_replace']['advert_type_name'] = 'AdvertType.name';
 		$param['field_replace']['category_sub_name'] = 'CategorySub.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND AdvertTypeSub.name LIKE '%".$param['namelike']."%'" : '';
-		$string_category_sub = (!empty($param['category_sub_id'])) ? "AND AdvertTypeSub.category_sub_id = '".$param['category_sub_id']."'" : '';
+		$string_category_sub = "AND AdvertTypeSub.category_sub_id = '".$param['category_sub_id']."'";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'AdvertType.name ASC');
 		$string_limit = GetStringLimit($param);

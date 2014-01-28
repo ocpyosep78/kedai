@@ -8,6 +8,11 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 	$db['default']['username'] = 'root';
 	$db['default']['password'] = '';
 	$db['default']['database'] = 'kedai_db';
+} else {
+	$db['default']['hostname'] = 'localhost';
+	$db['default']['username'] = 'shoperin_kedai';
+	$db['default']['password'] = '}vG;H]&1TTz.';
+	$db['default']['database'] = 'shoperin_kedai';
 }
 
 $db['default']['dbdriver'] = 'mysql';

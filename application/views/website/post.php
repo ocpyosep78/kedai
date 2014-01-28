@@ -2,6 +2,11 @@
 	$array_category = $this->Category_model->get_array();
 	$array_condition = $this->Condition_model->get_array();
 	$array_region = $this->Region_model->get_array();
+	
+	// advert
+	preg_match('/post\/(\d+)$/i', $_SERVER['REQUEST_URI'], $match);
+	$advert_id = (!empty($match[1])) ? $match[1] : 0;
+	$advert = $this->Advert_model->get_by_id(array( 'id' => $advert_id ));
 ?>
 <?php $this->load->view('website/common/meta'); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
@@ -11,6 +16,7 @@
 	<section id="columns" class="offcanvas-siderbars">
 		<?php $this->load->view('website/common/breadcrumb'); ?>
 		<div class="hide">
+			<div class="advert-record"><?php echo json_encode($advert); ?></div>
 			<iframe name="iframe_thumbnail_advert" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail_advert'); ?>"></iframe>
 		</div>
 		
@@ -247,19 +253,23 @@
 </section>
 
 <script>
-	var is_debug = true;
+	var is_debug = false;
 	if (is_debug) {
 		$('.non-debug').hide();
 	}
 	
 	// page
 	var page = {
-		load_input: function() {
+		load_input: function(p) {
+			p.category_id = (p.category_id != null) ? p.category_id : $('#form-advert [name="category_id"]').val();
+			p.category_sub_id = (p.category_sub_id != null) ? p.category_sub_id : $('#form-advert [name="category_sub_id"]').val();
+			p.advert_type_sub_id = (p.advert_type_sub_id != null) ? p.advert_type_sub_id : $('#form-advert [name="advert_type_id"]:checked').data('advert_type_sub_id');
+			
 			var input_param = {
 				action: 'get_category_input',
-				category_id: $('#form-advert [name="category_id"]').val(),
-				category_sub_id: $('#form-advert [name="category_sub_id"]').val(),
-				advert_type_sub_id: $('#form-advert [name="advert_type_id"]:checked').data('advert_type_sub_id')
+				category_id: p.category_id,
+				category_sub_id: p.category_sub_id,
+				advert_type_sub_id: p.advert_type_sub_id
 			}
 			Func.ajax({
 				url: web.base + 'post/action',
@@ -350,6 +360,23 @@
 					template += content;
 					template += '</section>';
 				}
+				else if (array_input[i].input_type_name == 'car') {
+					var alias = array_input[i].input_type_name;
+					
+					template += '<div id="cnt-' + alias + '" class="center">';
+					template += '<div><img style="width: 60px;" src="' + web.base + 'static/img/ajax-loader.gif" /></div>';
+					template += '</div>';
+					Func.ajax({ url: web.base + 'post/action', param: { action: 'get_template_input', alias: alias }, is_json: 0, callback: function(result) {
+						// render entry
+						$('#cnt-' + alias).html(result);
+						
+						// init entry
+						form_post[alias](page.advert);
+					} });
+				}
+				else {
+					console.log('did not match : ' + array_input[i].input_type_name);
+				}
 				
 				if (config.append) {
 					$('#cnt-form-add').append(template);
@@ -360,6 +387,60 @@
 			if (! config.append) {
 				return template;
 			}
+		},
+		populate: function() {
+			var raw_advert = $('.advert-record').html();
+			eval('var advert = ' + raw_advert);
+			page.advert = advert;
+			if (advert.length == 0) {
+				return;
+			}
+			
+			// common entry
+			Func.populate({ cnt: '#form-advert', record: advert });
+			combo.city({ region_id: advert.region_id, target: $('#form-advert [name="city_id"]'), value: advert.city_id });
+			
+			// ajax entry
+			combo.category_sub({ category_id: advert.category_id, target: $('#form-advert [name="category_sub_id"]'), value: advert.category_sub_id });
+			radio.advert_type_sub({ category_sub_id: advert.category_sub_id, target: '.cnt-advert-type .inline-group', value: advert.advert_type_id });
+			
+			// category input
+			page.load_input({ category_id: advert.category_id, category_sub_id: advert.category_sub_id, advert_type_sub_id: advert.advert_type_sub_id });
+			
+			// thumbnail
+			// row = { file_name: '1', file_link: '2' }
+			// page.generate_thumbnail(row)
+		},
+		generate_thumbnail: function(p) {
+			var record = Func.ObjectToJson(p);
+			var thumbnail_active = $('#form-advert [name="thumbnail"]').val();
+			
+			// reset element
+			$('.cnt-list-thumbnail').find('.active').removeClass('active');
+			
+			var content = '';
+			var class_active = (thumbnail_active == p.file_name) ? 'active' : '';
+			content += '<div class="photo">';
+			content += '<input type="hidden" name="list_thumbnail[]" value="' + p.file_name + '" />';
+			content += '<span class="hide record-thumbnail">' + record + '</span>';
+			content += '<div class="border ' + class_active + '"><img src="' + p.file_link + '" /></div>';
+			content += '<div class="btn-delete"><i class="fa fa-times"></i></div>';
+			content += '</div>';
+			$('#form-advert .cnt-list-thumbnail').append(content);
+			
+			// init button
+			$('.cnt-list-thumbnail .btn-delete').last().click(function() {
+				$(this).parent('div.photo').remove();
+			});
+			$('.cnt-list-thumbnail .border img').last().click(function() {
+				var raw = $(this).parents('div.photo').find('.record-thumbnail').text();
+				eval('var thumbnail = ' + raw);
+				$('#form-advert [name="thumbnail"]').val(thumbnail.file_name);
+				
+				// border
+				$('.cnt-list-thumbnail').find('.active').removeClass('active');
+				$(this).parents('div.photo').find('.border').addClass('active');
+			});
 		}
 	}
 	
@@ -371,24 +452,11 @@
 		});
 	});
 	$('#form-advert [name="category_sub_id"]').change(function() {
-		var category_sub_id = $(this).val();
-		Func.ajax({
-			url: web.base + 'panel/json',
-			param: { action: 'advert_type_sub', category_sub_id: category_sub_id },
-			callback: function(result) {
-				// set advert type
-				var content = '';
-				var template = '<label class="radio"><input type="radio" [ATTRIBUTE] /><i></i>[LABEL]</label>';
-				for (var i = 0; i < result.length; i++) {
-					var check = (i == 0) ? 'checked="checked"' : '';
-					var temp = template.replace('[ATTRIBUTE]', 'name="advert_type_id" value="' + result[i].advert_type_id + '" data-advert_type_sub_id="' + result[i].id + '" ' + check + ' ');
-					temp = temp.replace('[LABEL]', result[i].advert_type_name);
-					content += temp;
-				}
-				$('.cnt-advert-type .inline-group').html(content);
-				
-				// init category input & trigger it
-				$('#form-advert [name="advert_type_id"]').click(function() { page.load_input(); });
+		radio.advert_type_sub({
+			category_sub_id: $(this).val(),
+			target: '.cnt-advert-type .inline-group',
+			callback: function() {
+				$('#form-advert [name="advert_type_id"]').click(function() { page.load_input({}); });
 				$('#form-advert [name="advert_type_id"]').eq(0).click();
 			}
 		});
@@ -421,20 +489,11 @@
 		// set value
 		$('#form-advert [name="thumbnail"]').val(p.file_name);
 		
-		// render html
-		var content = '';
-		content += '<span class="photo">';
-		content += '<input type="hidden" name="list_thumbnail[]" value="' + p.file_name + '" />';
-		content += '<img src="' + p.file_link + '" />';
-		content += '<div class="btn-delete"><i class="fa fa-times"></i></div>';
-		content += '</span>';
-		$('#form-advert .cnt-list-thumbnail').append(content);
-		
-		// init button
-		$('.cnt-list-thumbnail .btn-delete').last().click(function() {
-			$(this).parent('span.photo').remove();
-		});
+		page.generate_thumbnail(p);
 	}
+	
+	// populate data
+	page.populate();
 </script>
 
 <?php $this->load->view('website/common/menu_canvas'); ?>

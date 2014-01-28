@@ -1,12 +1,9 @@
-<?php
-	$array_category = $this->Category_model->get_array();
-?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
 	
-	<div class="modal fade" id="modal-category-sub">
+	<div class="modal fade" id="modal-vehicle-brand">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form data-validate="parsley">
@@ -15,7 +12,7 @@
 					
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Sub Category Form</h4>
+						<h4 class="modal-title">Vehicle Brand Form</h4>
 					</div>
 					<div class="modal-body">
 						<section class="panel panel-default">
@@ -27,12 +24,6 @@
 								<div class="form-group">
 									<label>Alias</label>
 									<input type="text" class="form-control" name="alias" data-required="true" readonly="readonly" />
-								</div>
-								<div class="form-group">
-									<label>Category</label>
-									<select name="category_id" class="form-control" data-required="true">
-										<?php echo ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
-									</select>
 								</div>
 							</div>
 						</section>
@@ -54,7 +45,7 @@
 				<section class="vbox">
 					<section class="scrollable padder">
 						<div class="m-b-md">
-							<h3 class="m-b-none">Sub Category</h3>
+							<h3 class="m-b-none">Vehicle Brand</h3>
 						</div>
 						
 						<section class="panel panel-default panel-table">
@@ -78,10 +69,9 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="30%">Title</th>
-										<th width="30%">Alias</th>
-										<th width="30%">Category</th>
-										<th width="10%">&nbsp;</th>
+										<th width="40%">Title</th>
+										<th width="40%">Alias</th>
+										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -102,16 +92,16 @@ $(document).ready(function() {
 	// grid
 	var param = {
 		id: 'datatable',
-		source: web.base + 'panel/master/category_sub/grid',
-		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		source: web.base + 'panel/setup/vehicle_brand/grid',
+		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category_sub/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					Func.populate({ cnt: '#modal-category-sub', record: result });
-					$('#modal-category-sub').modal();
+				Func.ajax({ url: web.base + 'panel/setup/vehicle_brand/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+					Func.populate({ cnt: '#modal-vehicle-brand', record: result });
+					$('#modal-vehicle-brand').modal();
 				} });
 			});
 			
@@ -121,7 +111,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category_sub/action', callback: function() { dt.reload(); }
+					url: web.base + 'panel/setup/vehicle_brand/action', callback: function() { dt.reload(); }
 				});
 			});
 		}
@@ -129,29 +119,29 @@ $(document).ready(function() {
 	var dt = Func.init_datatable(param);
 	
 	// form
-	var form = $('#modal-category-sub form').parsley();
-	$('#modal-category-sub [name="name"]').keyup(function() {
+	var form = $('#modal-vehicle-brand form').parsley();
+	$('#modal-vehicle-brand [name="name"]').keyup(function() {
 		var value = Func.GetName($(this).val());
-		$('#modal-category-sub [name="alias"]').val(value);
+		$('#modal-vehicle-brand [name="alias"]').val(value);
 	});
 	$('.show-dialog').click(function() {
-		$('#modal-category-sub').modal();
-		$('#modal-category-sub form')[0].reset();
-		$('#modal-category-sub [name="id"]').val(0);
+		$('#modal-vehicle-brand').modal();
+		$('#modal-vehicle-brand form')[0].reset();
+		$('#modal-vehicle-brand [name="id"]').val(0);
 	});
-	$('#modal-category-sub form').submit(function(e) {
+	$('#modal-vehicle-brand form').submit(function(e) {
 		e.preventDefault();
 		if (! form.isValid()) {
 			return false;
 		}
 		
-		var param = Site.Form.GetValue('modal-category-sub form');
+		var param = Site.Form.GetValue('modal-vehicle-brand form');
 		Func.update({
 			param: param,
-			link: web.base + 'panel/master/category_sub/action',
+			link: web.base + 'panel/setup/vehicle_brand/action',
 			callback: function() {
 				dt.reload();
-				$('#modal-category-sub').modal('hide');
+				$('#modal-vehicle-brand').modal('hide');
 			}
 		});
 	});

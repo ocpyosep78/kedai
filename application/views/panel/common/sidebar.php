@@ -23,8 +23,8 @@
 			<div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0" data-size="5px" data-color="#333333">
 				<nav class="nav-primary hidden-xs">
 					<ul class="nav">
-						<li class="active">
-							<a href="index.html" class="active">
+						<li>
+							<a href="index.html">
 								<i class="fa fa-dashboard icon"><b class="bg-danger"></b></i>
 								<span>Dashboard</span>
 							</a>
@@ -79,7 +79,7 @@
 								<span>Notes</span>
 							</a>
 						</li>
-						<li>
+						<li data-menu-parent="manage">
 							<a>
 								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
 								<span class="pull-right">
@@ -91,14 +91,14 @@
 							
 							<ul class="nav lt">
 								<li>
-									<a href="<?php echo base_url('panel/manage/advert'); ?>">
+									<a href="<?php echo base_url('panel/manage/advert'); ?>" data-menu-child="advert">
 										<i class="fa fa-angle-right"></i>
 										<span>Advert</span>
 									</a>
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li data-menu-parent="user">
 							<a>
 								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
 								<span class="pull-right">
@@ -110,26 +110,26 @@
 							
 							<ul class="nav lt">
 								<li>
-									<a href="<?php echo base_url('panel/user/user'); ?>">
+									<a href="<?php echo base_url('panel/user/user'); ?>" data-menu-child="user">
 										<i class="fa fa-angle-right"></i>
 										<span>User</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/user/verify_address'); ?>">
+									<a href="<?php echo base_url('panel/user/verify_address'); ?>" data-menu-child="verify_address">
 										<i class="fa fa-angle-right"></i>
 										<span>Verify Address</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/user/membership'); ?>">
+									<a href="<?php echo base_url('panel/user/membership'); ?>" data-menu-child="membership">
 										<i class="fa fa-angle-right"></i>
 										<span>Membership Request</span>
 									</a>
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li data-menu-parent="setup">
 							<a>
 								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
 								<span class="pull-right">
@@ -141,32 +141,44 @@
 							
 							<ul class="nav lt">
 								<li>
-									<a href="<?php echo base_url('panel/setup/advert_type_sub'); ?>">
+									<a href="<?php echo base_url('panel/setup/advert_type_sub'); ?>" data-menu-child="advert_type_sub">
 										<i class="fa fa-angle-right"></i>
 										<span>Advert Type</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/setup/membership'); ?>">
+									<a href="<?php echo base_url('panel/setup/membership'); ?>" data-menu-child="membership">
 										<i class="fa fa-angle-right"></i>
 										<span>Membership</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/setup/category_price'); ?>">
+									<a href="<?php echo base_url('panel/setup/category_price'); ?>" data-menu-child="category_price">
 										<i class="fa fa-angle-right"></i>
 										<span>Category Price</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/setup/category_input'); ?>">
+									<a href="<?php echo base_url('panel/setup/category_input'); ?>" data-menu-child="category_input">
 										<i class="fa fa-angle-right"></i>
 										<span>Category Input</span>
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo base_url('panel/setup/vehicle_brand'); ?>" data-menu-child="vehicle_brand">
+										<i class="fa fa-angle-right"></i>
+										<span>Vehicle Brand</span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo base_url('panel/setup/vehicle_type'); ?>" data-menu-child="vehicle_type">
+										<i class="fa fa-angle-right"></i>
+										<span>Vehicle Type</span>
+									</a>
+								</li>
 							</ul>
 						</li>
-						<li>
+						<li data-menu-parent="master">
 							<a>
 								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>
 								<span class="pull-right">
@@ -178,43 +190,43 @@
 							
 							<ul class="nav lt">
 								<li>
-									<a href="<?php echo base_url('panel/master/advert_type'); ?>">
+									<a href="<?php echo base_url('panel/master/advert_type'); ?>" data-menu-child="advert_type">
 										<i class="fa fa-angle-right"></i>
 										<span>Advert Type</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/category'); ?>">
+									<a href="<?php echo base_url('panel/master/category'); ?>" data-menu-child="category">
 										<i class="fa fa-angle-right"></i>
 										<span>Category</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/category_sub'); ?>">
+									<a href="<?php echo base_url('panel/master/category_sub'); ?>" data-menu-child="category_sub">
 										<i class="fa fa-angle-right"></i>
 										<span>Sub Category</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/city'); ?>">
+									<a href="<?php echo base_url('panel/master/city'); ?>" data-menu-child="city">
 										<i class="fa fa-angle-right"></i>
 										<span>City</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/page_static'); ?>">
+									<a href="<?php echo base_url('panel/master/page_static'); ?>" data-menu-child="page_static">
 										<i class="fa fa-angle-right"></i>
 										<span>Page Static</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/region'); ?>">
+									<a href="<?php echo base_url('panel/master/region'); ?>" data-menu-child="region">
 										<i class="fa fa-angle-right"></i>
 										<span>Region</span>
 									</a>
 								</li>
 								<li>
-									<a href="<?php echo base_url('panel/master/widget'); ?>">
+									<a href="<?php echo base_url('panel/master/widget'); ?>" data-menu-child="widget">
 										<i class="fa fa-angle-right"></i>
 										<span>Widget</span>
 									</a>
@@ -268,7 +280,19 @@
 </aside>
 
 <script>
-$('.link-post').click(function() {
-	window.open(web.base + 'post');
-});
+	$('.link-post').click(function() {
+		window.open(web.base + 'post');
+	});
+
+	var link = window.location.href;
+	var array_link = link.replace(new RegExp('^.+panel\/', 'gi'), '').split('/');
+	if (array_link.length == 2) {
+		// parent
+		$('[data-menu-parent="' + array_link[0] + '"]').addClass('active');
+		$('[data-menu-parent="' + array_link[0] + '"]').children('a').addClass('active');
+		
+		// child
+		$('[data-menu-parent="' + array_link[0] + '"]').find('[data-menu-child="' + array_link[1] + '"]').addClass('active');
+		$('[data-menu-parent="' + array_link[0] + '"]').find('[data-menu-child="' + array_link[1] + '"]').parent('li').addClass('active');
+	}
 </script>

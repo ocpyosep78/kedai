@@ -1,12 +1,12 @@
 <?php
-	$array_category = $this->Category_model->get_array();
+	$array_vehicle_brand = $this->Vehicle_Brand_model->get_array();
 ?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
 	
-	<div class="modal fade" id="modal-category-sub">
+	<div class="modal fade" id="modal-vehicle-type">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form data-validate="parsley">
@@ -15,7 +15,7 @@
 					
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Sub Category Form</h4>
+						<h4 class="modal-title">Vehicle Type Form</h4>
 					</div>
 					<div class="modal-body">
 						<section class="panel panel-default">
@@ -30,8 +30,8 @@
 								</div>
 								<div class="form-group">
 									<label>Category</label>
-									<select name="category_id" class="form-control" data-required="true">
-										<?php echo ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
+									<select name="vehicle_brand_id" class="form-control" data-required="true">
+										<?php echo ShowOption(array( 'Array' => $array_vehicle_brand, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
 									</select>
 								</div>
 							</div>
@@ -54,7 +54,7 @@
 				<section class="vbox">
 					<section class="scrollable padder">
 						<div class="m-b-md">
-							<h3 class="m-b-none">Sub Category</h3>
+							<h3 class="m-b-none">Vehicle Type</h3>
 						</div>
 						
 						<section class="panel panel-default panel-table">
@@ -80,7 +80,7 @@
 									<tr>
 										<th width="30%">Title</th>
 										<th width="30%">Alias</th>
-										<th width="30%">Category</th>
+										<th width="30%">Vehicle Brand</th>
 										<th width="10%">&nbsp;</th>
 									</tr>
 								</thead>
@@ -102,16 +102,16 @@ $(document).ready(function() {
 	// grid
 	var param = {
 		id: 'datatable',
-		source: web.base + 'panel/master/category_sub/grid',
+		source: web.base + 'panel/setup/vehicle_type/grid',
 		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/master/category_sub/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					Func.populate({ cnt: '#modal-category-sub', record: result });
-					$('#modal-category-sub').modal();
+				Func.ajax({ url: web.base + 'panel/setup/vehicle_type/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+					Func.populate({ cnt: '#modal-vehicle-type', record: result });
+					$('#modal-vehicle-type').modal();
 				} });
 			});
 			
@@ -121,7 +121,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/master/category_sub/action', callback: function() { dt.reload(); }
+					url: web.base + 'panel/setup/vehicle_type/action', callback: function() { dt.reload(); }
 				});
 			});
 		}
@@ -129,29 +129,29 @@ $(document).ready(function() {
 	var dt = Func.init_datatable(param);
 	
 	// form
-	var form = $('#modal-category-sub form').parsley();
-	$('#modal-category-sub [name="name"]').keyup(function() {
+	var form = $('#modal-vehicle-type form').parsley();
+	$('#modal-vehicle-type [name="name"]').keyup(function() {
 		var value = Func.GetName($(this).val());
-		$('#modal-category-sub [name="alias"]').val(value);
+		$('#modal-vehicle-type [name="alias"]').val(value);
 	});
 	$('.show-dialog').click(function() {
-		$('#modal-category-sub').modal();
-		$('#modal-category-sub form')[0].reset();
-		$('#modal-category-sub [name="id"]').val(0);
+		$('#modal-vehicle-type').modal();
+		$('#modal-vehicle-type form')[0].reset();
+		$('#modal-vehicle-type [name="id"]').val(0);
 	});
-	$('#modal-category-sub form').submit(function(e) {
+	$('#modal-vehicle-type form').submit(function(e) {
 		e.preventDefault();
 		if (! form.isValid()) {
 			return false;
 		}
 		
-		var param = Site.Form.GetValue('modal-category-sub form');
+		var param = Site.Form.GetValue('modal-vehicle-type form');
 		Func.update({
 			param: param,
-			link: web.base + 'panel/master/category_sub/action',
+			link: web.base + 'panel/setup/vehicle_type/action',
 			callback: function() {
 				dt.reload();
-				$('#modal-category-sub').modal('hide');
+				$('#modal-vehicle-type').modal('hide');
 			}
 		});
 	});

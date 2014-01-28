@@ -100,9 +100,7 @@ $(document).ready(function() {
 				eval('var record = ' + raw_record);
 				
 				Func.ajax({ url: web.base + 'panel/master/category/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					$('#modal-category [name="id"]').val(result.id);
-					$('#modal-category [name="name"]').val(result.name);
-					$('#modal-category [name="alias"]').val(result.alias);
+					Func.populate({ cnt: '#modal-category', record: result });
 					$('#modal-category').modal();
 				} });
 			});
@@ -138,18 +136,14 @@ $(document).ready(function() {
 		}
 		
 		var param = Site.Form.GetValue('modal-category form');
-		Func.ajax({ url: web.base + 'panel/master/category/action', param: param, callback: function(result) {
-			if (result.status == 1) {
+		Func.update({
+			param: param,
+			link: web.base + 'panel/master/category/action',
+			callback: function() {
 				dt.reload();
 				$('#modal-category').modal('hide');
-				$.notify(result.message, "success");
-				$('#modal-category form')[0].reset();
-			} else {
-				$.notify(result.message, "error");
 			}
-		} });
-		
-		return false;
+		});
 	});
 });
 </script>

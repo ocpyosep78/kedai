@@ -49,8 +49,16 @@ class post extends CI_Controller {
 			
 			// update
 			$result = $this->Advert_model->update($advert_update);
-		} else if ($action == 'get_category_input') {
+		}
+		else if ($action == 'get_category_input') {
 			$result = $this->Category_Input_model->get_tree($_POST);
+		}
+		else if ($action == 'get_template_input') {
+			$alias = $_POST['alias'];
+			$library_name = 'input_'.$_POST['alias'];
+			$this->load->library($library_name);
+			$result = $this->$library_name->get_entry();
+			echo $result; exit;
 		}
 		
 		echo json_encode($result);

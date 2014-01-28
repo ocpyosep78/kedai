@@ -17,3 +17,7 @@
 2014-01-27 :
 - ALTER TABLE `advert` ADD `address` VARCHAR( 255 ) NOT NULL AFTER `content` ;
 - ALTER TABLE `advert` ADD `metadata` LONGTEXT NOT NULL AFTER `negotiable` ;
+
+2014-01-28 :
+- CREATE TABLE IF NOT EXISTS `vehicle_brand` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `alias` varchar(50) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+- CREATE TABLE IF NOT EXISTS `vehicle_type` ( `id` int(11) NOT NULL AUTO_INCREMENT, `vehicle_brand_id` int(11) NOT NULL, `name` varchar(50) NOT NULL, `alias` varchar(50) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

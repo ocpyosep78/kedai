@@ -5,8 +5,8 @@ class Advert_model extends CI_Model {
         parent::__construct();
 		
         $this->field = array(
-			'id', 'user_id', 'city_id', 'advert_type_id', 'advert_status_id', 'category_sub_id', 'name', 'code', 'content', 'price', 'negotiable', 'thumbnail',
-			'post_time', 'sold_time', 'is_delete', 'metadata'
+			'id', 'user_id', 'city_id', 'condition_id', 'advert_type_id', 'advert_status_id', 'category_sub_id', 'name', 'code', 'content', 'address', 'price',
+			'negotiable', 'metadata', 'thumbnail', 'post_time', 'sold_time', 'is_delete'
 		);
     }
 
@@ -38,10 +38,13 @@ class Advert_model extends CI_Model {
         if (isset($param['id'])) {
             $select_query  = "
 				SELECT Advert.*,
+					City.region_id,
 					Category.name category_name, CategorySub.category_id, CategorySub.name category_sub_name
 				FROM ".ADVERT." Advert
 				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
+				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
 				WHERE Advert.id = '".$param['id']."'
 				LIMIT 1
 			";
@@ -51,8 +54,14 @@ class Advert_model extends CI_Model {
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row);
         }
-       
-        return $array;
+		
+		// add advert type sub
+		if (count($array) > 0) {
+			$advert_type_sub = $this->Advert_Type_Sub_model->get_by_id(array( 'advert_type_id' => $array['advert_type_id'], 'category_sub_id' => $array['category_sub_id'] ));
+			$array['advert_type_sub_id'] = $advert_type_sub['id'];
+		}
+		
+		return $array;
     }
 	
     function get_array($param = array()) {
@@ -114,6 +123,13 @@ class Advert_model extends CI_Model {
 		
 		// link edit
 		$row['edit_link'] = base_url('post/'.$row['id']);
+		
+		// meta data
+		if (isset($row['metadata'])) {
+			$array_metadata = object_to_array(json_decode($row['metadata']));
+			$row = array_merge($row, $array_metadata);
+			unset($row['metadata']);
+		}
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

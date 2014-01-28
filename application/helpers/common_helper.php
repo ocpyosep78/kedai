@@ -108,13 +108,7 @@
             return $Result;
         }
     }
-    
-    if (! function_exists('MoneyFormat')) {
-        function money_format($Value) {
-            return number_format($Value, 0, ',', '.');
-        }
-    }
-    
+	
     if (! function_exists('Upload')) {
         function Upload($InputName, $PathDir = 'User', $Param = array()) {
             $Param['max_size'] = (isset($Param['max_size'])) ? $Param['max_size'] : 4000000;

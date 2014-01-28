@@ -730,6 +730,27 @@ var combo = {
 		}
 		Func.ajax(ajax_param);
 	},
+	vehicle_type: function(p) {
+		p.vehicle_brand_id = (p.vehicle_brand_id == null) ? 0 : p.vehicle_brand_id;
+		
+		var ajax_param = {
+			is_json: 0, url: web.base + 'panel/combo',
+			param: { action: 'vehicle_type', vehicle_brand_id: p.vehicle_brand_id },
+			callback: function(option) {
+				p.target.html(option);
+				
+				// set value
+				if (typeof(p.value) != 'undefined') {
+					p.target.val(p.value);
+				}
+				
+				if (p.callback != null) {
+					p.callback();
+				}
+			}
+		}
+		Func.ajax(ajax_param);
+	},
 	
 	kota: function(p) {
 		p.propinsi_id = (p.propinsi_id == null) ? 0 : p.propinsi_id;
@@ -762,5 +783,56 @@ var combo = {
 			}
 		}
 		Func.ajax(ajax_param);
+	}
+}
+
+var radio = {
+	advert_type_sub: function(p) {
+		p.value = (typeof(p.value) == 'undefined') ? null : p.value;
+		
+		Func.ajax({
+			url: web.base + 'panel/json',
+			param: { action: 'advert_type_sub', category_sub_id: p.category_sub_id },
+			callback: function(result) {
+				// set advert type
+				var content = '';
+				var template = '<label class="radio"><input type="radio" [ATTRIBUTE] /><i></i>[LABEL]</label>';
+				for (var i = 0; i < result.length; i++) {
+					var check = '';
+					if (p.value == null && i == 0) {
+						check = 'checked="checked"';
+					} else if (p.value == result[i].advert_type_id) {
+						check = 'checked="checked"';
+					}
+					
+					var temp = template.replace('[ATTRIBUTE]', 'name="advert_type_id" value="' + result[i].advert_type_id + '" data-advert_type_sub_id="' + result[i].id + '" ' + check + ' ');
+					temp = temp.replace('[LABEL]', result[i].advert_type_name);
+					content += temp;
+				}
+				$(p.target).html(content);
+				
+				if (typeof(p.callback) != 'undefined') {
+					p.callback();
+				}
+			}
+		});
+	}
+}
+
+var form_post = {
+	car: function(record) {
+		// set form
+		if (record.vehicle_brand_id != null)
+			$('#form-advert [name="vehicle_brand_id"]').val(record.vehicle_brand_id);
+		if (record.vehicle_type_id != null)
+			combo.vehicle_type({ vehicle_brand_id: record.vehicle_brand_id, target: $('#form-advert [name="vehicle_type_id"]'), value: record.vehicle_type_id });
+		
+		// init form
+		$('#form-advert [name="vehicle_brand_id"]').change(function() {
+			combo.vehicle_type({
+				vehicle_brand_id: $(this).val(),
+				target: $('#form-advert [name="vehicle_type_id"]')
+			});
+		});
 	}
 }

@@ -1956,7 +1956,10 @@
   margin-top: 0;
 }
 
+.sky-form .parent { border: 1px solid #C0C0C0; padding: 10px 15px !important; }
 .sky-form .cnt-list-thumbnail { margin: 0 0 20px 0; }
-.sky-form .photo { position: relative; margin: 0 15px 0 0; }
-.sky-form .photo img { width: 90px; height: 90px; }
-.sky-form .btn-delete { position: absolute; top: -31px; right: 5px; background: #FFFFFF; padding: 0 5px; color: #FF0000; cursor: pointer; }
+.sky-form .photo { float: left; position: relative; margin: 0 15px 0 0; }
+.sky-form .photo img { width: 90px; height: 90px; cursor: pointer; }
+.sky-form .photo .border { float: left; padding: 8px; border: 1px solid #FFFFFF; }
+.sky-form .photo .active { border: 1px solid #CCCCCC; }
+.sky-form .btn-delete { position: absolute; top: 10px; right: 10px; background: #FFFFFF; padding: 0 5px; color: #FF0000; cursor: pointer; }
