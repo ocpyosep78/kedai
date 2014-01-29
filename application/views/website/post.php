@@ -253,6 +253,8 @@
 	<?php $this->load->view('website/common/footer'); ?>
 </section>
 
+<?php $this->load->view('website/common/menu_canvas'); ?>
+
 <script>
 	var is_debug = false;
 	if (is_debug) {
@@ -521,6 +523,5 @@
 	page.populate();
 </script>
 
-<?php $this->load->view('website/common/menu_canvas'); ?>
 </body>
 </html>

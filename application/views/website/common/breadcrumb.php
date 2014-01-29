@@ -1,3 +1,21 @@
+<?php
+	// how to use
+	/*
+	$param_breadcrumb = array(
+		'title_list' => array(
+			array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' ),
+			array( 'link' => base_url('dekstop'), 'title' => 'Dekstop 2', 'class' => 'last' )
+		)
+	);
+	<?php $this->load->view( 'website/common/breadcrumb', $param_breadcrumb ); ?>
+	/*	*/
+	
+	$title_list = (isset($title_list)) ? $title_list : array();
+	$title_list = array(
+		array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' ),
+		array( 'link' => base_url('dekstop'), 'title' => 'Dekstop 2', 'class' => 'last' )
+	);
+?>
 <div class="row visible-xs"><div class="container">
 	<div class="offcanvas-sidebars-buttons">
 		<button style="display: none;" type="button" data-for="column-left" class="pull-left btn btn-danger"><i class="glyphicon glyphicon-indent-left"></i>Sidebar Left</button>
@@ -5,11 +23,8 @@
 	</div>
 </div></div>
 
-<div id="breadcrumb">
-	<ol class="breadcrumb container">
-			<li class="first"><a href="http://shopermarket.com/" title="Home" alt="Home"><span>Home</span></a></li>
-			<li class=""><a href="http://shopermarket.com/appliances" title="Appliances" alt="Appliances"><span>Appliances</span></a></li>
-			<li class=""><a href="http://shopermarket.com/appliances/coffee-makers" title="Coffee Makers" alt="Coffee Makers"><span>Coffee Makers</span></a></li>
-			<li class=""><a href="http://shopermarket.com/item/aeropress-with-stainless-filter-and-free-liquid-planet-tea-sample" title="Aeropress with Stainless Filter and Free Liquid Planet Tea Sample" alt="Aeropress with Stainless Filter and Free Liquid Planet Tea Sample"><span>Aeropress with Stainless Filter and Free Liquid Planet Tea Sample</span></a></li>
-	</ol>
-</div>
+<div id="breadcrumb"><ol class="breadcrumb container">
+	<?php foreach ($title_list as $item) { ?>
+		<li class="<?php echo $item['class']; ?>"><a href="<?php echo $item['link']; ?>" title="<?php echo $item['title']; ?>" alt="<?php echo $item['title']; ?>"><span><?php echo $item['title']; ?></span></a></li>
+	<?php } ?>
+</ol></div>

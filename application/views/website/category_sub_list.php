@@ -1,3 +1,45 @@
+<?php
+	/* region form */
+	
+	$array_sort[] = array( 'value' => '[{"property":"date_update","direction":"DESC"},{"property":"Item.id","direction":"DESC"}]', 'label' => 'Default' );
+	$array_sort[] = array( 'value' => '[{"property":"price_show","direction":"ASC"}]', 'label' => 'Price (Low &gt; High)' );
+	$array_sort[] = array( 'value' => '[{"property":"price_show","direction":"DESC"}]', 'label' => 'Price (High &gt; Low)' );
+	
+	$array_limit = array( array( 'value' => 4 ), array( 'value' => 8 ), array( 'value' => 12 ), array( 'value' => 25 ), array( 'value' => 50 ), array( 'value' => 75 ), array( 'value' => 100 ) );
+	
+	/* end region form */
+	
+	/* region advert */
+	
+	$page_sort = (isset($_POST['page_sort'])) ? $_POST['page_sort'] : '[{"property":"date_update","direction":"DESC"},{"property":"Item.id","direction":"DESC"}]';
+	$page_active = (isset($_POST['page_active'])) ? $_POST['page_active'] : 1;
+	$page_limit = (isset($_POST['page_limit'])) ? $_POST['page_limit'] : 12;
+	$page_offset = ($page_active * $page_limit) - $page_limit;
+	
+	/*
+	$param_item = array(
+		'namelike' => $namelike,
+		'item_status_id' => ITEM_STATUS_APPROVE,
+		'brand_id' => @$brand['id'],
+		'category_id' => @$category['id'],
+		'category_sub_id' => @$category_sub['id'],
+		'sort' => $page_sort,
+		'start' => $page_offset,
+		'limit' => $page_limit
+	);
+	$array_item = $this->Item_model->get_array($param_item);
+	$total_item = $this->Item_model->get_count($param_item);
+	$page_total = ceil($total_item / $page_limit);
+	/*	*/
+	
+	/* end region advert */
+	
+	
+	// build breadcrumb
+	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
+	$param_breadcrumb['title_list'][] = array( 'link' => '#', 'title' => 'Title 1', 'class' => '' );
+	$param_breadcrumb['title_list'][] = array( 'link' => '#', 'title' => 'Title 2', 'class' => '' );
+?>
 <?php $this->load->view('website/common/meta'); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
 
@@ -5,7 +47,7 @@
 	<?php $this->load->view('website/common/header'); ?>
 	
 	<section id="columns" class="offcanvas-siderbars">
-		<?php $this->load->view('website/common/breadcrumb'); ?>
+		<?php $this->load->view( 'website/common/breadcrumb', $param_breadcrumb ); ?>
 		
 		<div class="container"><div class="row">
 			<section class="col-lg-9 col-md-9 col-sm-12 col-xs-12 main-column">
@@ -68,13 +110,10 @@
 					<hr/>
 					
 					<div class="hidden">
-						<!-- just for current page -->
-						<input name="use_search_page" value="0" type="hidden">
-						
 						<form id="form-hidden" method="post">
-							<input name="page_sort" value="[{&quot;property&quot;:&quot;date_update&quot;,&quot;direction&quot;:&quot;DESC&quot;},{&quot;property&quot;:&quot;Item.id&quot;,&quot;direction&quot;:&quot;DESC&quot;}]" type="hidden">
-							<input name="page_active" value="1" type="hidden">
-							<input name="page_limit" value="12" type="hidden">
+							<input type="hidden" name="page_sort" value="<?php echo htmlentities($page_sort); ?>" />
+							<input type="hidden" name="page_active" value="<?php echo 1; ?>" />
+							<input type="hidden" name="page_limit" value="<?php echo $page_limit; ?>" />
 						</form>
 					</div>
 					
@@ -87,13 +126,13 @@
 						<div class="limit">
 							<span>Show:</span>
 							<select class="change_limit">
-								<option value="4">4</option><option value="8">8</option><option value="12" selected="selected">12</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option>
+								<?php echo ShowOption(array( 'Array' => $array_limit, 'ArrayID' => 'value', 'ArrayTitle' => 'value', 'Selected' => $page_limit, 'WithEmptySelect' => false )); ?>
 							</select>
 						</div>
 						<div class="sort">
 							<span>Sort By:</span>
 							<select class="change_sort">
-								<option value="[{&quot;property&quot;:&quot;date_update&quot;,&quot;direction&quot;:&quot;DESC&quot;},{&quot;property&quot;:&quot;Item.id&quot;,&quot;direction&quot;:&quot;DESC&quot;}]" selected="selected">Default</option><option value="[{&quot;property&quot;:&quot;price_show&quot;,&quot;direction&quot;:&quot;ASC&quot;}]">Price (Low &gt; High)</option><option value="[{&quot;property&quot;:&quot;price_show&quot;,&quot;direction&quot;:&quot;DESC&quot;}]">Price (High &gt; Low)</option>
+								<?php echo ShowOption(array( 'Array' => $array_sort, 'ArrayID' => 'value', 'ArrayTitle' => 'label', 'Selected' => $page_sort, 'WithEmptySelect' => false )); ?>
 							</select>
 						</div>
 						<div class="limit">
@@ -612,24 +651,6 @@
 						<div class="results">Showing 1 to 12 of 139 (12 Pages)</div>
 					</div>
 				</div>
-				<script type="text/javascript">
-					var view_type = get_local('view_type');
-					display_item(view_type);
-					
-					// search
-					$('.change_sort').change(function() {
-						$('#form-hidden [name="page_sort"]').val($(this).val());
-						$('#form-hidden').submit();
-					});
-					$('.change_limit').change(function() {
-						$('#form-hidden [name="page_limit"]').val($(this).val());
-						$('#form-hidden').submit();
-					});
-					$('.pagination .links a').click(function() {
-						$('#form-hidden [name="page_active"]').val($(this).data('page-value'));
-						$('#form-hidden').submit();
-					});
-				</script>
 			</section>
 		</div></div>
 	</section>
@@ -638,5 +659,24 @@
 </section>
 
 <?php $this->load->view('website/common/menu_canvas'); ?>
+
+<script type="text/javascript">
+	var view_type = get_local('view_type');
+	display_item(view_type);
+	
+	// search
+	$('.change_sort').change(function() {
+		$('#form-hidden [name="page_sort"]').val($(this).val());
+		$('#form-hidden').submit();
+	});
+	$('.change_limit').change(function() {
+		$('#form-hidden [name="page_limit"]').val($(this).val());
+		$('#form-hidden').submit();
+	});
+	$('.pagination .links a').click(function() {
+		$('#form-hidden [name="page_active"]').val($(this).data('page-value'));
+		$('#form-hidden').submit();
+	});
+</script>
 
 </body></html>
