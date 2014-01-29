@@ -8,7 +8,7 @@
 				<div class="box-heading"><span>About Us</span></div>
 				<div class="box-content">
 					<p><span style=" line-height: 20px;">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum 2</span></p>
-					<p><a class="link-more" href="http://shopermarket.com/about-us" title="About Us"><i class="icon-expand-alt">&nbsp;</i><span>view more</span></a></p>
+					<p><a class="link-more" href="http://shopermarket.com/about-us" title="About Us"><i class="fa icon-expand">&nbsp;</i><span>view more</span></a></p>
 				</div>
 			</div>
 		</div>
@@ -72,17 +72,17 @@
 			</div>
 		</div>
 	</div></div></div>
-	<p style="display: block;" id="back-top"><a href="#top"><i class="icon-caret-up"></i></a></p>
+	<p style="display: block;" id="back-top"><a href="#top"><i class="fa icon-caret-up"></i></a></p>
 	<div id="powered"><div class="container">
 		<div class="copyright pull-left">
 			Copyright 2013 Powered by OpenCart.All Rights Reserved Designed by <a href="http://www.themeshopermarket.com/" title="pavethemes - opencart themes clubs" target="_blank">Themeshopermarket</a>		</div>
 		<div class="paypal pull-right">	<ul class="contact-us">
 						<ul class="links social">
-							<li class="first"><a class="icon-facebook" href="http://www.facebook.com/" title="Facebook">&nbsp;</a>Facebook</li>
-							<li><a class="icon-google-plus" href="https://plus.google.com/" title="Google">&nbsp;</a>Google</li>
-							<li><a class="icon-twitter" href="https://twitter.com/" title="Twitter">&nbsp;</a>Twitter</li>
-							<li><a class="icon-dribbble" href="http://dribbble.com/" title="dribbble">&nbsp;</a>dribbble</li>
-							<li class="last"><a class="icon-youtube" href="http://www.youtube.com/" title="Youtube">&nbsp;</a>Youtube</li>
+							<li class="first"><a class="fa icon-facebook" href="http://www.facebook.com/" title="Facebook">&nbsp;</a>Facebook</li>
+							<li><a class="fa icon-google-plus" href="https://plus.google.com/" title="Google">&nbsp;</a>Google</li>
+							<li><a class="fa icon-twitter" href="https://twitter.com/" title="Twitter">&nbsp;</a>Twitter</li>
+							<li><a class="fa icon-dribbble" href="http://dribbble.com/" title="dribbble">&nbsp;</a>dribbble</li>
+							<li class="last"><a class="fa icon-youtube" href="http://www.youtube.com/" title="Youtube">&nbsp;</a>Youtube</li>
 						</ul>
 					</ul></div>
 	</div></div>

@@ -24,7 +24,7 @@
 	<link rel="stylesheet" href="<?php echo base_url('static/theme/shoper/css/stylesheet.css'); ?>">
 	<link rel="stylesheet" href="<?php echo base_url('static/theme/shoper/css/style.css'); ?>">
 	<link rel="stylesheet" href="<?php echo base_url('static/theme/shoper/css/sky-forms.css'); ?>">
-	<link rel="stylesheet" href="<?php echo base_url('static/css/font-awesome.min.css'); ?>">
+	<link rel="stylesheet" href="<?php echo base_url('static/theme/shoper/css/font-awesome.min.css'); ?>">
 	<link rel="shortcut icon" href="<?php echo base_url('static/img/shop.png'); ?>" type="image/x-icon">
 	
 	<script>var web = <?php echo json_encode($web); ?></script>

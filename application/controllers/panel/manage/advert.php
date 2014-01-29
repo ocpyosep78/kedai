@@ -9,9 +9,15 @@ class advert extends KEDAI_Controller {
     }
 	
 	function grid() {
-		$_POST['is_edit'] = 1;
-		$_POST['is_custom'] = '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
+		$_POST['is_manage'] = 'admin';
 		$_POST['column'] = array( 'category_name', 'category_sub_name', 'name', 'post_time', 'advert_status_name' );
+		
+		// set previlege
+		$user = $this->User_model->get_session();
+		if ($user['user_type_id'] == USER_TYPE_MEMBER || true) {
+			$_POST['is_manage'] = 'member';
+			$_POST['user_id'] = $user['id'];
+		}
 		
 		$array = $this->Advert_model->get_array($_POST);
 		$count = $this->Advert_model->get_count();

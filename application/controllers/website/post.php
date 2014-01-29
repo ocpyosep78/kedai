@@ -36,7 +36,11 @@ class post extends CI_Controller {
 			}
 			
 			// grouping additional parameter
-			$advert_update['metadata'] = json_encode($_POST);
+			$param_metadata = $_POST;
+			if (isset($param_metadata['list_thumbnail'])) {
+				unset($param_metadata['list_thumbnail']);
+			}
+			$advert_update['metadata'] = json_encode($param_metadata);
 			
 			// set default data
 			if (empty($advert_update['id'])) {
@@ -49,6 +53,13 @@ class post extends CI_Controller {
 			
 			// update
 			$result = $this->Advert_model->update($advert_update);
+			
+			// thumbnail
+			$this->Advert_Pic_model->delete(array( 'advert_id' => $result['id'] ));
+			foreach ($_POST['list_thumbnail'] as $thumbnail) {
+				$param_thumbnail = array( 'advert_id' => $result['id'], 'thumbnail' => $thumbnail );
+				$result_thumbnail = $this->Advert_Pic_model->update($param_thumbnail);
+			}
 		}
 		else if ($action == 'get_category_input') {
 			$result = $this->Category_Input_model->get_tree($_POST);

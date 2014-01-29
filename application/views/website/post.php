@@ -7,6 +7,7 @@
 	preg_match('/post\/(\d+)$/i', $_SERVER['REQUEST_URI'], $match);
 	$advert_id = (!empty($match[1])) ? $match[1] : 0;
 	$advert = $this->Advert_model->get_by_id(array( 'id' => $advert_id ));
+	$advert['advert_pic'] = $this->Advert_Pic_model->get_array(array( 'advert_id' => $advert_id ));
 ?>
 <?php $this->load->view('website/common/meta'); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
@@ -50,7 +51,7 @@
 								<label class="label">Ad Type (dinamis)</label>
 								<div class="inline-group"></div>
 							</section>
-							<section class="non-debug">
+							<section class="non-debug hide">
 								<label class="label">Condition Ad (statis)</label>
 								<label class="select">
 									<select name="condition_id">
@@ -287,31 +288,37 @@
 			for (var i = 0; i < array_input.length; i++) {
 				var template = '';
 				if (array_input[i].input_type_name == 'text') {
-					var value = (array_input[i].value == '') ? '' : 'value="' + array_input[i].value + '"';
+					var name = Func.GetName(array_input[i].title);
+					var value = (page.advert[name] != null) ? page.advert[name] : array_input[i].value;
+					var value = 'value="' + value + '"';
 					var max_length = (array_input[i].max_length == 0) ? '' : 'maxlength="' + array_input[i].max_length + '"';
 					var required = (array_input[i].is_required == 0) ? '' : 'required';
 					
 					template += '<section>';
 					template += '<label class="label">' + array_input[i].label + '</label>';
 					template += '<label class="input">';
-					template += '<input type="text" name="' + Func.GetName(array_input[i].title) + '" placeholder="' + array_input[i].label + '" ' + value + ' ' + max_length + ' ' + required + ' />';
+					template += '<input type="text" name="' + name + '" placeholder="' + array_input[i].label + '" ' + value + ' ' + max_length + ' ' + required + ' />';
 					template += '</label>';
 					template += '</section>';
 				}
 				else if (array_input[i].input_type_name == 'select') {
+					var name = Func.GetName(array_input[i].title);
+					var value = (page.advert[name] != null) ? page.advert[name] : '';
 					var required = (array_input[i].is_required == 0) ? '' : 'required';
 					
 					// generate option
+					var selected = '';
 					var cnt_option = '';
 					var array_value = array_input[i].value.split(',');
 					for (var j = 0; j < array_value.length; j++) {
-						cnt_option += '<option value="' + array_value[j] + '">' + array_value[j] + '</option>';
+						selected = (array_value[j] == value) ? 'selected' : '';
+						cnt_option += '<option value="' + array_value[j] + '" ' + selected + '>' + array_value[j] + '</option>';
 					}
 					
 					template += '<section>';
 					template += '<label class="label">' + array_input[i].label + '</label>';
 					template += '<label class="select">';
-					template += '<select name="' + Func.GetName(array_input[i].title) + '" ' + required + '>';
+					template += '<select name="' + name + '" ' + required + '>';
 					template += cnt_option;
 					template += '</select>';
 					template += '<i></i>';
@@ -320,12 +327,14 @@
 				}
 				else if (array_input[i].input_type_name == 'checkbox') {
 					var name = Func.GetName(array_input[i].title);
+					var array_check = (page.advert[name] != null) ? page.advert[name] : [];
 					
 					// generate option
 					var cnt_option = '';
 					var array_value = array_input[i].value.split(',');
 					for (var j = 0; j < array_value.length; j++) {
-						cnt_option += '<div class="col col-4"><label class="checkbox"><input name="' + name + '[]" type="checkbox" value="' + array_value[j] + '" /><i></i>' + array_value[j] + '</label></div>';
+						var checked = (Func.InArray(array_value[j], array_check)) ? 'checked' : '';
+						cnt_option += '<div class="col col-4"><label class="checkbox"><input name="' + name + '[]" type="checkbox" value="' + array_value[j] + '" ' + checked + ' /><i></i>' + array_value[j] + '</label></div>';
 					}
 					
 					template += '<section>';
@@ -336,14 +345,15 @@
 					template += '</section>';
 				}
 				else if (array_input[i].input_type_name == 'textarea') {
-					var value = (array_input[i].value == '') ? '' : 'value="' + array_input[i].value + '"';
+					var name = Func.GetName(array_input[i].title);
+					var value = (page.advert[name] != null) ? page.advert[name] : array_input[i].value;
 					var max_length = (array_input[i].max_length == 0) ? '' : 'maxlength="' + array_input[i].max_length + '"';
 					var required = (array_input[i].is_required == 0) ? '' : 'required';
 					
 					template += '<section>';
 					template += '<label class="label">' + array_input[i].label + '</label>';
 					template += '<label class="textarea textarea-resizable">';
-					template += '<textarea rows="3" name="' + Func.GetName(array_input[i].title) + '" placeholder="' + array_input[i].label + '" ' + max_length + ' ' + required + '></textarea>';
+					template += '<textarea rows="3" name="' + name + '" placeholder="' + array_input[i].label + '" ' + max_length + ' ' + required + '>' + value + '</textarea>';
 					template += '</label>';
 					template += '</section>';
 				}
@@ -402,21 +412,36 @@
 			
 			// ajax entry
 			combo.category_sub({ category_id: advert.category_id, target: $('#form-advert [name="category_sub_id"]'), value: advert.category_sub_id });
-			radio.advert_type_sub({ category_sub_id: advert.category_sub_id, target: '.cnt-advert-type .inline-group', value: advert.advert_type_id });
+			radio.advert_type_sub({
+				category_sub_id: advert.category_sub_id, target: '.cnt-advert-type .inline-group', value: advert.advert_type_id,
+				callback: function() {
+					$('#form-advert [name="advert_type_id"]').click(function() { page.load_input({}); });
+				}
+			});
 			
 			// category input
 			page.load_input({ category_id: advert.category_id, category_sub_id: advert.category_sub_id, advert_type_sub_id: advert.advert_type_sub_id });
 			
 			// thumbnail
-			// row = { file_name: '1', file_link: '2' }
-			// page.generate_thumbnail(row)
+			if (page.advert.advert_pic != null) {
+				for (var i = 0; i < page.advert.advert_pic.length; i++) {
+					page.advert.advert_pic[i]
+					var row = { file_name: page.advert.advert_pic[i].thumbnail, file_link: page.advert.advert_pic[i].thumbnail_link, is_reset: false }
+					page.generate_thumbnail(row);
+				}
+			}
 		},
 		generate_thumbnail: function(p) {
-			var record = Func.ObjectToJson(p);
+			p.is_reset = (typeof(p.is_reset) == 'undefined') ? true : p.is_reset;
+			
+			// data
 			var thumbnail_active = $('#form-advert [name="thumbnail"]').val();
+			var record = Func.ObjectToJson({ file_name: p.file_name, file_link: p.file_link });
 			
 			// reset element
-			$('.cnt-list-thumbnail').find('.active').removeClass('active');
+			if (p.is_reset) {
+				$('.cnt-list-thumbnail').find('.active').removeClass('active');
+			}
 			
 			var content = '';
 			var class_active = (thumbnail_active == p.file_name) ? 'active' : '';

@@ -48,12 +48,13 @@ class User_model extends CI_Model {
         if (isset($param['id'])) {
             $select_query  = "SELECT * FROM ".USER." WHERE id = '".$param['id']."' LIMIT 1";
         } else if (isset($param['email'])) {
+			$param['email'] = mcrypt_encode($param['email']);
             $select_query  = "SELECT * FROM ".USER." WHERE email = '".$param['email']."' LIMIT 1";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
-            $array = $this->sync($row);
+            $array = $this->sync($row, $param);
         }
 		
 		if (count($array) == 0 && $param['auto_insert']) {
@@ -115,7 +116,7 @@ class User_model extends CI_Model {
 		$row = StripArray($row, array( 'membership_date' ));
 		
 		// delete password
-		if (isset($row['passwd'])) {
+		if (!isset($param['with_passwd']) && isset($row['passwd'])) {
 			unset($row['passwd']);
 		}
 		

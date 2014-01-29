@@ -12,7 +12,7 @@
 					<div class="quickaccess-toggle">Find</div>
 					<div class="inner-toggle">
 						<input name="search" placeholder="Search" class="form-control input-search" type="text">
-						<div class="button-search-mobile"><span class="icon-search"></span></div>
+						<div class="button-search-mobile"><span class="fa icon-search"></span></div>
 					</div>
 				</div>
 			</div>
@@ -154,7 +154,7 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 col-md-3 col-xs-12">
 					<div class="cart-top"><div id="cart" class="clearfix"><div class="heading">
-						<i class="icon-shopping-cart"></i>
+						<i class="fa icon-shopping-cart"></i>
 						<!--
 						<div class="cart-inner">
 							<h4>Shdasdas Cart</h4>

@@ -1,10 +1,14 @@
 <?php
+	$page['ADVERT_STATUS_APPROVE'] = ADVERT_STATUS_APPROVE;
+	
 	$array_category = $this->Category_model->get_array();
+	$array_advert_status = $this->Advert_Status_model->get_array();
 ?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
+	<div id="cnt-page" class="hide"><?php echo json_encode($page); ?></div>
 	
 	<div class="modal fade" id="modal-advert">
 		<div class="modal-dialog">
@@ -29,6 +33,12 @@
 								<div class="form-group">
 									<label>Sub Category</label>
 									<select name="category_sub_id" class="form-control" data-required="true"></select>
+								</div>
+								<div class="form-group">
+									<label>Advert Status</label>
+									<select name="advert_status_id" class="form-control" data-required="true">
+										<?php echo ShowOption(array( 'Array' => $array_advert_status, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
+									</select>
 								</div>
 							</div>
 						</section>
@@ -95,11 +105,21 @@
 
 <script>
 $(document).ready(function() {
+	// page
+	var page = {
+		init: function() {
+			var raw_page = $('#cnt-page').html();
+			eval('var data = ' + raw_page);
+			page.data = data;
+		}
+	}
+	page.init();
+	
 	// grid
 	var param = {
 		id: 'datatable',
 		source: web.base + 'panel/manage/advert/grid',
-		column: [ { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		column: [ { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '15%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
@@ -119,6 +139,17 @@ $(document).ready(function() {
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
 					url: web.base + 'panel/manage/advert/action', callback: function() { dt.reload(); }
+				});
+			});
+			
+			$('#datatable .btn-approve').click(function() {
+				var raw_record = $(this).siblings('.hide').text();
+				eval('var record = ' + raw_record);
+				
+				Func.update({
+					callback: function() { dt.reload(); },
+					link: web.base + 'panel/manage/advert/action',
+					param: { action: 'update', id: record.id, advert_status_id: page.data.ADVERT_STATUS_APPROVE }
 				});
 			});
 			

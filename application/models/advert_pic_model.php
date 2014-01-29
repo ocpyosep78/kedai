@@ -46,7 +46,9 @@ class Advert_Pic_model extends CI_Model {
 	
     function get_array($param = array()) {
         $array = array();
+		$param['advert_id'] = (!empty($param['advert_id'])) ? $param['advert_id'] : 0;
 		
+		$string_advert = "AND AdvertPic.advert_id = '".$param['advert_id']."'";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'thumbnail ASC');
 		$string_limit = GetStringLimit($param);
@@ -54,7 +56,7 @@ class Advert_Pic_model extends CI_Model {
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS AdvertPic.*
 			FROM ".ADVERT_PIC." AdvertPic
-			WHERE 1 $string_filter
+			WHERE 1 $string_advert $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -76,7 +78,11 @@ class Advert_Pic_model extends CI_Model {
     }
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".ADVERT_PIC." WHERE id = '".$param['id']."' LIMIT 1";
+		if (isset($param['advert_id'])) {
+			$delete_query  = "DELETE FROM ".ADVERT_PIC." WHERE advert_id = '".$param['advert_id']."'";
+		} else {
+			$delete_query  = "DELETE FROM ".ADVERT_PIC." WHERE id = '".$param['id']."' LIMIT 1";
+		}
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
@@ -87,6 +93,7 @@ class Advert_Pic_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		$row['thumbnail_link'] = base_url('static/upload/'.$row['thumbnail']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

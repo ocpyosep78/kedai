@@ -52,10 +52,11 @@ class Category_Input_model extends CI_Model {
 	
     function get_array($param = array()) {
         $array = array();
+		$param['advert_type_sub_id'] = (isset($param['advert_type_sub_id'])) ? $param['advert_type_sub_id'] : 0;
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND CategoryInput.label LIKE '%".$param['namelike']."%'" : '';
 		$string_parent = (isset($param['parent_id'])) ? "AND CategoryInput.parent_id = '".$param['parent_id']."'" : '';
-		$string_advert_type_sub = (!empty($param['advert_type_sub_id'])) ? "AND CategoryInput.advert_type_sub_id = '".$param['advert_type_sub_id']."'" : '';
+		$string_advert_type_sub = "AND CategoryInput.advert_type_sub_id = '".$param['advert_type_sub_id']."'";
 		
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'label ASC');

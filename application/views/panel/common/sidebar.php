@@ -24,13 +24,13 @@
 				<nav class="nav-primary hidden-xs">
 					<ul class="nav">
 						<li>
-							<a href="index.html">
+							<a href="<?php echo base_url('panel'); ?>">
 								<i class="fa fa-dashboard icon"><b class="bg-danger"></b></i>
 								<span>Dashboard</span>
 							</a>
 						</li>
 						<li>
-							<a href="myad.html">
+							<a href="<?php echo base_url('panel/myad'); ?>">
 								<i class="fa fa-columns icon"><b class="bg-info"></b></i>
 								<span>My Ads</span>
 							</a>

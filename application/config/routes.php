@@ -20,6 +20,9 @@ if (count($array_arg) >= 1) {
 if ($is_website) {
 	$route['post'] = "website/post";
 	$route['post/(:any)'] = "website/post";
+	$route['login'] = "website/login";
+	$route['login/(:any)'] = "website/login";
+	$route['(:any)/(:any)'] = "website/selector";
 } else if ($is_panel) {
 	$route['panel'] = "panel/home";
 }

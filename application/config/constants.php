@@ -16,6 +16,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('SHA_SECRET',							'OraNgerti');
 define('USER_TYPE_ADMINISTRATOR',				1);
+define('USER_TYPE_MEMBER',						3);
 
 define('ADVERT_STATUS_REVIEW',					1);
 define('ADVERT_STATUS_RE_REVIEW',				2);

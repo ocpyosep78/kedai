@@ -58,7 +58,7 @@ class Advert_model extends CI_Model {
 		// add advert type sub
 		if (count($array) > 0) {
 			$advert_type_sub = $this->Advert_Type_Sub_model->get_by_id(array( 'advert_type_id' => $array['advert_type_id'], 'category_sub_id' => $array['category_sub_id'] ));
-			$array['advert_type_sub_id'] = $advert_type_sub['id'];
+			$array['advert_type_sub_id'] = (isset($advert_type_sub['id'])) ? $advert_type_sub['id'] : 0;
 		}
 		
 		return $array;
@@ -74,6 +74,7 @@ class Advert_model extends CI_Model {
 		$param['field_replace']['advert_status_name'] = 'AdvertStatus.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND Advert.name LIKE '%".$param['namelike']."%'" : '';
+		$string_user = (!empty($param['user_id'])) ? "AND Advert.user_id = '".$param['user_id']."'" : '';
 		$string_delete = "AND (Advert.is_delete = '".$param['is_delete']."' OR 'x' = '".$param['is_delete']."')";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
@@ -87,7 +88,7 @@ class Advert_model extends CI_Model {
 			LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
 			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 			LEFT JOIN ".ADVERT_STATUS." AdvertStatus ON AdvertStatus.id = Advert.advert_status_id
-			WHERE 1 $string_namelike $string_delete $string_filter
+			WHERE 1 $string_namelike $string_user $string_delete $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -132,6 +133,24 @@ class Advert_model extends CI_Model {
 		}
 		
 		if (count(@$param['column']) > 0) {
+			$param['is_custom'] = (isset($param['is_custom'])) ? $param['is_custom'] : '';
+			
+			if (!empty($param['is_manage'])) {
+				if ($param['is_manage'] == 'admin') {
+					$param['is_custom'] .= '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
+					
+					if ($row['advert_status_id'] != ADVERT_STATUS_APPROVE) {
+						$param['is_custom'] .= '<i class="cursor-button fa fa-check btn-approve"></i> ';
+					}
+					
+					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+				} else if ($param['is_manage'] == 'member') {
+					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+				}
+			}
+			
 			$row = dt_view_set($row, $param);
 		}
 		
