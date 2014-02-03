@@ -74,7 +74,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="notebook.html">
+							<a href="<?php echo base_url('panel/note'); ?>">
 								<i class="fa fa-pencil icon"><b class="bg-info"></b></i>
 								<span>Notes</span>
 							</a>

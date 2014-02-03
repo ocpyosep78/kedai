@@ -1611,8 +1611,8 @@ ul.box-filter span {
   border: 2px solid #cccccc;
 }
 .kota li a {
-  color: #FFFFFF;
-  font-size: 16px;
+  color: #CCCCCC;
+  font-size: 72px;
   margin: 0 0 0 3px;
   vertical-align: middle;
   -webkit-transition: all 350ms ease-in;
