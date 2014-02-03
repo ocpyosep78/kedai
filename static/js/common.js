@@ -714,10 +714,11 @@ var combo = {
 	},
 	city: function(p) {
 		p.region_id = (p.region_id == null) ? 0 : p.region_id;
+		p.label_empty_select = (p.label_empty_select == null) ? '-' : p.label_empty_select;
 		
 		var ajax_param = {
 			is_json: 0, url: web.base + 'panel/combo',
-			param: { action: 'city', region_id: p.region_id },
+			param: { action: 'city', region_id: p.region_id, label_empty_select: p.label_empty_select },
 			callback: function(option) {
 				p.target.html(option);
 				

@@ -41,9 +41,6 @@ class login extends CI_Controller {
 				$this->User_model->update($param);
 				/*	*/
 			}
-			
-			echo json_encode($result);
-			exit;
 		}
 		
 		echo json_encode($result);

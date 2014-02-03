@@ -35,18 +35,19 @@
         }
     }
     
-	// ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' ));
+	// ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'Selected' => 'value' ));
     if (! function_exists('ShowOption')) {
         function ShowOption($Param) {
             $Param['OptAll'] = (isset($Param['OptAll'])) ? $Param['OptAll'] : false;
             $Param['ArrayID'] = (isset($Param['ArrayID'])) ? $Param['ArrayID'] : 'id';
             $Param['WithEmptySelect'] = (isset($Param['WithEmptySelect'])) ? $Param['WithEmptySelect'] : 1;
+            $Param['LabelEmptySelect'] = (isset($Param['LabelEmptySelect'])) ? $Param['LabelEmptySelect'] : '-';
             
             $Param['ArrayTitle'] = (isset($Param['ArrayTitle'])) ? $Param['ArrayTitle'] : 'title';
             $Param['Selected'] = (isset($Param['Selected'])) ? $Param['Selected'] : '';
             
             if ($Param['WithEmptySelect'] == 1) {
-                $Content = '<option value="">-</option>';
+                $Content = '<option value="">'.$Param['LabelEmptySelect'].'</option>';
 			} else {
                 $Content = '';
             }
@@ -59,7 +60,7 @@
             
             foreach ($Param['Array'] as $Array) {
                 $Selected = ($Param['Selected'] == $Array[$Param['ArrayID']]) ? 'selected' : '';
-                $Content .= '<option value="'.$Array[$Param['ArrayID']].'" '.$Selected.'>'.$Array[$Param['ArrayTitle']].'</option>';
+				$Content .= '<option value="'.htmlentities($Array[$Param['ArrayID']]).'" '.$Selected.'>'.$Array[$Param['ArrayTitle']].'</option>';
             }
             
             return $Content;
@@ -109,6 +110,18 @@
         }
     }
 	
+    if (! function_exists('MoneyFormat')) {
+        function MoneyFormat($Value, $with_currency = false) {
+			$result = number_format($Value, 0, ',', '.');
+			
+			if ($with_currency) {
+				$result = 'IDR '.$result;
+			}
+			
+            return $result;
+        }
+    }
+    
     if (! function_exists('Upload')) {
         function Upload($InputName, $PathDir = 'User', $Param = array()) {
             $Param['max_size'] = (isset($Param['max_size'])) ? $Param['max_size'] : 4000000;

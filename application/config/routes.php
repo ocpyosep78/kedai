@@ -22,6 +22,7 @@ if ($is_website) {
 	$route['post/(:any)'] = "website/post";
 	$route['login'] = "website/login";
 	$route['login/(:any)'] = "website/login";
+	$route['advert/(:any)'] = "website/advert";
 	$route['(:any)/(:any)'] = "website/selector";
 } else if ($is_panel) {
 	$route['panel'] = "panel/home";

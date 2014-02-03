@@ -75,7 +75,7 @@
 	<p style="display: block;" id="back-top"><a href="#top"><i class="fa icon-caret-up"></i></a></p>
 	<div id="powered"><div class="container">
 		<div class="copyright pull-left">
-			Copyright 2013 Powered by OpenCart.All Rights Reserved Designed by <a href="http://www.themeshopermarket.com/" title="pavethemes - opencart themes clubs" target="_blank">Themeshopermarket</a>		</div>
+			Copyright <?php echo date("Y"); ?> Powered by OpenCart.All Rights Reserved Designed by <a href="http://www.themeshopermarket.com/" title="pavethemes - opencart themes clubs" target="_blank">Themeshopermarket</a>		</div>
 		<div class="paypal pull-right">	<ul class="contact-us">
 						<ul class="links social">
 							<li class="first"><a class="fa icon-facebook" href="http://www.facebook.com/" title="Facebook">&nbsp;</a>Facebook</li>

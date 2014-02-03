@@ -29,7 +29,9 @@ class selector extends CI_Controller {
 		}
 		
 		if (count($category) > 0 && count($category_sub) > 0) {
-			$this->load->view( 'website/category_sub_list' );
+			$array_view['category'] = $category;
+			$array_view['category_sub'] = $category_sub;
+			$this->load->view( 'website/category_sub_list', $array_view );
 		} else {
 			$this->load->view( 'website/home' );
 		}

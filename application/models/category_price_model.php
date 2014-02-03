@@ -52,7 +52,7 @@ class Category_Price_model extends CI_Model {
 		$string_price_type = (!empty($param['price_type'])) ? "AND CategoryPrice.price_type = '".$param['price_type']."'" : '';
 		$string_category_sub = (isset($param['category_sub_id'])) ? "AND CategoryPrice.category_sub_id = '".$param['category_sub_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'price ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
@@ -91,7 +91,7 @@ class Category_Price_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
-		$row['price_text'] = money_format($row['price']);
+		$row['price_text'] = MoneyFormat($row['price']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

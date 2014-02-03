@@ -51,7 +51,7 @@ class City_model extends CI_Model {
 		$param['field_replace']['region_name'] = 'Region.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND City.name LIKE '%".$param['namelike']."%'" : '';
-		$string_region = (!empty($param['region_id'])) ? "AND City.region_id = '".$param['region_id']."'" : '';
+		$string_region = (isset($param['region_id'])) ? "AND City.region_id = '".$param['region_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);

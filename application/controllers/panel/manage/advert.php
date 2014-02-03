@@ -14,7 +14,7 @@ class advert extends KEDAI_Controller {
 		
 		// set previlege
 		$user = $this->User_model->get_session();
-		if ($user['user_type_id'] == USER_TYPE_MEMBER || true) {
+		if ($user['user_type_id'] == USER_TYPE_MEMBER) {
 			$_POST['is_manage'] = 'member';
 			$_POST['user_id'] = $user['id'];
 		}

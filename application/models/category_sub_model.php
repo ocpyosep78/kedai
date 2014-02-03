@@ -35,7 +35,15 @@ class Category_Sub_model extends CI_Model {
         if (isset($param['id'])) {
             $select_query  = "SELECT * FROM ".CATEGORY_SUB." WHERE id = '".$param['id']."' LIMIT 1";
         } else if (isset($param['category_id']) && isset($param['alias'])) {
-            $select_query  = "SELECT * FROM ".CATEGORY_SUB." WHERE category_id = '".$param['category_id']."' && alias = '".$param['alias']."' LIMIT 1";
+            $select_query  = "
+				SELECT CategorySub.*, Category.alias category_alias
+				FROM ".CATEGORY_SUB." CategorySub
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				WHERE
+					CategorySub.category_id = '".$param['category_id']."'
+					AND CategorySub.alias = '".$param['alias']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -60,7 +68,7 @@ class Category_Sub_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS CategorySub.*, Category.name category_name
+			SELECT SQL_CALC_FOUND_ROWS CategorySub.*, Category.name category_name, Category.alias category_alias
 			FROM ".CATEGORY_SUB." CategorySub
 			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 			WHERE 1 $string_namelike $string_category $string_filter
@@ -96,6 +104,7 @@ class Category_Sub_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		$row['category_sub_link'] = base_url($row['category_alias'].'/'.$row['alias']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

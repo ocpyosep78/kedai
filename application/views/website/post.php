@@ -245,7 +245,9 @@
 			</section>
 			
 			<aside id="oc-column-right" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 offcanvas-sidebar">
-				<?php $this->load->view('website/common/widget_section'); ?>
+				<div id="column-right" class="sidebar">
+					<?php $this->load->view('website/common/widget_section'); ?>
+				</div>
 			</aside>
 		</div></div>
 	</section>
@@ -451,7 +453,7 @@
 			content += '<input type="hidden" name="list_thumbnail[]" value="' + p.file_name + '" />';
 			content += '<span class="hide record-thumbnail">' + record + '</span>';
 			content += '<div class="border ' + class_active + '"><img src="' + p.file_link + '" /></div>';
-			content += '<div class="btn-delete"><i class="fa fa-times"></i></div>';
+			content += '<div class="btn-delete"><i class="fa icon-remove"></i></div>';
 			content += '</div>';
 			$('#form-advert .cnt-list-thumbnail').append(content);
 			
@@ -505,7 +507,7 @@
 			param: param,
 			link: web.base + 'post/action',
 			callback: function() {
-				console.log('horray');
+				
 			}
 		});
 	});

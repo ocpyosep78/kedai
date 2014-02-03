@@ -11,10 +11,6 @@
 	/*	*/
 	
 	$title_list = (isset($title_list)) ? $title_list : array();
-	$title_list = array(
-		array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' ),
-		array( 'link' => base_url('dekstop'), 'title' => 'Dekstop 2', 'class' => 'last' )
-	);
 ?>
 <div class="row visible-xs"><div class="container">
 	<div class="offcanvas-sidebars-buttons">
@@ -25,6 +21,7 @@
 
 <div id="breadcrumb"><ol class="breadcrumb container">
 	<?php foreach ($title_list as $item) { ?>
+		<?php $item['class'] = (isset($item['class'])) ? $item['class'] : ''; ?>
 		<li class="<?php echo $item['class']; ?>"><a href="<?php echo $item['link']; ?>" title="<?php echo $item['title']; ?>" alt="<?php echo $item['title']; ?>"><span><?php echo $item['title']; ?></span></a></li>
 	<?php } ?>
 </ol></div>

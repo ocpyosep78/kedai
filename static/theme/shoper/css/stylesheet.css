@@ -53,6 +53,7 @@ button:active,
 .fs16 {
   font-size: 18px;
 }
+.cursor { cursor: pointer; }
 .welcome {
   color: #636E75;
   font: Verdana;
@@ -165,7 +166,7 @@ table.radio tr.highlight:hover td {
   *display: inline;
   zoom: 1;
   width: 100%;
-  margin: 0;
+  margin: 0 0 10px;
 }
 .pagination .links {
   float: left;
@@ -1296,22 +1297,14 @@ body[class*="layout-boxed-"] .d-content:before {
   color: #e27f7a;
 }
 .product-block .price {
-  float: left;
-  margin: 0;
-  min-height: 35px;
-  position: relative;
+  margin: 5px 0 0 0;
 }
 .product-block .price .price-old,
 .product-block .price .price-new {
   display: block;
 }
-.product-block .action {
-  float: right;
-  overflow: hidden;
-  margin-top: 5px;
-}
 .product-block .action > * {
-  float: left;
+
 }
 .product-block .product-icon {
   float: left;

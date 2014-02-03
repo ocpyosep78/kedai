@@ -1,3 +1,6 @@
+<?php
+	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
+?>
 <header id="header">
 	<section id="topbar">
 		<div class="container">
@@ -11,8 +14,8 @@
 				<div id="search_mobile" class="search pull-left">
 					<div class="quickaccess-toggle">Find</div>
 					<div class="inner-toggle">
-						<input name="search" placeholder="Search" class="form-control input-search" type="text">
-						<div class="button-search-mobile"><span class="fa icon-search"></span></div>
+						<input name="search" placeholder="Search" class="form-control input-search" type="text" value="<?php echo $namelike; ?>" />
+						<div class="button-search-mobile"><span class="fa icon-search cursor"></span></div>
 					</div>
 				</div>
 			</div>
@@ -148,7 +151,7 @@
 				</div>
 				<div class="col-lg-7 col-sm-6 col-md-6 col-xs-12">
 					<div id="search">
-						<input name="search" placeholder="Search" class="form-control input-search" type="text">
+						<input name="search" placeholder="Search" class="form-control input-search" type="text" value="<?php echo $namelike; ?>" />
 						<div class="button-search"><span class="icon-search"></span></div>
 					</div>
 				</div>
@@ -173,3 +176,27 @@
 		<div id="notification"></div>
 	</div>
 </section>
+
+<script>
+	// mobile
+	$('#search_mobile .icon-search').click(function() {
+		var value = $('#search_mobile [name="search"]').val();
+		if ($('#form-hidden').length == 1) {
+			$('#form-hidden [name="namelike"]').val(value);
+			$('#form-hidden').submit();
+		} else {
+			window.location = web.base + '/search/' + Func.GetName(value);
+		}
+	});
+	
+	// website
+	$('#search .icon-search').click(function() {
+		var value = $('#search [name="search"]').val();
+		if ($('#form-hidden').length == 1) {
+			$('#form-hidden [name="namelike"]').val(value);
+			$('#form-hidden').submit();
+		} else {
+			window.location = web.base + '/search/' + Func.GetName(value);
+		}
+	});
+</script>

@@ -28,7 +28,10 @@ class Advert_model extends CI_Model {
             $result['status'] = '1';
             $result['message'] = 'Data successfully updated.';
         }
-       
+		
+		$param['id'] = $result['id'];
+		$this->resize_image($param);
+		
         return $result;
     }
 
@@ -38,8 +41,9 @@ class Advert_model extends CI_Model {
         if (isset($param['id'])) {
             $select_query  = "
 				SELECT Advert.*,
-					City.region_id,
-					Category.name category_name, CategorySub.category_id, CategorySub.name category_sub_name
+					City.region_id, City.name city_name, Region.name region_name,
+					Category.name category_name, Category.alias category_alias,
+					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
 				FROM ".ADVERT." Advert
 				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
@@ -75,20 +79,43 @@ class Advert_model extends CI_Model {
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND Advert.name LIKE '%".$param['namelike']."%'" : '';
 		$string_user = (!empty($param['user_id'])) ? "AND Advert.user_id = '".$param['user_id']."'" : '';
+		$string_city = (!empty($param['city_id'])) ? "AND Advert.city_id = '".$param['city_id']."'" : '';
+		$string_region = (!empty($param['region_id'])) ? "AND City.region_id = '".$param['region_id']."'" : '';
+		$string_price_min = (!empty($param['price_min'])) ? "AND Advert.price >= '".$param['price_min']."'" : '';
+		$string_price_max = (!empty($param['price_max'])) ? "AND Advert.price <= '".$param['price_max']."'" : '';
+		$string_category = (!empty($param['category_id'])) ? "AND CategorySub.category_id = '".$param['category_id']."'" : '';
+		$string_category_sub = (!empty($param['category_sub_id'])) ? "AND Advert.category_sub_id = '".$param['category_sub_id']."'" : '';
+		$string_advert_type = (!empty($param['advert_type_id'])) ? "AND Advert.advert_type_id = '".$param['advert_type_id']."'" : '';
+		$string_advert_status = (!empty($param['advert_status_id'])) ? "AND Advert.advert_status_id = '".$param['advert_status_id']."'" : '';
 		$string_delete = "AND (Advert.is_delete = '".$param['is_delete']."' OR 'x' = '".$param['is_delete']."')";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
+		// condition
+		$string_condition = '';
+		if (!empty($param['condition'])) {
+			$string_condition = "AND Advert.metadata LIKE '%[PATTERN]%'";
+			$string_replace = '"condition":"'.$param['condition'].'"';
+			$string_condition = str_replace('[PATTERN]', $string_replace, $string_condition);
+		}
+		
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS Advert.*,
-				AdvertStatus.name advert_status_name,
+				AdvertStatus.name advert_status_name, City.name city_name, Region.name region_name,
 				Category.name category_name, CategorySub.name category_sub_name
 			FROM ".ADVERT." Advert
+			LEFT JOIN ".CITY." City ON City.id = Advert.city_id
+			LEFT JOIN ".REGION." Region ON Region.id = City.region_id
 			LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
 			LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 			LEFT JOIN ".ADVERT_STATUS." AdvertStatus ON AdvertStatus.id = Advert.advert_status_id
-			WHERE 1 $string_namelike $string_user $string_delete $string_filter
+			WHERE 1 $string_namelike
+				$string_user $string_city $string_region
+				$string_category $string_category_sub
+				$string_price_min $string_price_max
+				$string_advert_type $string_advert_status
+				$string_condition $string_delete $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -109,6 +136,30 @@ class Advert_model extends CI_Model {
 		return $TotalRecord;
     }
 	
+	function get_array_sort() {
+		$result[] = array( 'value' => '[{"property":"post_time","direction":"DESC"},{"property":"Advert.id","direction":"DESC"}]', 'label' => 'Default' );
+		$result[] = array( 'value' => '[{"property":"price","direction":"ASC"}]', 'label' => 'Price (Low &gt; High)' );
+		$result[] = array( 'value' => '[{"property":"price","direction":"DESC"}]', 'label' => 'Price (High &gt; Low)' );
+		$result[] = array( 'value' => '[{"property":"post_time","direction":"DESC"}]', 'label' => 'Lastest Advert' );
+		$result[] = array( 'value' => '[{"property":"post_time","direction":"ASC"}]', 'label' => 'Oldest Advert' );
+		
+		return $result;
+	}
+	
+	function get_array_limit() {
+		$result = array(
+			array( 'value' => 4 ),
+			array( 'value' => 8 ),
+			array( 'value' => 12 ),
+			array( 'value' => 25 ),
+			array( 'value' => 50 ),
+			array( 'value' => 75 ),
+			array( 'value' => 100 )
+		);
+		
+		return $result;
+	}
+	
     function delete($param) {
 		$delete_query  = "DELETE FROM ".ADVERT." WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
@@ -122,8 +173,28 @@ class Advert_model extends CI_Model {
 	function sync($row, $param = array()) {
 		$row = StripArray($row, array( 'post_time' ));
 		
-		// link edit
+		// link
 		$row['edit_link'] = base_url('post/'.$row['id']);
+		$row['advert_link'] = base_url('advert/'.$row['id']);
+		if (isset($row['category_alias'])) {
+			$row['category_link'] = base_url($row['category_alias']);
+		}
+		if (isset($row['category_alias']) && isset($row['category_sub_alias'])) {
+			$row['category_sub_link'] = base_url($row['category_alias'].'/'.$row['category_sub_alias']);
+		}
+		
+		// thumbnail
+		$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail'];
+		if (file_exists($file_path)) {
+			$thumbnail_small = preg_replace('/\.(jpg|jpeg|png|gif)/i', '_s.$1', $row['thumbnail']);
+			$row['thumbnail_link'] = base_url('static/upload/'.$thumbnail_small);
+		} else {
+			$row['thumbnail_link'] = base_url('static/img/no-image.png');
+		}
+		
+		// label
+		$row['price_text'] = MoneyFormat($row['price'], true);
+		$row['post_time_text'] = show_time_diff($row['post_time']);
 		
 		// meta data
 		if (isset($row['metadata'])) {
@@ -155,5 +226,16 @@ class Advert_model extends CI_Model {
 		}
 		
 		return $row;
+	}
+	
+	function resize_image($param) {
+		if (!empty($param['thumbnail'])) {
+			$image_path = $this->config->item('base_path') . '/static/upload/';
+			$image_source = $image_path . $param['thumbnail'];
+			$image_result = $image_source;
+			$image_small = preg_replace('/\.(jpg|jpeg|png|gif)/i', '_s.$1', $image_result);
+			
+			ImageResize($image_source, $image_small, 300, 240, 1);
+		}
 	}
 }

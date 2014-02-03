@@ -66,10 +66,10 @@ if (! function_exists('ConvertDateToArray')) {
 
 if (! function_exists('ConvertToUnixTime')) {
 	function ConvertToUnixTime($String) {
-		preg_match('/(\d{4})-(\d{2})-(\d{2})/i', $String, $Match);
+		preg_match('/(\d{4})-(\d{2})-(\d{2})( (\d{2}):(\d{2}):(\d{2}))*/i', $String, $Match);
 		
 		if (count($Match) >= 3) {
-			$UnixTime = mktime (0, 0, 0, $Match[2], $Match[3], $Match[1]);
+			$UnixTime = mktime (@$Match[5], @$Match[6], @$Match[7], $Match[2], $Match[3], $Match[1]);
 		} else {
 			$UnixTime = 0;
 		}
@@ -138,4 +138,34 @@ if (! function_exists('AddDate')) {
 		return $result;
 	}
 }
-?>
+
+if (! function_exists('show_time_diff')) {
+	function show_time_diff($date) {
+		$unix = ConvertToUnixTime($date);
+		$now = ConvertToUnixTime(date("Y-m-d H:i:s"));
+		$diff_time = $now - $unix;
+		
+		if ($diff_time <= 59) {
+			$second = $diff_time;
+			$result = $second.' second ago';
+		} else if ($diff_time <= (60 * 60)) {
+			$minute = floor($diff_time / 60);
+			$second = $diff_time % 60;
+			$result = $minute.' minute '.$second.' second ago';
+		} else if ($diff_time <= (60 * 60 * 24)) {
+			$hour = floor($diff_time / (60 * 60));
+			$minute = floor(($diff_time / 60) % 60);
+			$result = $hour.' hour '.$minute.' minute ago';
+		} else if ($diff_time <= (60 * 60 * 24 * 30)) {
+			$day = floor($diff_time / (60 * 60 * 24));
+			$hour = floor(($diff_time / (60 * 60)) / 24);
+			$result = $day.' day '.$hour.' hour ago';
+		} else if ($diff_time <= (60 * 60 * 24 * 30 * 12)) {
+			$month = floor($diff_time / (60 * 60 * 24 * 30));
+			$day = floor(($diff_time / (60 * 60 * 24)) / 30);
+			$result = $month.' month '.$day.' day ago';
+		}
+		
+		return $result;
+	}
+}
