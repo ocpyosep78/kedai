@@ -841,6 +841,24 @@ var form_post = {
 	}
 }
 
+var template_advert = {
+	car: function(record, alias) {
+		var result = '';
+		
+		var ajax_param = {
+			action: 'get_template_view',
+			alias: alias,
+			vehicle_brand_id: record.vehicle_brand_id,
+			vehicle_type_id: record.vehicle_type_id
+		}
+		Func.ajax({ url: web.base + 'advert/action', param: ajax_param, is_json: false, callback: function(result) {
+			$('#cnt-' + alias).html(result);
+		} });
+		
+		return result;
+	}
+}
+
 function display_item(view) {
 	if (view == 'list') {
 		$('.product-grid').attr('class', 'product-list');

@@ -210,6 +210,7 @@ class Advert_model extends CI_Model {
 				if ($param['is_manage'] == 'admin') {
 					$param['is_custom'] .= '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
 					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
+					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
 					
 					if ($row['advert_status_id'] != ADVERT_STATUS_APPROVE) {
 						$param['is_custom'] .= '<i class="cursor-button fa fa-check btn-approve"></i> ';
@@ -218,6 +219,7 @@ class Advert_model extends CI_Model {
 					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
 				} else if ($param['is_manage'] == 'member') {
 					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
+					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
 					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
 				}
 			}

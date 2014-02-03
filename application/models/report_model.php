@@ -1,31 +1,33 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_Contact_model extends CI_Model {
+class Report_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_id', 'sender_id', 'name', 'email', 'phone', 'message', 'post_time' );
+        $this->field = array( 'id', 'user_id', 'advert_id', 'report_type_id', 'detail', 'email', 'post_time' );
     }
 
     function update($param) {
         $result = array();
        
         if (empty($param['id'])) {
-            $insert_query  = GenerateInsertQuery($this->field, $param, USER_CONTACT);
+            $insert_query  = GenerateInsertQuery($this->field, $param, REPORT);
             $insert_result = mysql_query($insert_query) or die(mysql_error());
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
             $result['message'] = 'Data successfully saved.';
         } else {
-            $update_query  = GenerateUpdateQuery($this->field, $param, USER_CONTACT);
+            $update_query  = GenerateUpdateQuery($this->field, $param, REPORT);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
             $result['status'] = '1';
             $result['message'] = 'Data successfully updated.';
         }
-       
+		
+		$param['id'] = $result['id'];
+		
         return $result;
     }
 
@@ -33,28 +35,37 @@ class User_Contact_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".USER_CONTACT." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT Report.*, ReportType.name report_type_name
+				FROM ".REPORT." Report
+				LEFT JOIN ".REPORT_TYPE." ReportType ON ReportType.id = Report.report_type_id
+				WHERE Report.id = '".$param['id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row);
         }
-       
-        return $array;
+		
+		return $array;
     }
 	
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND UserContact.name LIKE '%".$param['namelike']."%'" : '';
+		$param['field_replace']['name'] = 'Report.name';
+		
+		$string_namelike = (!empty($param['namelike'])) ? "AND Report.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS UserContact.*
-			FROM ".USER_CONTACT." UserContact
+			SELECT SQL_CALC_FOUND_ROWS Report.*, ReportType.name report_type_name
+			FROM ".REPORT." Report
+			LEFT JOIN ".REPORT_TYPE." ReportType ON ReportType.id = Report.report_type_id
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
@@ -77,7 +88,7 @@ class User_Contact_model extends CI_Model {
     }
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".USER_CONTACT." WHERE id = '".$param['id']."' LIMIT 1";
+		$delete_query  = "DELETE FROM ".REPORT." WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
@@ -87,7 +98,7 @@ class User_Contact_model extends CI_Model {
     }
 	
 	function sync($row, $param = array()) {
-		$row = StripArray($row);
+		$row = StripArray($row, array( 'post_time' ));
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

@@ -115,6 +115,11 @@ class User_model extends CI_Model {
 	function sync($row, $param = array()) {
 		$row = StripArray($row, array( 'membership_date' ));
 		
+		// fullname
+		if (isset($row['first_name']) && isset($row['last_name'])) {
+			$row['fullname'] = $row['first_name'].' '.$row['last_name'];
+		}
+		
 		// delete password
 		if (!isset($param['with_passwd']) && isset($row['passwd'])) {
 			unset($row['passwd']);
@@ -132,26 +137,6 @@ class User_model extends CI_Model {
 		return $row;
 	}
 	
-	function get_menu() {
-		$menu = array(
-			array(
-				'Title' => 'User Management',
-				'Child' => array(
-					array( 'Title' => 'User', 'Link' => base_url('panel/user/user') )
-				)
-			),
-			array(
-				'Title' => 'Master',
-				'Child' => array(
-					array( 'Title' => 'Page Static', 'Link' => base_url('panel/master/page_static') ),
-					array( 'Title' => 'Category', 'Link' => base_url('panel/master/category') )
-				)
-			)
-		);
-		
-		return $menu;
-	}
-	
 	/*	Region Session */
 	
 	function is_login($admin_level = false) {
@@ -163,9 +148,6 @@ class User_model extends CI_Model {
 				$result = false;
 			}
 		}
-		
-		// hack for template
-		$result = true;
 		
 		return $result;
 	}

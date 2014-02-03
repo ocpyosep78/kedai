@@ -1,24 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_Contact_model extends CI_Model {
+class Report_Type_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_id', 'sender_id', 'name', 'email', 'phone', 'message', 'post_time' );
+        $this->field = array( 'id', 'name' );
     }
 
     function update($param) {
         $result = array();
        
         if (empty($param['id'])) {
-            $insert_query  = GenerateInsertQuery($this->field, $param, USER_CONTACT);
+            $insert_query  = GenerateInsertQuery($this->field, $param, REPORT_TYPE);
             $insert_result = mysql_query($insert_query) or die(mysql_error());
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
             $result['message'] = 'Data successfully saved.';
         } else {
-            $update_query  = GenerateUpdateQuery($this->field, $param, USER_CONTACT);
+            $update_query  = GenerateUpdateQuery($this->field, $param, REPORT_TYPE);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
@@ -33,7 +33,7 @@ class User_Contact_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".USER_CONTACT." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "SELECT * FROM ".REPORT_TYPE." WHERE id = '".$param['id']."' LIMIT 1";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -47,15 +47,14 @@ class User_Contact_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND UserContact.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS UserContact.*
-			FROM ".USER_CONTACT." UserContact
-			WHERE 1 $string_namelike $string_filter
+			SELECT SQL_CALC_FOUND_ROWS ReportType.*
+			FROM ".REPORT_TYPE." ReportType
+			WHERE 1 $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -77,7 +76,7 @@ class User_Contact_model extends CI_Model {
     }
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".USER_CONTACT." WHERE id = '".$param['id']."' LIMIT 1";
+		$delete_query  = "DELETE FROM ".REPORT_TYPE." WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';

@@ -39,6 +39,8 @@ define('INPUT_TYPE',							'input_type');
 define('MEMBERSHIP',							'membership');
 define('PAGE_STATIC',							'page_static');
 define('REGION',								'region');
+define('REPORT',								'report');
+define('REPORT_TYPE',							'report_type');
 define('TAG',									'tag');
 define('USER',									'user');
 define('USER_CONTACT',							'user_contact');

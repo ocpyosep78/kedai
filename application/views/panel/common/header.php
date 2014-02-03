@@ -113,7 +113,7 @@
 				<li><a href="profile.html">Profile</a></li>
 				<li><a href="docs.html">Help</a></li>
 				<li class="divider"></li>
-				<li><a href="modal.lockme.html" data-toggle="ajaxModal">Logout</a></li>
+				<li><a href="<?php echo base_url('panel/home/logout'); ?>">Logout</a></li>
 			</ul>
 		</li>
 	</ul>

@@ -3,9 +3,24 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 28, 2014 at 01:29 PM
+-- Generation Time: Feb 03, 2014 at 04:19 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `kedai_db`
+--
+CREATE DATABASE IF NOT EXISTS `kedai_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `kedai_db`;
 
 -- --------------------------------------------------------
 
@@ -33,15 +48,15 @@ CREATE TABLE IF NOT EXISTS `advert` (
   `sold_time` datetime NOT NULL,
   `is_delete` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `advert`
 --
 
 INSERT INTO `advert` (`id`, `user_id`, `city_id`, `condition_id`, `advert_type_id`, `advert_status_id`, `category_sub_id`, `name`, `code`, `content`, `address`, `price`, `negotiable`, `metadata`, `thumbnail`, `post_time`, `sold_time`, `is_delete`) VALUES
-(1, 0, 0, 0, 3, 1, 8, 'Name 1', '', '', '', 0, 0, '{"check-box-title":["Value No 1","0","0"," Value No 4","0","0"],"hello-title":"adasd","select-on":"Option 2","text-area-01":"asd","text-title":"sad"}', '', '2014-01-01 00:00:00', '0000-00-00 00:00:00', 0),
-(2, 0, 5, 0, 3, 2, 10, 'Name 2', '', '', '', 0, 0, '{"vehicle_brand_id":"2","vehicle_type_id":"7"}', '', '2014-01-28 13:04:30', '0000-00-00 00:00:00', 0);
+(1, 2, 5, 0, 1, 2, 10, 'Name 1', 'XXXX', 'Ad Desc (statis)', 'Address (statis)', 125000, 1, '{"vehicle_brand_id":"2","vehicle_type_id":"5"}', '2014/02/03/20140203_093955_3605.jpg', '2014-02-03 11:45:13', '0000-00-00 00:00:00', 0),
+(2, 2, 4, 2, 2, 2, 8, 'Name 2 - Title Ad', 'YYYY', 'Hello World', 'Kota Malang', 15000, 1, '[]', '2014/02/03/20140203_101843_4166.jpg', '2014-02-03 10:18:44', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -54,14 +69,17 @@ CREATE TABLE IF NOT EXISTS `advert_pic` (
   `advert_id` int(11) NOT NULL,
   `thumbnail` varchar(75) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=83 ;
 
 --
 -- Dumping data for table `advert_pic`
 --
 
 INSERT INTO `advert_pic` (`id`, `advert_id`, `thumbnail`) VALUES
-(1, 0, '');
+(76, 2, '2014/02/03/20140203_101843_4166.jpg'),
+(82, 1, '2014/02/03/20140203_093957_6600.jpg'),
+(81, 1, '2014/02/03/20140203_093955_3605.jpg'),
+(80, 1, '2014/02/03/20140203_093953_5353.jpg');
 
 -- --------------------------------------------------------
 
@@ -139,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `advert_type_sub` (
   `advert_type_id` int(11) NOT NULL,
   `category_sub_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `advert_type_sub`
@@ -153,7 +171,10 @@ INSERT INTO `advert_type_sub` (`id`, `advert_type_id`, `category_sub_id`) VALUES
 (5, 3, 7),
 (6, 1, 10),
 (7, 2, 10),
-(8, 3, 10);
+(8, 3, 10),
+(9, 1, 8),
+(10, 2, 8),
+(11, 4, 8);
 
 -- --------------------------------------------------------
 
@@ -203,9 +224,9 @@ INSERT INTO `category_input` (`id`, `parent_id`, `input_type_id`, `advert_type_s
 (10, 0, 2, 1, 'Select On', 'Select Label', 1, 0, ',Option 1,Option 2'),
 (9, 0, 1, 1, 'Text Title', 'Text Label', 1, 0, ''),
 (11, 0, 4, 1, 'Check Box Title', 'Check Box Label', 0, 0, 'Value No 1, Value No 2, Value No 3, Value No 4, Value No 5, Value No 6'),
-(12, 0, 3, 1, 'Text Area 01', 'Text Area Label 01', 1, 5, ''),
+(12, 0, 3, 1, 'Text Area 01', 'Text Area Label 01', 1, 0, ''),
 (13, 0, 5, 1, 'Parent 01', 'Parent 01', 0, 0, ''),
-(14, 13, 1, 1, 'Hello Title', 'Hello Label', 0, 0, ''),
+(14, 13, 1, 1, 'Hello Title 2', 'Hello Title 2', 0, 0, ''),
 (15, 0, 6, 6, 'Car', 'Car', 0, 0, ''),
 (16, 0, 6, 7, 'Car', 'Car', 0, 0, ''),
 (17, 0, 6, 8, 'Car', 'Car', 0, 0, '');
@@ -222,7 +243,19 @@ CREATE TABLE IF NOT EXISTS `category_price` (
   `price_type` int(11) NOT NULL COMMENT '{ 1: price_min, 2: price_max }',
   `price` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+
+--
+-- Dumping data for table `category_price`
+--
+
+INSERT INTO `category_price` (`id`, `category_sub_id`, `price_type`, `price`) VALUES
+(1, 8, 1, 100000),
+(2, 8, 1, 500000),
+(3, 8, 1, 1000000),
+(4, 8, 2, 500000),
+(5, 8, 2, 1000000),
+(6, 8, 2, 5000000);
 
 -- --------------------------------------------------------
 
@@ -375,6 +408,45 @@ INSERT INTO `region` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `report`
+--
+
+CREATE TABLE IF NOT EXISTS `report` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `advert_id` int(11) NOT NULL,
+  `report_type_id` int(11) NOT NULL,
+  `detail` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `post_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_type`
+--
+
+CREATE TABLE IF NOT EXISTS `report_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `report_type`
+--
+
+INSERT INTO `report_type` (`id`, `name`) VALUES
+(1, 'Artikel tidak sesuai peraturan'),
+(2, 'Artikel duplikat dari artikel lain'),
+(3, 'Artikel dipasang di kategori yang salah'),
+(4, 'Lainnya');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tag`
 --
 
@@ -430,7 +502,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `user_type_id`, `email`, `alias`, `first_name`, `last_name`, `passwd`, `address`, `phone`, `bb_pin`, `advert_count`, `register_date`, `membership_date`, `reset_key`, `verify_profile`, `verify_email`, `verify_address`, `thumbnail_profile`, `thumbnail_banner`, `ic_number`, `is_ic_number`, `is_active`, `is_delete`) VALUES
-(2, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', '-', '', '', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 0, '', '', '', 0, 0, 0);
+(2, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', '-', '', '', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 0, '', '', '', 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -446,6 +518,7 @@ CREATE TABLE IF NOT EXISTS `user_contact` (
   `email` varchar(75) NOT NULL,
   `phone` varchar(75) NOT NULL,
   `message` longtext NOT NULL,
+  `post_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -453,8 +526,8 @@ CREATE TABLE IF NOT EXISTS `user_contact` (
 -- Dumping data for table `user_contact`
 --
 
-INSERT INTO `user_contact` (`id`, `user_id`, `sender_id`, `name`, `email`, `phone`, `message`) VALUES
-(1, 0, 0, '', '', '', '');
+INSERT INTO `user_contact` (`id`, `user_id`, `sender_id`, `name`, `email`, `phone`, `message`, `post_time`) VALUES
+(1, 2, 2, 'Herry Satrio', 'her0satr@yahoo.com', 'asd', 'asd', '2014-02-03 14:50:08');
 
 -- --------------------------------------------------------
 
@@ -519,7 +592,7 @@ CREATE TABLE IF NOT EXISTS `user_membership` (
 --
 
 INSERT INTO `user_membership` (`id`, `user_id`, `membership_id`, `request_time`, `status`) VALUES
-(1, 2, 1, '2014-01-01 00:00:00', 'approve'),
+(1, 2, 1, '2014-01-01 00:00:00', 'pending'),
 (2, 2, 2, '2014-01-23 00:00:00', 'approve');
 
 -- --------------------------------------------------------
@@ -675,3 +748,7 @@ CREATE TABLE IF NOT EXISTS `widget` (
 INSERT INTO `widget` (`id`, `name`, `alias`, `content`) VALUES
 (4, 'Widget 1', 'widget-1', 'Content'),
 (5, 'Widget 2', 'widget-2', 'Content');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

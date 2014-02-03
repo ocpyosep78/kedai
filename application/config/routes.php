@@ -26,8 +26,8 @@ if ($is_website) {
 	$route['(:any)/(:any)'] = "website/selector";
 } else if ($is_panel) {
 	$route['panel'] = "panel/home";
+	$route['panel/message'] = "panel/manage/message";
 }
-
 
 $route['default_controller'] = "website/home";
 $route['404_override'] = '';

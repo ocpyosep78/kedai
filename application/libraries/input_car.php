@@ -31,4 +31,16 @@ class input_car {
 		
 		return $content;
     }
+	
+	function get_display($param) {
+		$vehicle_brand = $this->ci->Vehicle_Brand_model->get_by_id(array( 'id' => $_POST['vehicle_brand_id'] ));
+		$vehicle_type = $this->ci->Vehicle_Type_model->get_by_id(array( 'id' => $_POST['vehicle_type_id'] ));
+		
+		$content = '
+			<div style="margin: 8px 0;">Vehicle Brand : '.$vehicle_brand['name'].'</div>
+			<div style="margin: 8px 0;">Vehicle Type : '.$vehicle_type['name'].'</div>
+		';
+		
+		return $content;
+	}
 }

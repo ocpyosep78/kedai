@@ -7,7 +7,7 @@
 		<div class="address">Member Sejak: 26-11-2013</div>
 		<hr /><br />
 		<div class="gambarprofile"> 
-			<a class="landingImageWrapper-profil" href="#"><img alt="" src="http://localhost/new_klikbay/images/thumb_default-profile.jpg"></a>
+			<a class="landingImageWrapper-profil" href="#"><img alt="" src="<?php echo base_url('static/temp/20131215_103821_6987.png'); ?>"></a>
 		</div>
 	</article>
 	<div class="box box-product bestseller">
