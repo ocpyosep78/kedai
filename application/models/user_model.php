@@ -46,7 +46,13 @@ class User_model extends CI_Model {
 		$param['auto_insert'] = (isset($param['auto_insert'])) ? $param['auto_insert'] : false;
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".USER." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT User.*, UserType.name user_type_name
+				FROM ".USER."
+				LEFT JOIN ".USER_TYPE." UserType ON UserType.id = User.user_type_id
+				WHERE User.id = '".$param['id']."'
+				LIMIT 1
+			";
         } else if (isset($param['alias'])) {
 			$select_query  = "SELECT * FROM ".USER." WHERE alias = '".$param['alias']."' LIMIT 1";
         } else if (isset($param['email'])) {
@@ -132,6 +138,13 @@ class User_model extends CI_Model {
 		// decript email
 		if (isset($row['email'])) {
 			$row['email'] = mcrypt_decode($row['email']);
+		}
+		
+		// thumbnail
+		if (isset($row['thumbnail_profile']) && !empty($row['thumbnail_profile'])) {
+			$row['thumbnail_profile_link'] = base_url('static/upload/'.$row['thumbnail_profile']);
+		} else {
+			$row['thumbnail_profile_link'] = base_url('static/img/avatar.jpg');
 		}
 		
 		if (count(@$param['column']) > 0) {

@@ -110,7 +110,7 @@
 								<br />
 								
 								<label>Pesan Anda</label>
-								<div class="kir"><textarea rows="5" cols="60" name="message"></textarea></div>
+								<div class="kir"><textarea rows="5" cols="60" name="message" maxlength="200"></textarea></div>
 								<div class="clr"></div>
 								<div class="top10"></div>
 								<br />
@@ -191,9 +191,13 @@
 								<label>Your Phone (optional)</label>
 								<div class="kir"><input type="text" name="phone" /></div>
 								<br />
-
+								
+								<label>Title</label>
+								<div class="kir"><input type="text" name="title" /></div>
+								<br />
+								
 								<label>Pesan Anda</label>
-								<div class="kir"><textarea rows="5" cols="60" name="message"></textarea></div>
+								<div class="kir"><textarea rows="5" cols="60" name="message" maxlength="200"></textarea></div>
 								<div class="clr"></div>
 								<br />
 								
@@ -377,10 +381,11 @@
 		} });
 	});
 	
-	// report
+	// contact advertiser
 	$('#tab-advertiser form').validate({
 		rules: {
 			name: { required: true },
+			title: { required: true },
 			email: { required: true, email: true },
 			message: { required: true }
 		}

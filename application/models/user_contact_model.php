@@ -4,7 +4,7 @@ class User_Contact_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_id', 'sender_id', 'name', 'email', 'phone', 'message', 'post_time' );
+        $this->field = array( 'id', 'user_id', 'sender_id', 'advert_id', 'name', 'email', 'phone', 'message', 'post_time', 'is_read', 'title' );
     }
 
     function update($param) {
@@ -48,14 +48,19 @@ class User_Contact_model extends CI_Model {
         $array = array();
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND UserContact.name LIKE '%".$param['namelike']."%'" : '';
+		$string_user = (!empty($param['user_id'])) ? "AND UserContact.user_id = '".$param['user_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'post_time DESC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS UserContact.*
+			SELECT SQL_CALC_FOUND_ROWS UserContact.*,
+				UserSender.first_name sender_first_name, UserSender.last_name sender_last_name, UserSender.thumbnail_profile sender_thumbnail_profile,
+				Advert.id adver_id
 			FROM ".USER_CONTACT." UserContact
-			WHERE 1 $string_namelike $string_filter
+			LEFT JOIN ".USER." UserSender ON UserSender.id = UserContact.sender_id
+			LEFT JOIN ".ADVERT." Advert ON Advert.id = UserContact.advert_id
+			WHERE 1 $string_namelike $string_user $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -88,6 +93,25 @@ class User_Contact_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		
+		// thumbnail
+		if (isset($row['sender_thumbnail_profile']) && !empty($row['sender_thumbnail_profile'])) {
+			$row['sender_thumbnail_profile_link'] = base_url('static/upload/'.$row['sender_thumbnail_profile']);
+		} else {
+			$row['sender_thumbnail_profile_link'] = base_url('static/img/avatar.jpg');
+		}
+		
+		// label
+		$row['post_time_text'] = show_time_diff($row['post_time']);
+		$row['sender_full_name'] = $row['sender_first_name'].' '.$row['sender_last_name'];
+		
+		// decript email
+		if (isset($row['sender_email'])) {
+			$row['sender_email'] = mcrypt_decode($row['sender_email']);
+		}
+		
+		// advert
+		$row['advert_link'] = base_url('advert/'.$row['adver_id']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

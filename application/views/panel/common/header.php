@@ -1,3 +1,7 @@
+<?php
+	$user = $this->User_model->get_session();
+	$user = $this->User_model->get_by_id(array( 'id' => $user['id'] ));
+?>
 <header class="bg-dark dk header navbar navbar-fixed-top-xs">
 	<div class="navbar-header aside-md">
 		<a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
@@ -19,12 +23,12 @@
 			<section class="dropdown-menu aside-xl on animated fadeInLeft no-borders lt">
 				<div class="wrapper lter m-t-n-xs">
 					<a href="#" class="thumb pull-left m-r">
-						<img src="<?php echo base_url('static/img/avatar.jpg'); ?>" class="img-circle">
+						<img src="<?php echo $user['thumbnail_profile_link']; ?>" class="img-circle">
 					</a>
 					<div class="clear">
-						<a href="#"><span class="text-white font-bold">@Mike Mcalidek</span></a>
-						<small class="block">Art Director</small>
-						<a href="#" class="btn btn-xs btn-success m-t-xs">Upgrade</a>
+						<a href="#"><span class="text-white font-bold"><?php echo $user['alias']; ?></span></a>
+						<small class="block"><?php echo $user['fullname']; ?></small>
+						<a href="#" class="btn btn-xs btn-success m-t-xs"><?php echo $user['user_type_name']; ?></a>
 					</div>
 				</div>
 				<div class="row m-l-none m-r-none m-b-n-xs">
@@ -40,7 +44,7 @@
 		</li>
 		<li>
 			<div class="m-t m-l">
-				<a href="price.html" class="dropdown-toggle btn btn-xs btn-primary" title="Upgrade"><i class="fa fa-long-arrow-up"></i></a>
+				<a href="#" class="dropdown-toggle btn btn-xs btn-primary"><i class="fa fa-long-arrow-up"></i></a>
 			</div>
 		</li>
 	</ul>
@@ -49,35 +53,17 @@
 		<li class="hidden-xs">
 			<a href="#" class="dropdown-toggle dk" data-toggle="dropdown">
 				<i class="fa fa-bell"></i>
-				<span class="badge badge-sm up bg-danger m-l-n-sm count">2</span>
+				<span class="badge badge-sm up bg-danger m-l-n-sm count">0</span>
 			</a>
 			
 			<section class="dropdown-menu aside-xl">
 				<section class="panel bg-white">
 					<header class="panel-heading b-light bg-light">
-						<strong>You have <span class="count">2</span> notifications</strong>
+						<strong>You have <span class="count">0</span> notifications</strong>
 					</header>
-					<div class="list-group list-group-alt animated fadeInRight">
-						<a href="#" class="media list-group-item">
-							<span class="pull-left thumb-sm">
-								<img src="<?php echo base_url('static/img/avatar.jpg'); ?>" alt="John said" class="img-circle">
-							</span>
-							
-							<span class="media-body block m-b-none">
-								Use awesome animate.css<br>
-								<small class="text-muted">10 minutes ago</small>
-							</span>
-						</a>
-						<a href="#" class="media list-group-item">
-							<span class="media-body block m-b-none">
-								1.0 initial released<br>
-								<small class="text-muted">1 hour ago</small>
-							</span>
-						</a>
-					</div>
+					<div class="list-group list-group-alt animated fadeInRight"></div>
 					<footer class="panel-footer text-sm">
-						<a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
-						<a href="#notes" data-toggle="class:show animated fadeInRight">See all the notifications</a>
+						<a href="<?php echo base_url('panel/message'); ?>">See all the notifications</a>
 					</footer>
 				</section>
 			</section>
@@ -86,10 +72,10 @@
 			<a href="#" class="dropdown-toggle dker" data-toggle="dropdown"><i class="fa fa-fw fa-search"></i></a>
 			<section class="dropdown-menu aside-xl animated fadeInUp">
 				<section class="panel bg-white">
-					<form role="search">
+					<form role="search" id="form-search">
 						<div class="form-group wrapper m-b-none">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Search">
+								<input type="text" class="form-control" name="search" placeholder="Search">
 								<span class="input-group-btn">
 									<button type="submit" class="btn btn-info btn-icon"><i class="fa fa-search"></i></button>
 								</span>
@@ -102,9 +88,9 @@
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				<span class="thumb-sm avatar pull-left">
-					<img src="<?php echo base_url('static/img/avatar.jpg'); ?>">
+					<img src="<?php echo $user['thumbnail_profile_link']; ?>">
 				</span>
-				John.Smith <b class="caret"></b>
+				<?php echo $user['fullname']; ?> <b class="caret"></b>
 			</a>
 			
 			<ul class="dropdown-menu animated fadeInRight">
@@ -118,3 +104,13 @@
 		</li>
 	</ul>
 </header>
+
+<script>
+$(document).ready(function() {
+	$('#form-search').submit(function(e) {
+		e.preventDefault();
+		var value = $('#form-search [name="search"]').val();
+		window.location = web.base + 'search/' + Func.GetName(value);
+	});
+});
+</script>

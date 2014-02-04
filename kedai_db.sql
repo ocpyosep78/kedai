@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 3.2.4
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 04, 2014 at 03:20 PM
--- Server version: 5.5.32
--- PHP Version: 5.4.19
+-- Host: localhost
+-- Generation Time: Feb 04, 2014 at 08:28 PM
+-- Server version: 5.1.41
+-- PHP Version: 5.3.1
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -19,8 +18,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `kedai_db`
 --
-CREATE DATABASE IF NOT EXISTS `kedai_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `kedai_db`;
 
 -- --------------------------------------------------------
 
@@ -394,6 +391,11 @@ CREATE TABLE IF NOT EXISTS `page_static` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
+--
+-- Dumping data for table `page_static`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -443,6 +445,11 @@ CREATE TABLE IF NOT EXISTS `report` (
   `post_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `report`
+--
+
 
 -- --------------------------------------------------------
 
@@ -537,20 +544,24 @@ CREATE TABLE IF NOT EXISTS `user_contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `sender_id` int(11) NOT NULL,
+  `advert_id` int(11) NOT NULL,
   `name` varchar(75) NOT NULL,
   `email` varchar(75) NOT NULL,
   `phone` varchar(75) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `message` longtext NOT NULL,
+  `is_read` int(11) NOT NULL,
   `post_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `user_contact`
 --
 
-INSERT INTO `user_contact` (`id`, `user_id`, `sender_id`, `name`, `email`, `phone`, `message`, `post_time`) VALUES
-(1, 2, 2, 'Herry Satrio', 'her0satr@yahoo.com', 'asd', 'asd', '2014-02-03 14:50:08');
+INSERT INTO `user_contact` (`id`, `user_id`, `sender_id`, `advert_id`, `name`, `email`, `phone`, `title`, `message`, `is_read`, `post_time`) VALUES
+(1, 2, 2, 0, 'Herry Satrio', 'her0satr@yahoo.com', '08563555402', 'Ini Judulnya', 'asd ini pesannnya panjaaaaang', 0, '2014-02-03 14:50:08'),
+(3, 2, 2, 1, 'Herry Satrio', 'her0satr@yahoo.com', 'My Phone', 'Hello World', 'Isi Pesan', 0, '2014-02-04 20:05:47');
 
 -- --------------------------------------------------------
 
