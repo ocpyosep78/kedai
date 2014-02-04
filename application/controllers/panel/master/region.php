@@ -10,7 +10,7 @@ class region extends KEDAI_Controller {
 	
 	function grid() {
 		$_POST['is_edit'] = 1;
-		$_POST['column'] = array( 'name' );
+		$_POST['column'] = array( 'name', 'alias' );
 		
 		$array = $this->Region_model->get_array($_POST);
 		$count = $this->Region_model->get_count();

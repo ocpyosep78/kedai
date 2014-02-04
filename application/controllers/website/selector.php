@@ -7,7 +7,7 @@ class selector extends CI_Controller {
     
     function index() {
 		$array_segment = $this->uri->segments;
-		$category = $category_sub = array();
+		$category = $category_sub = $region = array();
 		
 		// cheking
 		foreach ($array_segment as $alias) {
@@ -19,12 +19,19 @@ class selector extends CI_Controller {
 			}
 			
 			// category sub
-			if ($category > 0) {
+			if (count($category) > 0) {
 				$check = $this->Category_Sub_model->get_by_id(array( 'category_id' => $category['id'], 'alias' => $alias ));
 				if (count($check) > 0) {
 					$category_sub = $check;
 					continue;
 				}
+			}
+			
+			// region
+			$check = $this->Region_model->get_by_id(array( 'alias' => $alias ));
+			if (count($check) > 0) {
+				$region = $check;
+				continue;
 			}
 		}
 		
@@ -32,6 +39,9 @@ class selector extends CI_Controller {
 			$array_view['category'] = $category;
 			$array_view['category_sub'] = $category_sub;
 			$this->load->view( 'website/category_sub_list', $array_view );
+		} else if (count($region) > 0) {
+			$array_view['region'] = $region;
+			$this->load->view( 'website/region_list', $array_view );
 		} else {
 			$this->load->view( 'website/home' );
 		}

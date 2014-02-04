@@ -14,6 +14,8 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+define('WEBSITE_TITLE',							'Kedaipedia');
+define('WEBSITE_DESC',							'The large market online');
 define('SHA_SECRET',							'OraNgerti');
 define('USER_TYPE_ADMINISTRATOR',				1);
 define('USER_TYPE_MEMBER',						3);

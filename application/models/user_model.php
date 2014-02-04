@@ -47,11 +47,15 @@ class User_model extends CI_Model {
        
         if (isset($param['id'])) {
             $select_query  = "SELECT * FROM ".USER." WHERE id = '".$param['id']."' LIMIT 1";
+        } else if (isset($param['alias'])) {
+			$select_query  = "SELECT * FROM ".USER." WHERE alias = '".$param['alias']."' LIMIT 1";
         } else if (isset($param['email'])) {
 			$param['email'] = mcrypt_encode($param['email']);
             $select_query  = "SELECT * FROM ".USER." WHERE email = '".$param['email']."' LIMIT 1";
-        } 
-       
+        } else if (isset($param['email_key'])) {
+			$select_query  = "SELECT * FROM ".USER." WHERE email = '".$param['email_key']."' LIMIT 1";
+        }
+		
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row, $param);

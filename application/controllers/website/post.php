@@ -56,9 +56,11 @@ class post extends CI_Controller {
 			
 			// thumbnail
 			$this->Advert_Pic_model->delete(array( 'advert_id' => $result['id'] ));
-			foreach ($_POST['list_thumbnail'] as $thumbnail) {
-				$param_thumbnail = array( 'advert_id' => $result['id'], 'thumbnail' => $thumbnail );
-				$result_thumbnail = $this->Advert_Pic_model->update($param_thumbnail);
+			if (isset($_POST['list_thumbnail'])) {
+				foreach ($_POST['list_thumbnail'] as $thumbnail) {
+					$param_thumbnail = array( 'advert_id' => $result['id'], 'thumbnail' => $thumbnail );
+					$result_thumbnail = $this->Advert_Pic_model->update($param_thumbnail);
+				}
 			}
 		}
 		else if ($action == 'get_category_input') {

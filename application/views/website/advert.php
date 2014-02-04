@@ -61,20 +61,22 @@
 							<div class="row">
 								<div class="col-lg-7-single col-sm-7-gambar col-xs-12">
 									<div class="description" style="position: relative;" id="advert-pic">
-										<div class="image">
-											<?php foreach ($advert_pic as $key => $row) { ?>
-											<?php $class_name = ($key == 0) ? 'show' : 'hide'; ?>
-											<img src="<?php echo $row['thumbnail_link']; ?>" class="<?php echo $class_name; ?>" />
+										<?php if (count($advert_pic) > 0) { ?>
+											<div class="image">
+												<?php foreach ($advert_pic as $key => $row) { ?>
+												<?php $class_name = ($key == 0) ? 'show' : 'hide'; ?>
+												<img src="<?php echo $row['thumbnail_link']; ?>" class="<?php echo $class_name; ?>" />
+												<?php } ?>
+											</div>
+											
+											<?php if (count($advert_pic) > 1) { ?>
+											<div style="position: absolute; top: 200px; left: 0px;">
+												<i class="fa icon-arrow-left cursor" style="font-size: 22px; background: #CCCCCC; padding: 5px;"></i>
+											</div>
+											<div style="position: absolute; top: 200px; right: 0px;">
+												<i class="fa icon-arrow-right cursor" style="font-size: 22px; background: #CCCCCC; padding: 5px;"></i>
+											</div>
 											<?php } ?>
-										</div>
-										
-										<?php if (count($advert_pic) > 1) { ?>
-										<div style="position: absolute; top: 200px; left: 0px;">
-											<i class="fa icon-arrow-left cursor" style="font-size: 22px; background: #CCCCCC; padding: 5px;"></i>
-										</div>
-										<div style="position: absolute; top: 200px; right: 0px;">
-											<i class="fa icon-arrow-right cursor" style="font-size: 22px; background: #CCCCCC; padding: 5px;"></i>
-										</div>
 										<?php } ?>
 										
 										<p>

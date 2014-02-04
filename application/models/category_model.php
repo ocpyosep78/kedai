@@ -4,7 +4,7 @@ class Category_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'name', 'alias' );
+        $this->field = array( 'id', 'name', 'alias', 'thumbnail' );
     }
 
     function update($param) {
@@ -91,6 +91,12 @@ class Category_model extends CI_Model {
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
 		$row['category_link'] = base_url($row['alias']);
+		
+		// thumbnail
+		$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail'];
+		if (!empty($row['thumbnail']) && file_exists($file_path)) {
+			$row['thumbnail_link'] = base_url('static/upload/'.$row['thumbnail']);
+		}
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

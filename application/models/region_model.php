@@ -4,7 +4,7 @@ class Region_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'name' );
+        $this->field = array( 'id', 'name', 'alias' );
     }
 
     function update($param) {
@@ -34,6 +34,8 @@ class Region_model extends CI_Model {
        
         if (isset($param['id'])) {
             $select_query  = "SELECT * FROM ".REGION." WHERE id = '".$param['id']."' LIMIT 1";
+        } else if (isset($param['alias'])) {
+            $select_query  = "SELECT * FROM ".REGION." WHERE alias = '".$param['alias']."' LIMIT 1";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -88,6 +90,7 @@ class Region_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		$row['region_link'] = base_url($row['alias']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

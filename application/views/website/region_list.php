@@ -1,4 +1,8 @@
 <?php
+	/*	start up data */
+	$_POST['region_id'] = $region['id'];
+	/*	end start up data */
+	
 	/* region form */
 	
 	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
@@ -15,8 +19,8 @@
 	$array_limit = $this->Advert_model->get_array_limit();
 	$array_condition = $this->Condition_model->get_array();
 	$array_advert_type = $this->Advert_Type_model->get_array();
-	$array_price_min = $this->Category_Price_model->get_array(array( 'category_sub_id' => $category_sub['id'], 'price_type' => 1 ));
-	$array_price_max = $this->Category_Price_model->get_array(array( 'category_sub_id' => $category_sub['id'], 'price_type' => 2 ));
+	$array_price_min = $this->Category_Price_model->get_array(array( 'category_sub_id' => 0, 'price_type' => 1 ));
+	$array_price_max = $this->Category_Price_model->get_array(array( 'category_sub_id' => 0, 'price_type' => 2 ));
 	
 	/* end region form */
 	
@@ -50,8 +54,7 @@
 	
 	// build breadcrumb
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
-	$param_breadcrumb['title_list'][] = array( 'link' => $category['category_link'], 'title' => $category['name'] );
-	$param_breadcrumb['title_list'][] = array( 'link' => $category_sub['category_sub_link'], 'title' => $category_sub['name'] );
+	$param_breadcrumb['title_list'][] = array( 'link' => $region['region_link'], 'title' => $region['name'] );
 	
 	// advert list
 	$param_advert_view['array_advert'] = $array_advert;
@@ -83,7 +86,7 @@
 								</div>
 								<div class="limit">
 									<select name="region_id" class="form_change">
-										<?php echo ShowOption(array( 'Array' => $array_region, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All Region', 'Selected' => $region_id )); ?>
+										<option value="<?php echo $region['id']; ?>"><?php echo $region['name']; ?></option>
 									</select>
 								</div>
 							</div>

@@ -2,6 +2,9 @@
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
+	<div class="hide">
+		<iframe name="iframe_thumbnail" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail'); ?>"></iframe>
+	</div>
 	
 	<div class="modal fade" id="modal-category">
 		<div class="modal-dialog">
@@ -24,6 +27,20 @@
 								<div class="form-group">
 									<label>Alias</label>
 									<input type="text" class="form-control" name="alias" data-required="true" readonly="readonly" />
+								</div>
+								<div class="form-group">
+									<label>Thumbnail</label>
+									<div class="clear"></div>
+									<div style="float: left; width: 85%;"><input type="text" name="thumbnail" class="form-control" placeholder="Thumbnail" /></div>
+									<div style="float: right; width: 15%; text-align: right;"><button type="button" class="btn btn-default browse-thumbnail">Select</button></div>
+									<!--
+									<div class="col-lg-7">
+										<input type="text" name="thumbnail" class="form-control" placeholder="Thumbnail" />
+									</div>
+									<div class="col-lg-3">
+										<button type="button" class="btn btn-default browse-thumbnail">Select</button>
+									</div>
+									-->
 								</div>
 							</div>
 						</section>
@@ -145,6 +162,12 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	// upload
+	$('.browse-thumbnail').click(function() { window.iframe_thumbnail.browse() });
+	set_thumbnail = function(p) {
+		$('#modal-category [name="thumbnail"]').val(p.file_name);
+	}
 });
 </script>
 

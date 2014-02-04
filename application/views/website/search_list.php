@@ -1,4 +1,11 @@
 <?php
+	/*	start up data */
+	preg_match('/search\/([a-z0-9\-]+)/', $_SERVER['REQUEST_URI'], $match);
+	$temp = (!empty($match[1])) ? $match[1] : '';
+	$temp = preg_replace('/-/i', ' ', $temp);
+	$_POST['namelike'] = $temp;
+	/*	end start up data */
+	
 	/* region form */
 	
 	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
@@ -15,8 +22,8 @@
 	$array_limit = $this->Advert_model->get_array_limit();
 	$array_condition = $this->Condition_model->get_array();
 	$array_advert_type = $this->Advert_Type_model->get_array();
-	$array_price_min = $this->Category_Price_model->get_array(array( 'category_sub_id' => $category_sub['id'], 'price_type' => 1 ));
-	$array_price_max = $this->Category_Price_model->get_array(array( 'category_sub_id' => $category_sub['id'], 'price_type' => 2 ));
+	$array_price_min = $this->Category_Price_model->get_array(array( 'category_sub_id' => 0, 'price_type' => 1 ));
+	$array_price_max = $this->Category_Price_model->get_array(array( 'category_sub_id' => 0, 'price_type' => 2 ));
 	
 	/* end region form */
 	
@@ -50,8 +57,8 @@
 	
 	// build breadcrumb
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
-	$param_breadcrumb['title_list'][] = array( 'link' => $category['category_link'], 'title' => $category['name'] );
-	$param_breadcrumb['title_list'][] = array( 'link' => $category_sub['category_sub_link'], 'title' => $category_sub['name'] );
+	$param_breadcrumb['title_list'][] = array( 'link' => '#', 'title' => 'Search' );
+	$param_breadcrumb['title_list'][] = array( 'link' => base_url($namelike), 'title' => ucwords($namelike) );
 	
 	// advert list
 	$param_advert_view['array_advert'] = $array_advert;
@@ -113,6 +120,7 @@
 					
 					<div class="hidden">
 						<form id="form-hidden" method="post">
+							<input type="hidden" name="is_search_page" value="1" />
 							<input type="hidden" name="namelike" value="<?php echo $namelike; ?>" />
 							<input type="hidden" name="city_id" value="<?php echo $city_id; ?>" />
 							<input type="hidden" name="region_id" value="<?php echo $region_id; ?>" />

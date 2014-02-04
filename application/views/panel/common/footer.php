@@ -29,7 +29,7 @@
 	<script src="<?php echo base_url('static/js/libs/backbone-min.js'); ?>"></script>
 	<script src="<?php echo base_url('static/js/libs/backbone.localStorage-min.js'); ?>"></script>  
 	<script src="<?php echo base_url('static/js/libs/moment.min.js'); ?>"></script>
-	<script src="<?php echo base_url('static/js/apps/notes.js'); ?>"></script>
+	
 	<!-- end note -->
 	
 	<script src="<?php echo base_url('static/js/common.js'); ?>"></script>

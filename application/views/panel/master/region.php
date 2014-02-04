@@ -21,6 +21,10 @@
 									<label>Title</label>
 									<input type="text" class="form-control" name="name" data-required="true" />
 								</div>
+								<div class="form-group">
+									<label>Alias</label>
+									<input type="text" class="form-control" name="alias" data-required="true" readonly="readonly" />
+								</div>
 							</div>
 						</section>
 					</div>
@@ -65,8 +69,9 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="50%">Title</th>
-										<th width="50%">&nbsp;</th>
+										<th width="40%">Title</th>
+										<th width="40%">Alias</th>
+										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -88,15 +93,14 @@ $(document).ready(function() {
 	var param = {
 		id: 'datatable',
 		source: web.base + 'panel/master/region/grid',
-		column: [ { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
 				Func.ajax({ url: web.base + 'panel/master/region/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					$('#modal-region [name="id"]').val(result.id);
-					$('#modal-region [name="name"]').val(result.name);
+					Func.populate({ cnt: '#modal-region', record: result });
 					$('#modal-region').modal();
 				} });
 			});
@@ -116,6 +120,10 @@ $(document).ready(function() {
 	
 	// form
 	var form = $('#modal-region form').parsley();
+	$('#modal-region [name="name"]').keyup(function() {
+		var value = Func.GetName($(this).val());
+		$('#modal-region [name="alias"]').val(value);
+	});
 	$('.show-dialog').click(function() {
 		$('#modal-region').modal();
 		$('#modal-region form')[0].reset();
@@ -128,18 +136,14 @@ $(document).ready(function() {
 		}
 		
 		var param = Site.Form.GetValue('modal-region form');
-		Func.ajax({ url: web.base + 'panel/master/region/action', param: param, callback: function(result) {
-			if (result.status == 1) {
+		Func.update({
+			param: param,
+			link: web.base + 'panel/master/region/action',
+			callback: function() {
 				dt.reload();
 				$('#modal-region').modal('hide');
-				$.notify(result.message, "success");
-				$('#modal-region form')[0].reset();
-			} else {
-				$.notify(result.message, "error");
 			}
-		} });
-		
-		return false;
+		});
 	});
 });
 </script>

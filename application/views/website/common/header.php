@@ -1,12 +1,13 @@
 <?php
 	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
+	$array_category = $this->Category_model->get_array();
 ?>
 <header id="header">
 	<section id="topbar">
 		<div class="container">
 			<div class="navbar-header pull-left hidden-xs hidden-sm">
 				<div class="clearfix">
-					<div class="login links">SHOPER MARKET - The large market online</div>
+					<div class="login links"><?php echo WEBSITE_TITLE.' - '.WEBSITE_DESC; ?></div>
 				</div>
 			</div>
 			
@@ -24,7 +25,8 @@
 				<div class="pull-right right"></div>
 				<div class="pull-right left">
 					<ul class="links hidden-xs hidden-sm hidden-md">
-						<li class="last first"><i class="icon-skype">&nbsp;</i>Welcome Sign in or Register</li>
+						<li><a href="<?php echo base_url('login'); ?>">Sign in</a></li>
+						<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
 					</ul>
 				</div>
 			</div>
@@ -35,8 +37,8 @@
 		<div class="container">
 			<div class="header-wrap">
 				<div class="pull-left inner"><div id="logo">
-					<a href="http://shopermarket.com/">
-						<img src="<?php echo base_url('static/theme/shoper/img/logo.png'); ?>" title="shopermarket Mega Shop" alt="shopermarket Mega Shop">
+					<a href="<?php echo base_url(); ?>">
+						<img src="<?php echo base_url('static/theme/shoper/img/logo.png'); ?>" title="<?php echo WEBSITE_TITLE; ?>" alt="<?php echo WEBSITE_TITLE; ?>">
 					</a>
 				</div></div>
 				
@@ -52,7 +54,7 @@
 								<div class="collapse navbar-collapse navbar-ex1-collapse">
 									<ul class="nav navbar-nav megamenu">
 										<li class="home first">
-											<a href="http://shopermarket.com/"><span class="menu-title">Home</span></a>
+											<a href="<?php echo base_url(); ?>"><span class="menu-title">Home</span></a>
 										</li>
 										<li class="parent dropdown pav-parrent"></li>
 										<li class="">
@@ -90,62 +92,33 @@
 						</div>
 						<div class="menu-content d-content"><div class="pav-verticalmenu"><div class="navbar navbar-default"><div id="mainmenutop" class="verticalmenu" role="navigation"><div class="navbar-header"><div class="collapse navbar-collapse navbar-ex1-collapse">
 							<ul class="nav navbar-nav verticalmenu">
-																<li class="parent dropdown pav-parrent">
-									<a href="http://shopermarket.com/appliances" class="dropdown-toggle" data-toggle="dropdown"><span class="menu-title">Appliances</span><b class="caret"></b></a>
-									<div class="dropdown-menu" style="width:700px"><div class="dropdown-menu-inner"><div class="row">
+								<?php foreach ($array_category as $category) { ?>
+								<li class="parent dropdown pav-parrent">
+									<a href="<?php echo $category['category_link']; ?>" class="dropdown-toggle" data-toggle="dropdown"><span class="menu-title"><?php echo $category['name']; ?></span><b class="caret"></b></a>
+									<div class="dropdown-menu" style="width: 700px; min-height: 300px;"><div class="dropdown-menu-inner"><div class="row">
 										<div class="mega-col col-md-6"><div class="mega-col-inner">
 											<div class="pavo-widget" id="wid-7">
-																								<h3 class="menu-title"><a href="http://shopermarket.com/appliances/coffee-makers"><span>Coffee Makers</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/appliances/cooking"><span>Cooking</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/search/espresso"><span>Espresso</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/search/kettle"><span>Kettle</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/tag/oven"><span>Oven</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/appliances/refrigeration"><span>Refrigeration</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/search/warmer"><span>Warmer</span></a></h3>
-																							</div>
+												<?php $array_category_sub = $this->Category_Sub_model->get_array(array( 'category_id' => $category['id'] )); ?>
+												<?php foreach ($array_category_sub as $category_sub) { ?>
+												<h3 class="menu-title"><a href="<?php echo $category_sub['category_sub_link']; ?>"><span><?php echo $category_sub['name']; ?></span></a></h3>
+												<?php } ?>
+											</div>
 										</div></div>
+										<?php if (!empty($category['thumbnail_link'])) { ?>
 										<div class="mega-col col-md-6"><div class="mega-col-inner">
 											<div class="pavo-widget" id="wid-10">
-												<!-- <h3 class="menu-title"><span>Image Sub Verticalmenu</span></h3> -->
-																								<div class="widget-image">
+												<div class="widget-image">
 													<div class="widget-inner clearfix">
-														<div><img src="<?php echo base_url('static/temp/20131202_023329_3361.png'); ?>" alt="" title=""></div>
+														<div><img src="<?php echo $category['thumbnail_link']; ?>" alt="<?php echo $category['name']; ?>" title="<?php echo $category['name']; ?>"></div>
 													</div>
 												</div>
-																							</div>
+											</div>
 										</div></div>
+										<?php } ?>
 									</div></div></div>
 								</li>
-																<li class="parent dropdown pav-parrent">
-									<a href="http://shopermarket.com/cameras-camcorders" class="dropdown-toggle" data-toggle="dropdown"><span class="menu-title">Cameras &amp; Camcorders</span><b class="caret"></b></a>
-									<div class="dropdown-menu" style="width:700px"><div class="dropdown-menu-inner"><div class="row">
-										<div class="mega-col col-md-6"><div class="mega-col-inner">
-											<div class="pavo-widget" id="wid-7">
-																								<h3 class="menu-title"><a href="http://shopermarket.com/cameras-camcorders/camcorders"><span>Camcorders</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/cameras-camcorders/camera-lenses"><span>Camera Lenses</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/cameras-camcorders/camera-lenses"><span>Camera Lenses</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/cameras-camcorders/compact-system-cameras"><span>Compact System Cameras</span></a></h3>
-																								<h3 class="menu-title"><a href="http://shopermarket.com/cameras-camcorders/digital-slr-cameras"><span>Digital SLR Cameras</span></a></h3>
-																							</div>
-										</div></div>
-										<div class="mega-col col-md-6"><div class="mega-col-inner">
-											<div class="pavo-widget" id="wid-10">
-												<!-- <h3 class="menu-title"><span>Image Sub Verticalmenu</span></h3> -->
-																								<div class="widget-image">
-													<div class="widget-inner clearfix">
-														<div><img src="<?php echo base_url('static/temp/20131219_204241_2556.png'); ?>" alt="" title=""></div>
-													</div>
-												</div>
-																							</div>
-										</div></div>
-									</div></div></div>
-								</li>
-																 
-																 
-															 
-															 
-																 
-															</ul>
+								<?php } ?>
+							</ul>
 						</div></div></div></div></div></div>
 					</div>
 				</div>
@@ -157,8 +130,10 @@
 				</div>
 				<div class="col-lg-2 col-sm-6 col-md-3 col-xs-12">
 					<div class="cart-top"><div id="cart" class="clearfix"><div class="heading">
-						<i class="fa icon-shopping-cart"></i>
+						<div style="margin-top:-4px;margin-left:-16px;"><button type="submit" class="button btn-submit">Search</button></div>
 						<!--
+						<i class="fa icon-shopping-cart"></i>
+						
 						<div class="cart-inner">
 							<h4>Shdasdas Cart</h4>
 							<a><span id="cart-total">0 item(s) - $0.00</span></a>
@@ -181,22 +156,29 @@
 	// mobile
 	$('#search_mobile .icon-search').click(function() {
 		var value = $('#search_mobile [name="search"]').val();
-		if ($('#form-hidden').length == 1) {
+		var is_search_page = ($('#form-hidden [name="is_search_page"]').length == 1) ? $('#form-hidden [name="is_search_page"]').val() : 0;
+		
+		if (is_search_page == 0 && $('#form-hidden').length == 1) {
 			$('#form-hidden [name="namelike"]').val(value);
 			$('#form-hidden').submit();
 		} else {
-			window.location = web.base + '/search/' + Func.GetName(value);
+			window.location = web.base + 'search/' + Func.GetName(value);
 		}
 	});
 	
 	// website
 	$('#search .icon-search').click(function() {
 		var value = $('#search [name="search"]').val();
-		if ($('#form-hidden').length == 1) {
+		var is_search_page = ($('#form-hidden [name="is_search_page"]').length == 1) ? $('#form-hidden [name="is_search_page"]').val() : 0;
+		
+		if (is_search_page == 0 && $('#form-hidden').length == 1) {
 			$('#form-hidden [name="namelike"]').val(value);
 			$('#form-hidden').submit();
 		} else {
-			window.location = web.base + '/search/' + Func.GetName(value);
+			window.location = web.base + 'search/' + Func.GetName(value);
 		}
+	});
+	$('.btn-submit').click(function() {
+		$('#search .icon-search').click();
 	});
 </script>

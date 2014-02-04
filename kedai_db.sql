@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2014 at 04:19 PM
+-- Generation Time: Feb 04, 2014 at 03:20 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS `advert` (
 --
 
 INSERT INTO `advert` (`id`, `user_id`, `city_id`, `condition_id`, `advert_type_id`, `advert_status_id`, `category_sub_id`, `name`, `code`, `content`, `address`, `price`, `negotiable`, `metadata`, `thumbnail`, `post_time`, `sold_time`, `is_delete`) VALUES
-(1, 2, 5, 0, 1, 2, 10, 'Name 1', 'XXXX', 'Ad Desc (statis)', 'Address (statis)', 125000, 1, '{"vehicle_brand_id":"2","vehicle_type_id":"5"}', '2014/02/03/20140203_093955_3605.jpg', '2014-02-03 11:45:13', '0000-00-00 00:00:00', 0),
-(2, 2, 4, 2, 2, 2, 8, 'Name 2 - Title Ad', 'YYYY', 'Hello World', 'Kota Malang', 15000, 1, '[]', '2014/02/03/20140203_101843_4166.jpg', '2014-02-03 10:18:44', '0000-00-00 00:00:00', 0);
+(1, 2, 5, 0, 1, 3, 10, 'Name 1', 'XXXX', 'Ad Desc (statis)', 'Address (statis)', 125000, 1, '{"vehicle_brand_id":"2","vehicle_type_id":"5"}', '2014/02/03/20140203_093955_3605.jpg', '2014-02-04 11:03:02', '0000-00-00 00:00:00', 0),
+(2, 2, 4, 2, 2, 3, 8, 'Name 2 - Title Ad', 'YYYY', 'Hello World', 'Kota Malang', 15000, 1, '[]', '2014/02/03/20140203_101843_4166.jpg', '2014-02-03 10:18:44', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -76,10 +76,7 @@ CREATE TABLE IF NOT EXISTS `advert_pic` (
 --
 
 INSERT INTO `advert_pic` (`id`, `advert_id`, `thumbnail`) VALUES
-(76, 2, '2014/02/03/20140203_101843_4166.jpg'),
-(82, 1, '2014/02/03/20140203_093957_6600.jpg'),
-(81, 1, '2014/02/03/20140203_093955_3605.jpg'),
-(80, 1, '2014/02/03/20140203_093953_5353.jpg');
+(76, 2, '2014/02/03/20140203_101843_4166.jpg');
 
 -- --------------------------------------------------------
 
@@ -186,16 +183,19 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alias` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `thumbnail` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `alias`, `name`) VALUES
-(12, 'z-property', 'Z Property'),
-(11, 'vehicles', 'Vehicles');
+INSERT INTO `category` (`id`, `alias`, `name`, `thumbnail`) VALUES
+(12, 'property', 'Property', ''),
+(11, 'vehicles', 'Vehicles', ''),
+(14, 'appliance', 'Appliance', '2014/02/04/20140204_115744_7328.png'),
+(15, 'camera-camcoder', 'Camera & Camcoder', '2014/02/04/20140204_115750_2058.png');
 
 -- --------------------------------------------------------
 
@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `category_sub` (
   `name` varchar(150) NOT NULL,
   `link_override` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `category_sub`
@@ -281,7 +281,17 @@ INSERT INTO `category_sub` (`id`, `category_id`, `alias`, `name`, `link_override
 (7, 11, 'audio-mobil', 'Audio Mobil', ''),
 (6, 11, 'aksesoris-mobil', 'Aksesoris Mobil', ''),
 (9, 11, 'velg-ban', 'Velg & Ban', ''),
-(10, 11, 'mobil-bekas', 'Mobil Bekas', '');
+(10, 11, 'mobil-bekas', 'Mobil Bekas', ''),
+(12, 14, 'coffee-maker', 'Coffee Maker', ''),
+(13, 14, 'cooking', 'Cooking', ''),
+(14, 14, 'oven', 'Oven', ''),
+(15, 14, 'espresso', 'Espresso', ''),
+(16, 14, 'warmer', 'Warmer', ''),
+(17, 14, 'refrigeration', 'Refrigeration', ''),
+(18, 15, 'camera', 'Camera', ''),
+(19, 15, 'camcoder', 'Camcoder', ''),
+(20, 15, 'camera-lense', 'Camera Lense', ''),
+(21, 15, 'digitar-slr-camera', 'Digitar SLR Camera', '');
 
 -- --------------------------------------------------------
 
@@ -392,18 +402,30 @@ CREATE TABLE IF NOT EXISTS `page_static` (
 
 CREATE TABLE IF NOT EXISTS `region` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alias` varchar(75) NOT NULL,
   `name` varchar(75) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `region`
 --
 
-INSERT INTO `region` (`id`, `name`) VALUES
-(4, 'Johor'),
-(5, 'Serawak'),
-(6, 'Sabah');
+INSERT INTO `region` (`id`, `alias`, `name`) VALUES
+(4, 'johor', 'Johor'),
+(5, 'serawak', 'Serawak'),
+(6, 'sabah', 'Sabah'),
+(8, 'kedah', 'Kedah'),
+(9, 'kelantan', 'Kelantan'),
+(10, 'kuala-lumpur', 'Kuala Lumpur'),
+(11, 'melaka', 'Melaka'),
+(12, 'n-sembilan', 'N. Sembilan'),
+(13, 'pahang', 'Pahang'),
+(14, 'penang', 'Penang'),
+(15, 'perak', 'Perak'),
+(16, 'perlis', 'Perlis'),
+(17, 'selangor', 'Selangor'),
+(18, 'terengganu', 'Terengganu');
 
 -- --------------------------------------------------------
 
@@ -495,14 +517,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_active` int(11) NOT NULL,
   `is_delete` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `user_type_id`, `email`, `alias`, `first_name`, `last_name`, `passwd`, `address`, `phone`, `bb_pin`, `advert_count`, `register_date`, `membership_date`, `reset_key`, `verify_profile`, `verify_email`, `verify_address`, `thumbnail_profile`, `thumbnail_banner`, `ic_number`, `is_ic_number`, `is_active`, `is_delete`) VALUES
-(2, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', '-', '', '', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 0, '', '', '', 0, 1, 0);
+(2, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', '-', '', '', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 0, '', '', '', 0, 1, 0),
+(4, 3, 'a-ngxIfZqnSzfzybdnfnjW7ctsqXHZ61a6d7TLZrmX0', 'heeelo', 'aksjdh', 'aksjdhad', 'e5558b3522fbd91b918c3af5b45fed9b', '', '02154', '', 0, '2014-02-04 14:51:10', '0000-00-00', '', 0, 1, 0, '', '', '', 0, 1, 0);
 
 -- --------------------------------------------------------
 

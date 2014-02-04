@@ -30,7 +30,7 @@
 									<input type="password" name="passwd" placeholder="Password" value="" />
 								</label>
 							</section>
-						</fieldset	>
+						</fieldset>
 						<br/><br/>
 						
 						<footer>

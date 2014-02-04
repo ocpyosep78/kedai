@@ -67,6 +67,16 @@ class Category_Price_model extends CI_Model {
 			$array[] = $this->sync($row, $param);
 		}
 		
+		if (count($array) == 0 && $param['price_type'] == 1) {
+			foreach (array(100000, 500000, 1000000, 5000000, 10000000, 50000000) as $key => $value) {
+				$array[] = array( 'id' => $key + 1, 'category_sub_id' => 0, 'price_type' => 1, 'price' => $value, 'price_text' => MoneyFormat($value) );
+			}
+		} else if (count($array) == 0 && $param['price_type'] == 2) {
+			foreach (array(500000, 1000000, 5000000, 10000000, 50000000, 100000000) as $key => $value) {
+				$array[] = array( 'id' => $key + 1, 'category_sub_id' => 0, 'price_type' => 1, 'price' => $value, 'price_text' => MoneyFormat($value) );
+			}
+		}
+		
         return $array;
     }
 

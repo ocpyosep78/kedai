@@ -24,7 +24,10 @@ if ($is_website) {
 	$route['login/(:any)'] = "website/login";
 	$route['register'] = "website/register";
 	$route['register/(:any)'] = "website/register";
+	$route['validation/(:any)'] = "website/validation";
+	$route['search/(:any)'] = "website/search";
 	$route['advert/(:any)'] = "website/advert";
+	$route['(:any)'] = "website/selector";
 	$route['(:any)/(:any)'] = "website/selector";
 } else if ($is_panel) {
 	$route['panel'] = "panel/home";
