@@ -213,11 +213,27 @@
 		);
 	});
 	
-	// add notes
+	// add notes or message
 	function addMsg($msg){
-		var $el = $('.nav-user'), $n = $('.count:first', $el), $v = parseInt($n.text());
-		$('.count', $el).fadeOut().fadeIn().text($v+1);
-		$($msg).hide().prependTo($el.find('.list-group')).slideDown().css('display','block');
+		Func.ajax({ url: web.base + 'panel/home/action', param: { action: 'get_notify' }, callback: function(result) {
+			var $el = $('.nav-user'), $n = $('.count:first', $el), $v = parseInt($n.text());
+			if (result.count > 0) {
+				// set count message
+				$('.count', $el).fadeOut().fadeIn().text(result.count);
+				
+				// set info message
+				var message = '';
+				for (var i = 0; i < result.array_user_contact.length; i++) {
+					var template = '';
+					template += '<a href="' + web.base + 'panel/message" class="media list-group-item">';
+					template += '<span class="pull-left thumb-sm text-center"><i class="fa fa-envelope-o fa-2x text-success"></i></span>';
+					template += '<span class="media-body block m-b-none">' + result.array_user_contact[i].name + ' sent you a email<br><small class="text-muted">' + result.array_user_contact[i].post_time_text + '</small></span>';
+					template += '</a>';
+					message += template;
+				}
+				$(message).hide().prependTo($el.find('.list-group')).slideDown().css('display','block');
+			}
+		} });
 	}
 	var $msg = '<a href="#" class="media list-group-item">'+
                   '<span class="pull-left thumb-sm text-center">'+

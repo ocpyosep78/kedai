@@ -33,7 +33,16 @@ class User_Contact_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".USER_CONTACT." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT UserContact.*,
+					UserSender.thumbnail_profile sender_thumbnail_profile,
+					Advert.id adver_id
+				FROM ".USER_CONTACT." UserContact
+				LEFT JOIN ".USER." UserSender ON UserSender.id = UserContact.sender_id
+				LEFT JOIN ".ADVERT." Advert ON Advert.id = UserContact.advert_id
+				WHERE UserContact.id = '".$param['id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -47,20 +56,21 @@ class User_Contact_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND UserContact.name LIKE '%".$param['namelike']."%'" : '';
+		$string_namelike = (!empty($param['namelike'])) ? "AND UserContact.title LIKE '%".$param['namelike']."%'" : '';
 		$string_user = (!empty($param['user_id'])) ? "AND UserContact.user_id = '".$param['user_id']."'" : '';
+		$string_is_read = (isset($param['is_read'])) ? "AND UserContact.is_read = '".$param['is_read']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'post_time DESC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS UserContact.*,
-				UserSender.first_name sender_first_name, UserSender.last_name sender_last_name, UserSender.thumbnail_profile sender_thumbnail_profile,
+				UserSender.thumbnail_profile sender_thumbnail_profile,
 				Advert.id adver_id
 			FROM ".USER_CONTACT." UserContact
 			LEFT JOIN ".USER." UserSender ON UserSender.id = UserContact.sender_id
 			LEFT JOIN ".ADVERT." Advert ON Advert.id = UserContact.advert_id
-			WHERE 1 $string_namelike $string_user $string_filter
+			WHERE 1 $string_namelike $string_user $string_is_read $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -80,6 +90,23 @@ class User_Contact_model extends CI_Model {
 		
 		return $TotalRecord;
     }
+	
+	function get_unread_count($param = array()) {
+		$result = 0;
+		$select_query = "
+			SELECT COUNT(*) record_count
+			FROM ".USER_CONTACT." UserContact
+			WHERE
+				user_id = '".$param['user_id']."'
+				AND is_read = '0'
+		";
+        $select_result = mysql_query($select_query) or die(mysql_error());
+		if ( $row = mysql_fetch_assoc( $select_result ) ) {
+			$result = $row['record_count'];
+		}
+		
+		return $result;
+	}
 	
     function delete($param) {
 		$delete_query  = "DELETE FROM ".USER_CONTACT." WHERE id = '".$param['id']."' LIMIT 1";
@@ -103,7 +130,6 @@ class User_Contact_model extends CI_Model {
 		
 		// label
 		$row['post_time_text'] = show_time_diff($row['post_time']);
-		$row['sender_full_name'] = $row['sender_first_name'].' '.$row['sender_last_name'];
 		
 		// decript email
 		if (isset($row['sender_email'])) {

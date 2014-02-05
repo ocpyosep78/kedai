@@ -1,3 +1,7 @@
+<?php
+	$user = $this->User_model->get_session();
+	$count = $this->User_Contact_model->get_unread_count(array( 'user_id' => $user['id'] ));
+?>
 <aside class="bg-dark lter aside-md hidden-print" id="nav">
 	<section class="vbox">
 		<header class="header bg-primary lter text-center clearfix">
@@ -37,7 +41,9 @@
 						</li>
 						<li>
 							<a href="<?php echo base_url('panel/message'); ?>">
-								<b class="badge bg-danger pull-right">3</b>
+								<?php if ($count > 0) { ?>
+								<b class="badge bg-danger pull-right"><?php echo $count; ?></b>
+								<?php } ?>
 								<i class="fa fa-envelope-o icon"><b class="bg-primary dker"></b></i>
 								<span>Message</span>
 							</a>

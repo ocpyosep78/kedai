@@ -451,6 +451,7 @@ var Func = {
 	},
 	ajax: function(p) {
 		p.is_json = (p.is_json == null) ? 1 : p.is_json;
+		p.callback = (p.callback == null) ? function() {} : p.callback;
 		
 		$.ajax({ type: 'POST', url: p.url, data: p.param, success: function(data) {
 			if (p.is_json == 1) {

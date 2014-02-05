@@ -1,3 +1,5 @@
+<?php
+?>
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">

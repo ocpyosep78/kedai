@@ -193,7 +193,7 @@
 								<br />
 								
 								<label>Title</label>
-								<div class="kir"><input type="text" name="title" /></div>
+								<div class="kir"><input type="text" name="title" style="width: 75%;" /></div>
 								<br />
 								
 								<label>Pesan Anda</label>

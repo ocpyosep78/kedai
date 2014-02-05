@@ -40,6 +40,10 @@ class home extends CI_Controller {
 				$this->User_model->update($param);
 				/*	*/
 			}
+		} else if ($action == 'get_notify') {
+			$user = $this->User_model->get_session();
+			$result['count'] = $this->User_Contact_model->get_unread_count(array( 'user_id' => $user['id'] ));
+			$result['array_user_contact'] = $this->User_Contact_model->get_array(array( 'user_id' => $user['id'], 'is_read' => 0, 'limit' => 5 ));
 		}
 		
 		echo json_encode($result);
