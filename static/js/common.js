@@ -586,11 +586,10 @@ var Func = {
 		}
 	},
 	update: function(p) {
-		
 		Func.ajax({ url: p.link, param: p.param, callback: function(result) {
 			if (result.status == 1) {
 				if (typeof(p.callback) != 'undefined') {
-					p.callback();
+					p.callback(result);
 				}
 				
 				$.notify(result.message, "success");

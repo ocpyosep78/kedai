@@ -1,6 +1,7 @@
 <?php
 	$user = $this->User_model->get_session();
 	$user = $this->User_model->get_by_id(array( 'id' => $user['id'] ));
+	$array_user_log = $this->User_Log_model->get_array(array( 'user_id' => $user['id'], 'limit' => 3 ));
 ?>
 <header class="bg-dark dk header navbar navbar-fixed-top-xs">
 	<div class="navbar-header aside-md">
@@ -20,7 +21,7 @@
 				<span class="font-bold">Activity</span>
 			</a>
 			
-			<section class="dropdown-menu aside-xl on animated fadeInLeft no-borders lt">
+			<section class="dropdown-menu aside-xxl on animated fadeInLeft no-borders lt">
 				<div class="wrapper lter m-t-n-xs">
 					<a href="#" class="thumb pull-left m-r">
 						<img src="<?php echo $user['thumbnail_profile_link']; ?>" class="img-circle">
@@ -34,9 +35,10 @@
 				<div class="row m-l-none m-r-none m-b-n-xs">
 					<div class="col-xs">
 						<div style="padding:5px;">
-							<p>Last Login : 192.168.0.0</p>
-							<p>Hari login : Sunday</p>
-							<p>Last Login :</p>
+							<?php foreach ($array_user_log as $key => $row) { ?>
+							<?php $counter = $key + 1; ?>
+							<p><?php echo 'Last Login #'.$counter.' : '.$row['ip_remote'].' - '.$row['location'].' - '.$row['log_time_text']; ?></p>
+							<?php } ?>
 						</div>
 					</div>
 				</div>

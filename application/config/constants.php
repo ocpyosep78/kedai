@@ -25,6 +25,9 @@ define('ADVERT_STATUS_RE_REVIEW',				2);
 define('ADVERT_STATUS_APPROVE',					3);
 define('ADVERT_STATUS_REJECT',					4);
 
+/*	VERIFY ADDRESS */
+define('VERIFY_ADDRESS_MAX',					5);
+
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
 define('ADVERT_STATUS',							'advert_status');
@@ -36,6 +39,7 @@ define('CATEGORY_INPUT',						'category_input');
 define('CATEGORY_PRICE',						'category_price');
 define('CATEGORY_SUB',							'category_sub');
 define('CITY',									'city');
+define('CITY_IP',								'city_ip');
 define('CONDITION',								'condition');
 define('INPUT_TYPE',							'input_type');
 define('MEMBERSHIP',							'membership');

@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 3.2.4
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Feb 04, 2014 at 08:28 PM
--- Server version: 5.1.41
--- PHP Version: 5.3.1
+-- Host: 127.0.0.1
+-- Generation Time: Feb 06, 2014 at 03:31 PM
+-- Server version: 5.5.32
+-- PHP Version: 5.4.19
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -18,6 +19,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Database: `kedai_db`
 --
+CREATE DATABASE IF NOT EXISTS `kedai_db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `kedai_db`;
 
 -- --------------------------------------------------------
 
@@ -315,6 +318,27 @@ INSERT INTO `city` (`id`, `region_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `city_ip`
+--
+
+CREATE TABLE IF NOT EXISTS `city_ip` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(50) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `city_ip`
+--
+
+INSERT INTO `city_ip` (`id`, `ip`, `name`, `content`) VALUES
+(1, '', '', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `condition`
 --
 
@@ -391,11 +415,6 @@ CREATE TABLE IF NOT EXISTS `page_static` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
---
--- Dumping data for table `page_static`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -445,11 +464,6 @@ CREATE TABLE IF NOT EXISTS `report` (
   `post_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `report`
---
-
 
 -- --------------------------------------------------------
 
@@ -501,6 +515,7 @@ INSERT INTO `tag` (`id`, `name`, `alias`) VALUES
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `city_id` int(11) NOT NULL,
   `user_type_id` int(11) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `alias` varchar(50) NOT NULL,
@@ -510,6 +525,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `address` varchar(255) DEFAULT NULL,
   `phone` varchar(50) NOT NULL,
   `bb_pin` varchar(50) NOT NULL,
+  `postal_code` varchar(10) NOT NULL,
+  `user_about` varchar(255) NOT NULL,
+  `user_info` varchar(255) NOT NULL,
   `advert_count` int(11) NOT NULL,
   `register_date` datetime NOT NULL,
   `membership_date` date NOT NULL,
@@ -524,15 +542,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_active` int(11) NOT NULL,
   `is_delete` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `user_type_id`, `email`, `alias`, `first_name`, `last_name`, `passwd`, `address`, `phone`, `bb_pin`, `advert_count`, `register_date`, `membership_date`, `reset_key`, `verify_profile`, `verify_email`, `verify_address`, `thumbnail_profile`, `thumbnail_banner`, `ic_number`, `is_ic_number`, `is_active`, `is_delete`) VALUES
-(2, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', '-', '', '', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 0, '', '', '', 0, 1, 0),
-(4, 3, 'a-ngxIfZqnSzfzybdnfnjW7ctsqXHZ61a6d7TLZrmX0', 'heeelo', 'aksjdh', 'aksjdhad', 'e5558b3522fbd91b918c3af5b45fed9b', '', '02154', '', 0, '2014-02-04 14:51:10', '0000-00-00', '', 0, 1, 0, '', '', '', 0, 1, 0);
+INSERT INTO `user` (`id`, `city_id`, `user_type_id`, `email`, `alias`, `first_name`, `last_name`, `passwd`, `address`, `phone`, `bb_pin`, `postal_code`, `user_about`, `user_info`, `advert_count`, `register_date`, `membership_date`, `reset_key`, `verify_profile`, `verify_email`, `verify_address`, `thumbnail_profile`, `thumbnail_banner`, `ic_number`, `is_ic_number`, `is_active`, `is_delete`) VALUES
+(2, 6, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', 'Malang', '', '', '55555', 'Artist', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 1, '', '', '', 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -553,15 +570,15 @@ CREATE TABLE IF NOT EXISTS `user_contact` (
   `is_read` int(11) NOT NULL,
   `post_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `user_contact`
 --
 
 INSERT INTO `user_contact` (`id`, `user_id`, `sender_id`, `advert_id`, `name`, `email`, `phone`, `title`, `message`, `is_read`, `post_time`) VALUES
-(1, 2, 2, 0, 'Herry Satrio', 'her0satr@yahoo.com', '08563555402', 'Ini Judulnya', 'asd ini pesannnya panjaaaaang', 0, '2014-02-03 14:50:08'),
-(3, 2, 2, 1, 'Herry Satrio', 'her0satr@yahoo.com', 'My Phone', 'Hello World', 'Isi Pesan', 0, '2014-02-04 20:05:47');
+(4, 2, 2, 1, 'Herry Satrio', 'her0satr@yahoo.com', 'Phone 02', 'Title 02', 'Pesan 02', 1, '2014-02-05 14:42:22'),
+(3, 2, 2, 1, 'Herry Satrio', 'her0satr@yahoo.com', 'Phone 01', 'Title 01', 'Pesan 01', 1, '2014-02-05 14:42:09');
 
 -- --------------------------------------------------------
 
@@ -597,14 +614,17 @@ CREATE TABLE IF NOT EXISTS `user_log` (
   `location` varchar(255) NOT NULL,
   `ip_remote` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user_log`
 --
 
 INSERT INTO `user_log` (`id`, `user_id`, `log_time`, `location`, `ip_remote`) VALUES
-(1, 0, '0000-00-00 00:00:00', '', '');
+(1, 0, '0000-00-00 00:00:00', '', ''),
+(2, 2, '2014-02-06 11:52:34', 'localhost', '::1'),
+(3, 2, '2014-02-06 11:53:36', 'localhost', '::1'),
+(4, 2, '2014-02-06 11:53:38', 'localhost', '::1');
 
 -- --------------------------------------------------------
 
@@ -641,14 +661,16 @@ CREATE TABLE IF NOT EXISTS `user_note` (
   `content` longtext NOT NULL,
   `note_update` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `user_note`
 --
 
 INSERT INTO `user_note` (`id`, `user_id`, `content`, `note_update`) VALUES
-(1, 0, '', '0000-00-00 00:00:00');
+(5, 2, 'Hello World 2 2 2\n2222 3333', '2014-02-06 09:48:39'),
+(18, 2, 'asd 2', '2014-02-06 09:48:32'),
+(17, 2, 'ssssss 2', '2014-02-06 09:46:01');
 
 -- --------------------------------------------------------
 
@@ -750,16 +772,16 @@ CREATE TABLE IF NOT EXISTS `verify_address` (
   `user_id` int(11) NOT NULL,
   `request_time` datetime NOT NULL,
   `code` varchar(50) NOT NULL,
-  `confirm` int(11) NOT NULL,
+  `status` varchar(10) NOT NULL COMMENT 'pending / deliver / confirm',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `verify_address`
 --
 
-INSERT INTO `verify_address` (`id`, `user_id`, `request_time`, `code`, `confirm`) VALUES
-(1, 0, '0000-00-00 00:00:00', '', 0);
+INSERT INTO `verify_address` (`id`, `user_id`, `request_time`, `code`, `status`) VALUES
+(2, 2, '2014-02-06 14:44:18', '8224-8873-5165', 'confirm');
 
 -- --------------------------------------------------------
 

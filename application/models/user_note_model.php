@@ -47,9 +47,9 @@ class User_Note_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND UserNote.name LIKE '%".$param['namelike']."%'" : '';
+		$string_namelike = (!empty($param['namelike'])) ? "AND UserNote.content LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'note_update DESC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
@@ -88,6 +88,17 @@ class User_Note_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		
+		// title & short content
+		$array_content = explode("\n", $row['content'], 2);
+		$row['title'] = get_length_char($array_content[0], 20, ' ...');
+		$row['title'] = (empty($row['title'])) ? 'Note Title' : $row['title'];
+		$row['content_short'] = get_length_char(trim(@$array_content[1]), 30, ' ...');
+		$row['content_short'] = (empty($row['content_short'])) ? 'Note Description' : $row['content_short'];
+		
+		// label
+		$row['note_update_date_only'] = GetFormatDate($row['note_update']);
+		$row['note_update_text'] = show_time_diff($row['note_update']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

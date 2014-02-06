@@ -10,5 +10,5 @@ $autoload['model'] = array(
 	'Advert_model', 'Advert_Pic_model', 'Advert_Tag_model', 'Advert_Status_model', 'Category_Sub_model', 'Category_Price_model', 'City_model',
 	'User_Contact_model', 'User_Log_model', 'User_Follow_model', 'Tag_model', 'Region_model', 'Membership_model', 'User_Membership_model', 'Input_Type_model',
 	'User_Setting_model', 'User_Note_model', 'Verify_Address_model', 'Widget_model', 'Condition_model', 'Vehicle_Brand_model', 'Vehicle_Type_model',
-	'Report_model', 'Report_Type_model'
+	'Report_model', 'Report_Type_model', 'City_Ip_model'
 );

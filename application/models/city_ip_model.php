@@ -1,24 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_Follow_model extends CI_Model {
+class City_Ip_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_id', 'follow_id', 'follow_time' );
+        $this->field = array( 'id', 'ip', 'name', 'content' );
     }
 
     function update($param) {
         $result = array();
        
         if (empty($param['id'])) {
-            $insert_query  = GenerateInsertQuery($this->field, $param, USER_FOLLOW);
+            $insert_query  = GenerateInsertQuery($this->field, $param, CITY_IP);
             $insert_result = mysql_query($insert_query) or die(mysql_error());
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
             $result['message'] = 'Data successfully saved.';
         } else {
-            $update_query  = GenerateUpdateQuery($this->field, $param, USER_FOLLOW);
+            $update_query  = GenerateUpdateQuery($this->field, $param, CITY_IP);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
@@ -33,8 +33,10 @@ class User_Follow_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".USER_FOLLOW." WHERE id = '".$param['id']."' LIMIT 1";
-        } 
+            $select_query  = "SELECT * FROM ".CITY_IP." WHERE id = '".$param['id']."' LIMIT 1";
+        } else if (isset($param['ip'])) {
+            $select_query  = "SELECT * FROM ".CITY_IP." WHERE ip = '".$param['ip']."' LIMIT 1";
+        }
        
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
@@ -47,14 +49,14 @@ class User_Follow_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND UserFollow.name LIKE '%".$param['namelike']."%'" : '';
+		$string_namelike = (!empty($param['namelike'])) ? "AND CityIp.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS UserFollow.*
-			FROM ".USER_FOLLOW." UserFollow
+			SELECT SQL_CALC_FOUND_ROWS CityIp.*
+			FROM ".CITY_IP." CityIp
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
@@ -76,21 +78,24 @@ class User_Follow_model extends CI_Model {
 		return $TotalRecord;
     }
 	
-    function get_detail($param = array()) {
-		$select_query = "
-			SELECT
-				(SELECT COUNT(*) FROM ".USER_FOLLOW." WHERE follow_id = '".$param['user_id']."') follower,
-				(SELECT COUNT(*) FROM ".USER_FOLLOW." WHERE user_id = '".$param['user_id']."') following,
-				(SELECT COUNT(*) FROM ".ADVERT." WHERE user_id = '".$param['user_id']."') advert
-		";
-		$select_result = mysql_query($select_query) or die(mysql_error());
-		$result = mysql_fetch_assoc($select_result);
+	function get_location($param = array()) {
+		if ($param['ip'] == '::1') {
+			return 'localhost';
+		}
 		
-		return $result;
-    }
+		echo 'later';
+		exit;
+		$this->get_by_id(array( 'ip' => $param['ip'] ));
+		
+/*	
+$ip = $_SERVER['REMOTE_ADDR'];
+$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
+echo $details->city; // -> "Mountain View"
+/*	*/
+	}
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".USER_FOLLOW." WHERE id = '".$param['id']."' LIMIT 1";
+		$delete_query  = "DELETE FROM ".CITY_IP." WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';

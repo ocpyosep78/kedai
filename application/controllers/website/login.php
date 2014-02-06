@@ -20,26 +20,9 @@ class login extends CI_Controller {
 		
 		$result = array();
 		if ($action == 'login') {
-			$user = $this->User_model->get_by_id(array( 'email' => $_POST['email'], 'with_passwd' => true ));
-			
-			$result = array( 'status' => false );
-			if (count($user) == 0) {
-				$result['message'] = 'Sorry, Email cannot be found.';
-			} else if ($user['is_active'] == 0) {
-				$result['message'] = 'Sorry, your user is inactive';
-			} else if ($user['passwd'] != EncriptPassword($_POST['passwd'])) {
-				$result['message'] = 'Sorry, wrong password';
-			} else if ($user['passwd'] == EncriptPassword($_POST['passwd'])) {
-				$result['status'] = true;
+			$result = $this->User_model->sign_in(array( 'email' => $_POST['email'], 'passwd' => $_POST['passwd']));
+			if ($result['status']) {
 				$result['panel_link'] = base_url('panel');
-				$this->User_model->set_session($user);
-				
-				/*
-				// update last login
-				$param['id'] = $user['id'];
-				$param['login_last_date'] = $this->config->item('current_datetime');
-				$this->User_model->update($param);
-				/*	*/
 			}
 		}
 		

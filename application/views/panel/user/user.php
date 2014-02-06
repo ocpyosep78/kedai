@@ -73,7 +73,7 @@
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Email</label>
 										<div class="col-lg-10">
-											<input type="text" name="email" class="form-control" placeholder="Email" data-required="true" />
+											<input type="text" name="email" class="form-control" placeholder="Email" data-required="true" data-type="email" />
 										</div>
 									</div>
 									<div class="form-group">

@@ -11,7 +11,7 @@
 				<section class="vbox">
 					<section class="scrollable padder">
 						<div class="m-b-md">
-							<h3 class="m-b-none">Membership</h3>
+							<h3 class="m-b-none">Verify Address</h3>
 						</div>
 						
 						<section class="panel panel-default panel-table">
@@ -33,13 +33,10 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="15%">Email</th>
-										<th width="12%">First Name</th>
-										<th width="12%">Last Name</th>
-										<th width="12%">Advert Count</th>
-										<th width="12%">Advert Duration</th>
-										<th width="15%">Request Time</th>
-										<th width="12%">Status</th>
+										<th width="25%">Fullname</th>
+										<th width="25%">Request Time</th>
+										<th width="20%">Code</th>
+										<th width="20%">Status</th>
 										<th width="10%">&nbsp;</th>
 									</tr>
 								</thead>
@@ -61,29 +58,16 @@ $(document).ready(function() {
 	// grid
 	var param = {
 		id: 'datatable',
-		source: web.base + 'panel/user/membership/grid',
-		column: [ { }, { }, { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		source: web.base + 'panel/user/verify_address/grid',
+		column: [ { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-approve').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
 				Func.update({
-					param: { action: 'update', id: record.id, status: 'approve' },
-					link: web.base + 'panel/user/membership/action',
-					callback: function() {
-						dt.reload();
-					}
-				});
-			});
-			
-			$('#datatable .btn-reject').click(function() {
-				var raw_record = $(this).siblings('.hide').text();
-				eval('var record = ' + raw_record);
-				
-				Func.update({
-					param: { action: 'update', id: record.id, status: 'reject' },
-					link: web.base + 'panel/user/membership/action',
+					param: { action: 'update', id: record.id, status: 'deliver' },
+					link: web.base + 'panel/user/verify_address/action',
 					callback: function() {
 						dt.reload();
 					}

@@ -1,5 +1,6 @@
 <?php
 	$user = $this->User_model->get_session();
+	$user = $this->User_model->get_by_id(array( 'id' => $user['id'] ));
 	$count = $this->User_Contact_model->get_unread_count(array( 'user_id' => $user['id'] ));
 ?>
 <aside class="bg-dark lter aside-md hidden-print" id="nav">
@@ -60,17 +61,25 @@
 							
 							<ul class="nav lt">
 								<li>
+									<a href="<?php echo base_url('panel/profile/account'); ?>" data-menu-child="account">
+										<i class="fa fa-angle-right"></i>
+										<span>Edit Account</span>
+									</a>
+								</li>
+								<li>
 									<a href="<?php echo base_url('panel/profile/user'); ?>" data-menu-child="user">
 										<i class="fa fa-angle-right"></i>
 										<span>Edit Profile</span>
 									</a>
 								</li>
+								<?php if ($user['verify_address'] == 0) { ?>
 								<li>
-									<a href="<?php echo base_url('panel/profile/verify'); ?>" data-menu-child="verify">
+									<a href="<?php echo base_url('panel/profile/verify_address'); ?>" data-menu-child="verify_address">
 										<i class="fa fa-angle-right"></i>
-										<span>Get Verified</span>
+										<span>Get Verified Address</span>
 									</a>
 								</li>
+								<?php } ?>
 							</ul>
 						</li>
 						<li>

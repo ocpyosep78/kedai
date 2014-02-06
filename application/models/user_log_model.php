@@ -47,15 +47,16 @@ class User_Log_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND UserLog.name LIKE '%".$param['namelike']."%'" : '';
+		$string_namelike = (!empty($param['namelike'])) ? "AND UserLog.location LIKE '%".$param['namelike']."%'" : '';
+		$string_user = (isset($param['user_id'])) ? "AND UserLog.user_id = '".$param['user_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'log_time DESC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS UserLog.*
 			FROM ".USER_LOG." UserLog
-			WHERE 1 $string_namelike $string_filter
+			WHERE 1 $string_namelike $string_user $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -88,6 +89,7 @@ class User_Log_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		$row['log_time_text'] = show_time_diff($row['log_time']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

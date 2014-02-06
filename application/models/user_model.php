@@ -7,7 +7,7 @@ class User_model extends CI_Model {
         $this->field = array(
 			'id', 'user_type_id', 'email', 'alias', 'first_name', 'last_name', 'passwd', 'address', 'phone', 'bb_pin', 'register_date', 'membership_date', 'reset_key',
 			'verify_profile', 'verify_email', 'verify_address', 'thumbnail_profile', 'thumbnail_banner', 'ic_number', 'is_ic_number', 'is_active', 'is_delete',
-			'advert_count'
+			'advert_count', 'city_id', 'user_about', 'user_info', 'postal_code'
 		);
     }
 	
@@ -47,9 +47,12 @@ class User_model extends CI_Model {
        
         if (isset($param['id'])) {
             $select_query  = "
-				SELECT User.*, UserType.name user_type_name
+				SELECT User.*, UserType.name user_type_name,
+					City.name city_name, City.region_id, Region.name region_name
 				FROM ".USER."
 				LEFT JOIN ".USER_TYPE." UserType ON UserType.id = User.user_type_id
+				LEFT JOIN ".CITY." City ON City.id = User.city_id
+				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
 				WHERE User.id = '".$param['id']."'
 				LIMIT 1
 			";
@@ -231,6 +234,32 @@ class User_model extends CI_Model {
 		
 		// delete cookie
 		setcookie("user_login", '', time() + 0, '/');
+	}
+	
+	function sign_in($param = array()) {
+		$user = $this->get_by_id(array( 'email' => $param['email'], 'with_passwd' => true ));
+		
+		$result = array( 'status' => false, 'message' => '' );
+		if (count($user) == 0) {
+			$result['message'] = 'Sorry, Email cannot be found.';
+		} else if ($user['is_active'] == 0) {
+			$result['message'] = 'Sorry, your user is inactive';
+		} else if ($user['passwd'] != EncriptPassword($param['passwd'])) {
+			$result['message'] = 'Sorry, password did not match.';
+		} else if ($user['passwd'] == EncriptPassword($param['passwd'])) {
+			// update last login
+			$param['user_id'] = $user['id'];
+			$param['log_time'] = $this->config->item('current_datetime');
+			$param['ip_remote'] = $_SERVER['REMOTE_ADDR'];
+			$param['location'] = $this->City_Ip_model->get_location(array( 'ip' => $_SERVER['REMOTE_ADDR'] ));
+			$result = $this->User_Log_model->update($param);
+			
+			// set session
+			$result['status'] = true;
+			$this->set_session($user);
+		}
+		
+		return $result;
 	}
 	
 	/*	End Region Session */
