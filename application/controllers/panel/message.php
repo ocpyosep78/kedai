@@ -1,5 +1,5 @@
 <?php
-class message extends KEDAI_Controller {
+class message extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

@@ -1,4 +1,5 @@
 <?php
+	$is_login = $this->User_model->is_login();
 	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
 	$array_category = $this->Category_model->get_array();
 ?>
@@ -25,8 +26,14 @@
 				<div class="pull-right right"></div>
 				<div class="pull-right left">
 					<ul class="links hidden-xs hidden-sm hidden-md">
+						<li><a href="<?php echo base_url('post'); ?>">Post</a></li>
+						<?php if ($is_login) { ?>
+						<li><a href="<?php echo base_url('panel/'); ?>">Panel</a></li>
+						<li><a href="<?php echo base_url('panel/home/logout'); ?>">Logout</a></li>
+						<?php } else { ?>
 						<li><a href="<?php echo base_url('login'); ?>">Sign in</a></li>
 						<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>

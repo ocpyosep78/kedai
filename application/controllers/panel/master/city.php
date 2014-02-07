@@ -1,5 +1,5 @@
 <?php
-class city extends KEDAI_Controller {
+class city extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

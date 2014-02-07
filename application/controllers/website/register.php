@@ -1,6 +1,6 @@
 <?php
 
-class register extends CI_Controller {
+class register extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }

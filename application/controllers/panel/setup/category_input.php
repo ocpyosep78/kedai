@@ -1,5 +1,5 @@
 <?php
-class category_input extends KEDAI_Controller {
+class category_input extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

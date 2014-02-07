@@ -1,6 +1,6 @@
 <?php
 
-class login extends CI_Controller {
+class login extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }

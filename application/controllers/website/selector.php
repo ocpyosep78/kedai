@@ -1,6 +1,6 @@
 <?php
 
-class selector extends CI_Controller {
+class selector extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }

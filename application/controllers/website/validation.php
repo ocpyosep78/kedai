@@ -1,6 +1,6 @@
 <?php
 
-class validation extends CI_Controller {
+class validation extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }

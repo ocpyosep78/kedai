@@ -107,7 +107,12 @@ class User_model extends CI_Model {
     }
 
     function get_count($param = array()) {
-		$select_query = "SELECT FOUND_ROWS() TotalRecord";
+		if (isset($param['total_user'])) {
+			$select_query = "SELECT COUNT(*) TotalRecord FROM ".USER;
+		} else {
+			$select_query = "SELECT FOUND_ROWS() TotalRecord";
+		}
+		
 		$select_result = mysql_query($select_query) or die(mysql_error());
 		$row = mysql_fetch_assoc($select_result);
 		$TotalRecord = $row['TotalRecord'];
@@ -159,21 +164,33 @@ class User_model extends CI_Model {
 	
 	/*	Region Session */
 	
-	function is_login($admin_level = false) {
-		$user = $this->get_session();
-		$result = (count($user) > 0 && @$user['is_login']) ? true : false;
+	function is_login($param = array()) {
+		// default param
+		$param['array_user_type_id'] = (isset($param['array_user_type_id']))
+			? $param['array_user_type_id']
+			: array( USER_TYPE_ADMINISTRATOR, USER_TYPE_EDITOR, USER_TYPE_MEMBER );
 		
-		if ($result && $admin_level) {
-			if ($user['user_type_id'] != USER_TYPE_ADMINISTRATOR) {
-				$result = false;
-			}
+		// check user
+		$user = $this->get_session();
+		$result = (count($user) > 0 && isset($user['is_login'])) ? $user['is_login'] : false;
+		
+		// active time
+		$unix_active_time = ConvertToUnixTime(@$user['active_time']);
+		$unix_current_limit = ConvertToUnixTime($this->config->item('current_datetime')) - LOGIN_ACTIVE_TIME;
+		
+		// is login or not ?
+		if ($result && !in_array($user['user_type_id'], $param['array_user_type_id'])) {
+			$result = false;
+		} else if ($unix_active_time < $unix_current_limit) {
+			$result = false;
 		}
 		
 		return $result;
 	}
 	
-	function required_login($admin_level = false) {
-		$is_login = $this->is_login($admin_level);
+	// $this->User_model->required_login(array( 'array_user_type_id' => array( USER_TYPE_ADMINISTRATOR ) ));
+	function required_login($param = array()) {
+		$is_login = $this->is_login($param);
 		if (!$is_login) {
 			header("Location: ".base_url('panel'));
 			exit;
@@ -182,13 +199,10 @@ class User_model extends CI_Model {
 	
 	function set_session($user) {
 		$user['is_login'] = true;
+		$user['active_time'] = $this->config->item('current_datetime');
 		
 		// set session
 		$_SESSION['user_login'] = $user;
-		
-		// set cookie
-		$cookie_value = mcrypt_encode(json_encode($user));
-		setcookie("user_login", $cookie_value, time() + (60 * 60 * 5), '/');
 	}
 	
 	function get_session() {
@@ -197,43 +211,13 @@ class User_model extends CI_Model {
 			$user = array();
 		}
 		
-		// check from cookie
-		if (count($user) == 0) {
-			$user = $this->get_cookies();
-		}
-		
-		// renew session if user already login
-		if (count($user) > 0 && isset($user['is_login']) && $user['is_login']) {
-			// set session
-			$_SESSION['user_login'] = $user;
-			
-			// set cookie
-			$cookie_value = mcrypt_encode(json_encode($user));
-			setcookie("user_login", $cookie_value, time() + (60 * 60 * 5), '/');
-		}
-		
-		return $user;
-	}
-	
-	function get_cookies() {
-		$user = array( 'is_login' => false );
-		if (isset($_COOKIE["user_login"])) {
-			$user = json_decode(mcrypt_decode($_COOKIE["user_login"]));
-			$user = object_to_array($user);
-			$user['is_login'] = true;
-		}
-		
 		return $user;
 	}
 	
 	function del_session() {
-		// delete session
 		if (isset($_SESSION['user_login'])) {
 			unset($_SESSION['user_login']);
 		}
-		
-		// delete cookie
-		setcookie("user_login", '', time() + 0, '/');
 	}
 	
 	function sign_in($param = array()) {
@@ -260,6 +244,16 @@ class User_model extends CI_Model {
 		}
 		
 		return $result;
+	}
+	
+	function sign_active($param = array()) {
+		$is_login = $this->is_login();
+		
+		// add time
+		if ($is_login) {
+			$user = $this->get_session();
+			$this->set_session($user);
+		}
 	}
 	
 	/*	End Region Session */

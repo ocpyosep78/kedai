@@ -1,5 +1,5 @@
 <?php
-class advert extends KEDAI_Controller {
+class advert extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

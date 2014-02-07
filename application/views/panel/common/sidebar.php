@@ -111,6 +111,12 @@
 										<span>Advert</span>
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo base_url('panel/manage/announce'); ?>" data-menu-child="announce">
+										<i class="fa fa-angle-right"></i>
+										<span>Announce</span>
+									</a>
+								</li>
 							</ul>
 						</li>
 						<li data-menu-parent="user">

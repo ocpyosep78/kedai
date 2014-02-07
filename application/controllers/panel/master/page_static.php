@@ -1,5 +1,5 @@
 <?php
-class page_static extends KEDAI_Controller {
+class page_static extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

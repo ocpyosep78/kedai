@@ -74,6 +74,8 @@ class Verify_Address_model extends CI_Model {
     function get_count($param = array()) {
 		if (isset($param['user_id'])) {
 			$select_query = "SELECT COUNT(*) TotalRecord FROM ".VERIFY_ADDRESS." WHERE user_id = '".$param['user_id']."'";
+		} else if (isset($param['total_verify_pending'])) {
+			$select_query = "SELECT COUNT(*) TotalRecord FROM ".VERIFY_ADDRESS." WHERE status = 'pending'";
 		} else {
 			$select_query = "SELECT FOUND_ROWS() TotalRecord";
 		}

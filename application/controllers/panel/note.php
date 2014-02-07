@@ -1,5 +1,5 @@
 <?php
-class note extends KEDAI_Controller {
+class note extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

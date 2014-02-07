@@ -1,5 +1,5 @@
 <?php
-class vehicle_brand extends KEDAI_Controller {
+class vehicle_brand extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

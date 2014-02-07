@@ -1,5 +1,5 @@
 <?php
-class verify_address extends KEDAI_Controller {
+class verify_address extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

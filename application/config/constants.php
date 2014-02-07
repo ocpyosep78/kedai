@@ -18,6 +18,7 @@ define('WEBSITE_TITLE',							'Kedaipedia');
 define('WEBSITE_DESC',							'The large market online');
 define('SHA_SECRET',							'OraNgerti');
 define('USER_TYPE_ADMINISTRATOR',				1);
+define('USER_TYPE_EDITOR',						2);
 define('USER_TYPE_MEMBER',						3);
 
 define('ADVERT_STATUS_REVIEW',					1);
@@ -28,12 +29,16 @@ define('ADVERT_STATUS_REJECT',					4);
 /*	VERIFY ADDRESS */
 define('VERIFY_ADDRESS_MAX',					5);
 
+/*	LOGIN ACTIVE TIME */
+define('LOGIN_ACTIVE_TIME',						(60 * 60 * 1));
+
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
 define('ADVERT_STATUS',							'advert_status');
 define('ADVERT_TAG',							'advert_tag');
 define('ADVERT_TYPE',							'advert_type');
 define('ADVERT_TYPE_SUB',						'advert_type_sub');
+define('ANNOUNCE',								'announce');
 define('CATEGORY',								'category');
 define('CATEGORY_INPUT',						'category_input');
 define('CATEGORY_PRICE',						'category_price');

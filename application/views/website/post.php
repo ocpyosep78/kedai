@@ -1,4 +1,8 @@
 <?php
+	// user
+	$is_login = $this->User_model->is_login();
+	
+	// default data
 	$array_category = $this->Category_model->get_array();
 	$array_condition = $this->Condition_model->get_array();
 	$array_region = $this->Region_model->get_array();
@@ -136,105 +140,66 @@
 							<div class="cnt-list-thumbnail"></div>
 						</fieldset>
 						
-						<fieldset id="cnt-form-add">
-							<!--
-							// Template here
-							
-							<section>
-								<label class="label">Select</label>
-								<label class="select">
-									<select name="category_id">
-										<?php echo ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
-									</select>
-									<i></i>
-								</label>
-							</section>
-							<section>
-								<label class="label">Text</label>
-								<label class="input">
-									<input type="text" name="price" placeholder="Price" />
-								</label>
-							</section>
-							<section>
-								<label class="label">Textarea</label>
-								<label class="textarea textarea-resizable">
-									<textarea rows="3" name="content" placeholder="Desc your ad here"></textarea>
-								</label>
-							</section>
-							<section>
-								<label class="label"><div>Check</div></label>
-								<div class="row">
-									<div class="col col-4">
-										<label class="checkbox"><input name="checkbox" checked="checked" type="checkbox"><i></i>Alexandra</label>
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Alice</label>
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Anastasia</label>
-									</div>
-									<div class="col col-4">
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Avelina</label>
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Basilia</label>
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Beatrice</label>
-									</div>
-									<div class="col col-4">
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Cassandra</label>
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Clemencia</label>
-										<label class="checkbox"><input name="checkbox" type="checkbox"><i></i>Desiderata</label>
-									</div>
-								</div>
-							</section>
-							<section class="parent">
-								<h4>Parent</h4>
-								<section>
-									<label class="label">Text</label>
-									<label class="input">
-										<input type="text" name="price" placeholder="Price" />
-									</label>
-								</section>
-							</section>
-							-->
-						</fieldset>
+						<fieldset id="cnt-form-add"></fieldset>
 						<br/><br/>
 						
-						<!--
-						<section>
+						<?php if (! $is_login) { ?>
+						<fieldset>
 							<section>
 								<h3>DATA ANDA</h3><br />
 								<div class="inline-group">
-									<label class="radio"><input checked="checked" name="radio-inline" type="radio"><i></i>New Member</label>
-									<label class="radio"><input name="radio-inline" type="radio"><i></i>Registered Member</label>
+									<label class="radio"><input name="user_action" type="radio" value="member_register" checked="checked" /><i></i>New Member</label>
+									<label class="radio"><input name="user_action" type="radio" value="member_login" /><i></i>Registered Member</label>
 								</div>
 							</section>
-							<section>
+							<section class="cnt-fullname">
 								<label class="label">Your Name</label>
 								<label class="input">
-									<input type="text">
+									<input type="text" name="fullname" class="required" placeholder="Your Name" />
 								</label>
 							</section>
-							<section>
+							<section class="cnt-email">
 								<label class="label">Email</label>
 								<label class="input">
-									<input type="text">
+									<input type="text" name="email" class="required email" placeholder="Email" />
 								</label>
 							</section>
-							<section>
-								<label class="label">IC Number / Other ID Number (centang)</label>
+							<section class="cnt-password">
+								<label class="label">Password</label>
 								<label class="input">
-									<input type="text">
+									<input type="password" name="passwd" class="required" placeholder="Password" />
 								</label>
 							</section>
-							<section>
-								<label class="label">Phone number</label>
+							<section class="cnt-id-number">
+								<div class="row">
+									<div class="col col-8">
+										<label class="checkbox">
+											<input name="is_ic_number" type="checkbox" value="1" /><i></i>
+											Check this box if you are a Foreigner / Army / Police
+										</label>
+									</div>
+								</div>
+							</section>
+							<section class="cnt-id-number" id="cnt-ic-number">
+								<label class="label">IC Number</label>
 								<label class="input">
-									<input type="text">
+									<input type="text" name="ic_number" class="required" placeholder="IC Number" />
+								</label>
+							</section>
+							<section class="cnt-phone">
+								<label class="label">Phone Number</label>
+								<label class="input">
+									<input type="text" name="phone" class="required" placeholder="Phone Number" />
 								</label>
 							</section>		
-							<section>
+							<section class="cnt-bb-pin">
 								<label class="label">Blackberry (Optional)</label>
 								<label class="input">
-									<input type="text">
+									<input type="text" name="bb_pin" placeholder="Blackberry Pin" />
 								</label>
-							</section>					
-						</section>
-						-->
+							</section>
+						</fieldset>
+						<?php } ?>
 						
 						<footer>
 							<button type="submit" class="button">Submit</button>
@@ -265,6 +230,15 @@
 	
 	// page
 	var page = {
+		init: function() {
+			// populate data
+			page.populate();
+			
+			// form non login
+			if ($('#form-advert [name="user_action"]').length > 0) {
+				$('#form-advert [name="user_action"]').eq(0).click();
+			}
+		},
 		load_input: function(p) {
 			p.category_id = (p.category_id != null) ? p.category_id : $('#form-advert [name="category_id"]').val();
 			p.category_sub_id = (p.category_sub_id != null) ? p.category_sub_id : $('#form-advert [name="category_sub_id"]').val();
@@ -470,6 +444,16 @@
 				$('.cnt-list-thumbnail').find('.active').removeClass('active');
 				$(this).parents('div.photo').find('.border').addClass('active');
 			});
+		},
+		ic_number: function() {
+			var param = Site.Form.GetValue('#form-advert');
+			if (param.is_ic_number == 1) {
+				$('#cnt-ic-number .label').text('Other ID Number');
+				$('#cnt-ic-number input').attr('placeholder', 'Other ID Number');
+			} else {
+				$('#cnt-ic-number .label').text('IC Number');
+				$('#cnt-ic-number input').attr('placeholder', 'IC Number');
+			}
 		}
 	}
 	
@@ -496,6 +480,44 @@
 			target: $('#form-advert [name="city_id"]')
 		});
 	});
+	$('#form-advert [name="is_ic_number"]').click(function() {
+		page.ic_number();
+	});
+	$('#form-advert [name="user_action"]').click(function() {
+		var value = $(this).val();
+		
+		if (value == 'member_login') {
+			// container
+			$('#form-advert .cnt-fullname').hide();
+			$('#form-advert .cnt-email').show();
+			$('#form-advert .cnt-password').show();
+			$('#form-advert .cnt-id-number').hide();
+			$('#form-advert .cnt-phone').hide();
+			$('#form-advert .cnt-bb-pin').hide();
+			
+			// input
+			$('#form-advert [name="fullname"]').removeClass('required');
+			$('#form-advert [name="email"]').addClass('required');
+			$('#form-advert [name="passwd"]').addClass('required');
+			$('#form-advert [name="ic_number"]').removeClass('required');
+			$('#form-advert [name="phone"]').removeClass('required');
+		} else if (value == 'member_register') {
+			// container
+			$('#form-advert .cnt-fullname').show();
+			$('#form-advert .cnt-email').show();
+			$('#form-advert .cnt-password').hide();
+			$('#form-advert .cnt-id-number').show();
+			$('#form-advert .cnt-phone').show();
+			$('#form-advert .cnt-bb-pin').show();
+			
+			// input
+			$('#form-advert [name="fullname"]').addClass('required');
+			$('#form-advert [name="email"]').addClass('required');
+			$('#form-advert [name="passwd"]').removeClass('required');
+			$('#form-advert [name="ic_number"]').addClass('required');
+			$('#form-advert [name="phone"]').addClass('required');
+		}
+	});
 	$('#form-advert').submit(function(e) {
 		e.preventDefault();
 		if (! $('#form-advert').valid()) {
@@ -506,8 +528,8 @@
 		Func.update({
 			param: param,
 			link: web.base + 'post/action',
-			callback: function() {
-				
+			callback: function(result) {
+				$('#form-advert [name="id"]').val(result.id);
 			}
 		});
 	});
@@ -521,8 +543,8 @@
 		page.generate_thumbnail(p);
 	}
 	
-	// populate data
-	page.populate();
+	// init page
+	page.init();
 </script>
 
 </body>

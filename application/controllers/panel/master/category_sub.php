@@ -1,5 +1,5 @@
 <?php
-class category_sub extends KEDAI_Controller {
+class category_sub extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

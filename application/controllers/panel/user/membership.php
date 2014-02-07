@@ -1,5 +1,5 @@
 <?php
-class membership extends KEDAI_Controller {
+class membership extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }

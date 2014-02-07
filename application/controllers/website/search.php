@@ -1,6 +1,6 @@
 <?php
 
-class search extends CI_Controller {
+class search extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2014 at 03:31 PM
+-- Generation Time: Feb 07, 2014 at 04:08 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `advert` (
   `sold_time` datetime NOT NULL,
   `is_delete` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `advert`
@@ -56,7 +56,11 @@ CREATE TABLE IF NOT EXISTS `advert` (
 
 INSERT INTO `advert` (`id`, `user_id`, `city_id`, `condition_id`, `advert_type_id`, `advert_status_id`, `category_sub_id`, `name`, `code`, `content`, `address`, `price`, `negotiable`, `metadata`, `thumbnail`, `post_time`, `sold_time`, `is_delete`) VALUES
 (1, 2, 5, 0, 1, 3, 10, 'Name 1', 'XXXX', 'Ad Desc (statis)', 'Address (statis)', 125000, 1, '{"vehicle_brand_id":"2","vehicle_type_id":"5"}', '2014/02/03/20140203_093955_3605.jpg', '2014-02-04 11:03:02', '0000-00-00 00:00:00', 0),
-(2, 2, 4, 2, 2, 3, 8, 'Name 2 - Title Ad', 'YYYY', 'Hello World', 'Kota Malang', 15000, 1, '[]', '2014/02/03/20140203_101843_4166.jpg', '2014-02-03 10:18:44', '0000-00-00 00:00:00', 0);
+(2, 2, 4, 2, 2, 3, 8, 'Name 2 - Title Ad', 'YYYY', 'Hello World', 'Kota Malang', 15000, 1, '[]', '2014/02/03/20140203_101843_4166.jpg', '2014-02-03 10:18:44', '0000-00-00 00:00:00', 0),
+(4, 0, 4, 0, 4, 1, 7, '-', '', '-', '-', 0, 1, '{"user_action":"member_register","fullname":"Your Name","email":"mail@mail.com","passwd":"","is_ic_number":"1","ic_number":"123456","phone":"Phone Number","bb_pin":"BB Pin"}', '2014/02/07/20140207_152122_5738.jpg', '2014-02-07 15:21:25', '0000-00-00 00:00:00', 1),
+(5, 2, 4, 0, 4, 2, 7, '-', '', '-', '-', 0, 1, '{"user_action":"member_login","fullname":"Your Name","email":"her0satr@yahoo.com","passwd":"qwertyui","is_ic_number":"1","ic_number":"123456","phone":"Phone Number","bb_pin":"BB Pin"}', '2014/02/07/20140207_152245_8516.png', '2014-02-07 15:37:11', '0000-00-00 00:00:00', 1),
+(6, 10, 4, 0, 3, 1, 7, '-', '', '0', '-', 0, 1, '{"user_action":"member_register","fullname":"Your Name","email":"test@mail.com","passwd":"","is_ic_number":"1","ic_number":"123456","phone":"-","bb_pin":"-"}', '2014/02/07/20140207_154502_3162.png', '2014-02-07 15:45:20', '0000-00-00 00:00:00', 1),
+(7, 2, 5, 0, 4, 3, 7, '-', '', '-', '-', 0, 1, '{"user_action":"member_login","fullname":"","email":"her0satr@yahoo.com","passwd":"qwertyui","is_ic_number":"0","ic_number":"","phone":"","bb_pin":""}', '2014/02/07/20140207_154945_7169.jpg', '2014-02-07 15:49:51', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -69,14 +73,18 @@ CREATE TABLE IF NOT EXISTS `advert_pic` (
   `advert_id` int(11) NOT NULL,
   `thumbnail` varchar(75) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=83 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=91 ;
 
 --
 -- Dumping data for table `advert_pic`
 --
 
 INSERT INTO `advert_pic` (`id`, `advert_id`, `thumbnail`) VALUES
-(76, 2, '2014/02/03/20140203_101843_4166.jpg');
+(76, 2, '2014/02/03/20140203_101843_4166.jpg'),
+(83, 4, '2014/02/07/20140207_152122_5738.jpg'),
+(88, 5, '2014/02/07/20140207_152245_8516.png'),
+(89, 6, '2014/02/07/20140207_154502_3162.png'),
+(90, 7, '2014/02/07/20140207_154945_7169.jpg');
 
 -- --------------------------------------------------------
 
@@ -154,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `advert_type_sub` (
   `advert_type_id` int(11) NOT NULL,
   `category_sub_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `advert_type_sub`
@@ -172,6 +180,31 @@ INSERT INTO `advert_type_sub` (`id`, `advert_type_id`, `category_sub_id`) VALUES
 (9, 1, 8),
 (10, 2, 8),
 (11, 4, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announce`
+--
+
+CREATE TABLE IF NOT EXISTS `announce` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `content` longtext NOT NULL,
+  `post_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `announce`
+--
+
+INSERT INTO `announce` (`id`, `name`, `alias`, `content`, `post_time`, `update_time`) VALUES
+(3, 'Pengumuman 1', 'pengumuman-1', 'Content 1', '2014-02-07 13:50:18', '2014-02-07 14:02:01'),
+(4, 'Pengumuman 2', 'pengumuman-2', 'Content 2', '2014-02-07 13:50:24', '2014-02-07 14:02:05'),
+(5, 'Pengumuman 3', 'pengumuman-3', 'Content 3', '2014-02-07 13:50:33', '2014-02-07 14:02:08');
 
 -- --------------------------------------------------------
 
@@ -327,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `city_ip` (
   `name` varchar(255) NOT NULL,
   `content` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `city_ip`
@@ -463,7 +496,14 @@ CREATE TABLE IF NOT EXISTS `report` (
   `email` varchar(50) NOT NULL,
   `post_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`id`, `user_id`, `advert_id`, `report_type_id`, `detail`, `email`, `post_time`) VALUES
+(1, 2, 1, 4, 'Tolong bantu', 'her0satr@yahoo.com', '2014-02-07 13:34:02');
 
 -- --------------------------------------------------------
 
@@ -542,14 +582,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `is_active` int(11) NOT NULL,
   `is_delete` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `city_id`, `user_type_id`, `email`, `alias`, `first_name`, `last_name`, `passwd`, `address`, `phone`, `bb_pin`, `postal_code`, `user_about`, `user_info`, `advert_count`, `register_date`, `membership_date`, `reset_key`, `verify_profile`, `verify_email`, `verify_address`, `thumbnail_profile`, `thumbnail_banner`, `ic_number`, `is_ic_number`, `is_active`, `is_delete`) VALUES
-(2, 6, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', 'Malang', '', '', '55555', 'Artist', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 1, '', '', '', 0, 1, 0);
+(2, 6, 1, '7B9ZyD0ZsT16kbsjHOiHyAwcdoarmIaHUWwq3MVGnJA', 'her0satr', 'Herry', 'Satrio', 'fe30fa79056939db8cbe99c8d601de74', 'Malang', '', '', '55555', 'Artist', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.', 120, '2013-10-17 03:17:56', '2014-10-23', '', 0, 0, 1, '', '', '', 0, 1, 0),
+(9, 0, 0, 'x5fmoFeYb_gxTNh0s4JKUYXgXZkb3pzJilYhqt1NKF8', '', 'Your', 'Name', 'qwertyui', '', 'Phone Number', 'BB Pin', '', '', '', 0, '2014-02-07 15:30:35', '0000-00-00', '', 0, 0, 0, '', '', '123456', 1, 0, 0),
+(10, 0, 0, 'FSfJY0ySM-5sLWyv78HXTra032vVFpyBWXr9WHrjUQc', '', 'Your', 'Name', '', '', '-', '-', '', '', '', 0, '2014-02-07 15:45:20', '0000-00-00', '', 0, 0, 0, '', '', '123456', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -614,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `user_log` (
   `location` varchar(255) NOT NULL,
   `ip_remote` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `user_log`
@@ -624,7 +666,17 @@ INSERT INTO `user_log` (`id`, `user_id`, `log_time`, `location`, `ip_remote`) VA
 (1, 0, '0000-00-00 00:00:00', '', ''),
 (2, 2, '2014-02-06 11:52:34', 'localhost', '::1'),
 (3, 2, '2014-02-06 11:53:36', 'localhost', '::1'),
-(4, 2, '2014-02-06 11:53:38', 'localhost', '::1');
+(4, 2, '2014-02-06 11:53:38', 'localhost', '::1'),
+(5, 2, '2014-02-07 13:28:54', 'localhost', '::1'),
+(6, 2, '2014-02-07 14:27:18', 'localhost', '::1'),
+(7, 2, '2014-02-07 15:33:05', 'localhost', '::1'),
+(8, 2, '2014-02-07 15:33:07', 'localhost', '::1'),
+(9, 2, '2014-02-07 15:35:16', 'localhost', '::1'),
+(10, 2, '2014-02-07 15:35:18', 'localhost', '::1'),
+(11, 2, '2014-02-07 15:36:29', 'localhost', '::1'),
+(12, 2, '2014-02-07 15:37:11', 'localhost', '::1'),
+(13, 2, '2014-02-07 15:45:41', 'localhost', '::1'),
+(14, 2, '2014-02-07 15:49:51', 'localhost', '::1');
 
 -- --------------------------------------------------------
 

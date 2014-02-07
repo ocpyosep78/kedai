@@ -1,6 +1,6 @@
 <?php
 
-class advert extends CI_Controller {
+class advert extends KEDAI_Controller {
     function __construct() {
         parent::__construct();
     }

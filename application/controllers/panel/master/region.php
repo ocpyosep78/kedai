@@ -1,5 +1,5 @@
 <?php
-class region extends KEDAI_Controller {
+class region extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }
