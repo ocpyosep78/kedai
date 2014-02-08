@@ -37,7 +37,7 @@ class City_Ip_model extends CI_Model {
         } else if (isset($param['ip'])) {
             $select_query  = "SELECT * FROM ".CITY_IP." WHERE ip = '".$param['ip']."' LIMIT 1";
         }
-       
+		
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row);
@@ -79,19 +79,37 @@ class City_Ip_model extends CI_Model {
     }
 	
 	function get_location($param = array()) {
+		$param['ip'] = '175.45.189.139';
+		
 		if ($param['ip'] == '::1') {
 			return 'localhost';
 		}
 		
-		echo 'later';
-		exit;
-		$this->get_by_id(array( 'ip' => $param['ip'] ));
+		$result = '';
+		$record = $this->get_by_id(array( 'ip' => $param['ip'] ));
+		if (count($record) == 0) {
+			$link_source_ip = 'http://ipinfo.io/'.$param['ip'].'/json';
+			$curl = new curl();
+			$ip_record_raw = $curl->get($link_source_ip);
+			
+			// make sure no empty result
+			if (!empty($ip_record_raw)) {
+				$ip_record = json_decode($ip_record_raw);
+				$result = $ip_record->city;
+			}
+			
+			// insert to db
+			if (!empty($result)) {
+				$param_update['ip'] = $param['ip'];
+				$param_update['name'] = $result;
+				$param_update['content'] = $ip_record_raw;
+				$this->update($param_update);
+			}
+		} else {
+			$result = $record['name'];
+		}
 		
-/*	
-$ip = $_SERVER['REMOTE_ADDR'];
-$details = json_decode(file_get_contents("http://ipinfo.io/{$ip}"));
-echo $details->city; // -> "Mountain View"
-/*	*/
+		return $result;
 	}
 	
     function delete($param) {
