@@ -7,7 +7,7 @@ class selector extends KEDAI_Controller {
     
     function index() {
 		$array_segment = $this->uri->segments;
-		$category = $category_sub = $region = array();
+		$category = $category_sub = $region = $page_static = $user = array();
 		
 		// cheking
 		foreach ($array_segment as $alias) {
@@ -33,6 +33,20 @@ class selector extends KEDAI_Controller {
 				$region = $check;
 				continue;
 			}
+			
+			// page static
+			$check = $this->Page_Static_model->get_by_id(array( 'alias' => $alias ));
+			if (count($check) > 0) {
+				$page_static = $check;
+				continue;
+			}
+			
+			// user
+			$check = $this->User_model->get_by_id(array( 'alias' => $alias ));
+			if (count($check) > 0) {
+				$user = $check;
+				continue;
+			}
 		}
 		
 		if (count($category) > 0 && count($category_sub) > 0) {
@@ -42,6 +56,11 @@ class selector extends KEDAI_Controller {
 		} else if (count($region) > 0) {
 			$array_view['region'] = $region;
 			$this->load->view( 'website/region_list', $array_view );
+		} else if (count($page_static) > 0) {
+			$array_view['page_static'] = $page_static;
+			$this->load->view( 'website/page_static', $array_view );
+		} else if (count($user) > 0) {
+			$this->load->view( 'website/user' );
 		} else {
 			$this->load->view( 'website/home' );
 		}

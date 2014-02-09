@@ -2,6 +2,7 @@
 <body>
 <section class="vbox">
 	<?php $this->load->view( 'panel/common/header' ); ?>
+	
     <section>
 		<section class="hbox stretch">
 			<?php $this->load->view( 'panel/common/sidebar' ); ?>
@@ -10,14 +11,14 @@
 				<section class="vbox">
 					<section class="scrollable padder">
 						<div class="m-b-md">
-							<h3 class="m-b-none">Annouce</h3>
+							<h3 class="m-b-none">Mass Email</h3>
 						</div>
 						
-						<section class="panel panel-default panel-table grid-view">
+						<section class="panel panel-default panel-table">
 							<header class="header bg-white b-b clearfix">
 								<div class="row m-t-sm">
 									<div class="col-sm-8 m-b-xs">
-										<a class="btn btn-sm btn-default show-form"><i class="fa fa-plus"></i> Create</a>
+										<a class="btn btn-sm btn-default show-dialog"><i class="fa fa-plus"></i> Create</a>
 									</div>
 									<div class="col-sm-4 m-b-xs">
 										<div class="input-group">
@@ -34,10 +35,10 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="50%">Name</th>
-										<th width="20%">Post Time</th>
+										<th width="50%">Title</th>
 										<th width="20%">Update Time</th>
-										<th width="10%">&nbsp;</th>
+										<th width="15%">Status</th>
+										<th width="15%">&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -45,23 +46,17 @@
 							</div>
 						</section>
 						
-						<section class="panel panel-default form-view hide">
-							<header class="panel-heading font-bold">Category Input Form</header>
+						<section class="panel panel-default panel-form hide" id="form-mass-email">
+							<header class="panel-heading font-bold">Mass Email Form</header>
 							<div class="panel-body">
-								<form class="bs-example form-horizontal" data-validate="parsley">
-									<input type="hidden" name="id" value="0" />
+								<form class="form-horizontal" data-validate="parsley">
 									<input type="hidden" name="action" value="update" />
+									<input type="hidden" name="id" value="0" />
 									
 									<div class="form-group">
-										<label class="col-lg-2 control-label">Name</label>
-										<div class="col-lg-10">
-											<input type="text" name="name" class="form-control" placeholder="Name" data-required="true" />
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-lg-2 control-label">Alias</label>
-										<div class="col-lg-10">
-											<input type="text" name="alias" class="form-control" placeholder="Alias" readonly="readonly" />
+										<label class="col-sm-2 control-label">Title</label>
+										<div class="col-sm-10">
+											<input type="text" name="name" class="form-control" data-required="true" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -118,10 +113,11 @@
 											<div id="editor-content" class="form-control editor-wysiwyg" style="overflow:scroll;height:150px;max-height:150px"></div>
 										</div>
 									</div>
+									<div class="line line-dashed line-lg pull-in"></div>
 									<div class="form-group">
-										<div class="col-lg-offset-2 col-lg-10">
-											<button type="submit" class="btn btn-sm btn-info">Save</button>
-											<button type="button" class="btn btn-sm btn-default show-grid">Cancel</button>
+										<div class="col-sm-4 col-sm-offset-2">
+											<button class="btn btn-default show-table" type="button">Cancel</button>
+											<button class="btn btn-primary" type="submit">Save</button>
 										</div>
 									</div>
 								</form>
@@ -139,30 +135,39 @@
 <script>
 $(document).ready(function() {
 	var page = {
-		show_grid: function() {
-			$('.grid-view').show();
-			$('.form-view').hide();
+		show_table: function() {
+			$('.panel-table').show();
+			$('.panel-form').hide();
 		},
 		show_form: function() {
-			$('.grid-view').hide();
-			$('.form-view').show();
+			$('.panel-table').hide();
+			$('.panel-form').show();
 		}
 	}
 	
 	// grid
 	var param = {
-		id: 'datatable',
-		source: web.base + 'panel/manage/announce/grid',
-		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		id: 'datatable', aaSorting: [[1, 'desc']],
+		source: web.base + 'panel/user/mass_email/grid',
+		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '15%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
-				Func.ajax({ url: web.base + 'panel/manage/announce/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					Func.populate({ cnt: '.form-view form', record: result });
+				Func.ajax({ url: web.base + 'panel/user/mass_email/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
+					Func.populate({ cnt: '#form-mass-email', record: result });
 					$('#editor-content').html(result.content);
 					page.show_form();
+				} });
+			});
+			
+			$('#datatable .btn-sent').click(function() {
+				var raw_record = $(this).siblings('.hide').text();
+				eval('var record = ' + raw_record);
+				
+				Func.update({ param: { action: 'sent_mail', id: record.id }, link: web.base + 'panel/user/mass_email/action', callback: function() {
+					dt.reload();
 				} });
 			});
 			
@@ -172,7 +177,7 @@ $(document).ready(function() {
 				
 				Func.confirm_delete({
 					data: { action: 'delete', id: record.id },
-					url: web.base + 'panel/manage/announce/action', callback: function() { dt.reload(); }
+					url: web.base + 'panel/user/mass_email/action', callback: function() { dt.reload(); }
 				});
 			});
 		}
@@ -180,38 +185,34 @@ $(document).ready(function() {
 	var dt = Func.init_datatable(param);
 	
 	// form
-	var form = $('.form-view form').parsley();
-	$('.form-view form').submit(function(e) {
+	var form = $('#form-mass-email form').parsley();
+	$('#form-mass-email form').submit(function(e) {
 		e.preventDefault();
 		if (! form.isValid()) {
 			return false;
 		}
 		
-		var param = Site.Form.GetValue('.form-view form');
+		var param = Site.Form.GetValue('form-mass-email form');
 		param.content = $('#editor-content').html();
 		Func.update({
 			param: param,
-			link: web.base + 'panel/manage/announce/action',
+			link: web.base + 'panel/user/mass_email/action',
 			callback: function() {
 				dt.reload();
-				page.show_grid();
+				page.show_table();
 			}
 		});
 	});
 	
-	// helper
-	$('.show-form').click(function() {
+	// display
+	$('.show-dialog').click(function() {
 		page.show_form();
-		$('.form-view form')[0].reset();
-		$('.form-view [name="id"]').val(0);
+		$('#form-mass-email form')[0].reset();
+		$('#form-mass-email [name="id"]').val(0);
 		$('#editor-content').html('');
 	});
-	$('.show-grid').click(function() {
-		page.show_grid();
-	});
-	$('.form-view form [name="name"]').keyup(function() {
-		var value = Func.GetName($(this).val());
-		$('.form-view form [name="alias"]').val(value);
+	$('.show-table').click(function() {
+		page.show_table();
 	});
 });
 </script>

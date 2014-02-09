@@ -41,6 +41,7 @@
 							<small>Welcome back, <?php echo $user['fullname']; ?></small>
 						</div>
 						
+						<?php if (in_array($user['user_type_id'], array(USER_TYPE_ADMINISTRATOR, USER_TYPE_EDITOR))) { ?>
 						<section class="panel panel-default">
 							<div class="row m-l-none m-r-none bg-light lter">
 								<div class="col-sm-6 col-md-3 padder-v b-r b-light">
@@ -88,6 +89,7 @@
 								</div>
 							</div>
 						</section>
+						<?php } ?>
 						
 						<section class="panel panel-default portlet-item" style="opacity: 1;">
 							<header class="panel-heading">
@@ -96,7 +98,7 @@
 										<a class="panel-toggle text-muted" href="#"><i class="fa fa-caret-down text-active"></i><i class="fa fa-caret-up text"></i></a>
 									</li>
 								</ul>
-								News From Admin <span class="badge bg-info"><?php echo $count_announce; ?></span>
+								News From Admin <a href="<?php echo base_url('announce'); ?>"><span class="badge bg-info"><?php echo $count_announce; ?></span></a>
 							</header>
 							
 							<section class="panel-body">

@@ -50,10 +50,19 @@ class post extends KEDAI_Controller {
 				
 				// get user
 				$user = $this->User_model->get_session();
+			} else {
+				$user = $this->User_model->get_session();
 			}
 			/*	End User Region */
 			
 			/*	Advert Region */
+			if (empty($_POST['advert_type_id'])) {
+				$result['status'] = 0;
+				$result['message'] = 'Sorry, this category has been enable yet.';
+				echo json_encode($result);
+				exit;
+			}
+			
 			$advert_update = array();
 			$array_form = array( 'id', 'category_id', 'category_sub_id', 'advert_type_id', 'condition_id', 'region_id', 'city_id', 'address', 'name', 'price', 'negotiable', 'content', 'thumbnail' );
 			
@@ -80,12 +89,25 @@ class post extends KEDAI_Controller {
 			if (empty($advert_update['id'])) {
 				$advert_update['advert_status_id'] = ADVERT_STATUS_REVIEW;
 			} else {
-				$advert_update['advert_status_id'] = ADVERT_STATUS_RE_REVIEW;
+				// advert old
+				$advert_old = $this->Advert_model->get_by_id(array( 'id' => $advert_update['id'] ));
+				
+				// re review only for rejected advert, review otherwise
+				if (in_array($advert_old['advert_status_id'], array(ADVERT_STATUS_REJECT, ADVERT_STATUS_RE_REVIEW))) {
+					$advert_update['advert_status_id'] = ADVERT_STATUS_RE_REVIEW;
+				} else {
+					$advert_update['advert_status_id'] = ADVERT_STATUS_REVIEW;
+				}
 			}
 			$advert_update['post_time'] = $this->config->item('current_datetime');
 			
+			// only set code and user id when it's insert
+			if (empty($advert_update['id'])) {
+				$advert_update['code'] = rand(100,999).rand(100,999).rand(100,999);
+				$advert_update['user_id'] = $user['id'];
+			}
+			
 			// update
-			$advert_update['user_id'] = $user['id'];
 			$result = $this->Advert_model->update($advert_update);
 			
 			// thumbnail

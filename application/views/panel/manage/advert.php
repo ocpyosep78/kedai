@@ -1,5 +1,11 @@
 <?php
+	// user id
+	if (isset($user_id)) {
+		$page['user_id'] = $user_id;
+	}
+	
 	$page['ADVERT_STATUS_APPROVE'] = ADVERT_STATUS_APPROVE;
+	$page['ADVERT_STATUS_REJECT'] = ADVERT_STATUS_REJECT;
 	
 	$array_category = $this->Category_model->get_array();
 	$array_advert_status = $this->Advert_Status_model->get_array();
@@ -86,8 +92,8 @@
 										<th width="15%">Sub Category</th>
 										<th width="20%">Title</th>
 										<th width="15%">Post Time</th>
-										<th width="20%">Status</th>
-										<th width="15%">&nbsp;</th>
+										<th width="15%">Status</th>
+										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -111,6 +117,10 @@ $(document).ready(function() {
 			var raw_page = $('#cnt-page').html();
 			eval('var data = ' + raw_page);
 			page.data = data;
+			
+			aaa = page;
+			page = aaa;
+			// page.data.user_id
 		}
 	}
 	page.init();
@@ -119,7 +129,12 @@ $(document).ready(function() {
 	var param = {
 		id: 'datatable', aaSorting: [[3, 'desc']],
 		source: web.base + 'panel/manage/advert/grid',
-		column: [ { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '15%' } ],
+		column: [ { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '20%' } ],
+		fnServerParams: function ( aoData ) {
+			if (page.data.user_id != null) {
+				aoData.push( { "name": "user_id", "value": page.data.user_id } );
+			}
+		},
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
@@ -153,10 +168,32 @@ $(document).ready(function() {
 				});
 			});
 			
+			$('#datatable .btn-reject').click(function() {
+				var raw_record = $(this).siblings('.hide').text();
+				eval('var record = ' + raw_record);
+				
+				Func.update({
+					callback: function() { dt.reload(); },
+					link: web.base + 'panel/manage/advert/action',
+					param: { action: 'update', id: record.id, advert_status_id: page.data.ADVERT_STATUS_REJECT }
+				});
+			});
+			
 			$('#datatable .btn-hyperlink').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				window.open(record.edit_link);
+			});
+			
+			$('#datatable .btn-resubmit').click(function() {
+				var raw_record = $(this).siblings('.hide').text();
+				eval('var record = ' + raw_record);
+				
+				Func.update({
+					callback: function() { dt.reload(); },
+					link: web.base + 'panel/manage/advert/action',
+					param: { action: 'resubmit', id: record.id }
+				});
 			});
 		}
 	}

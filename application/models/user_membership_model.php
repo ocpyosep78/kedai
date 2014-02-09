@@ -57,21 +57,24 @@ class User_Membership_model extends CI_Model {
         $array = array();
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND UserMembership.name LIKE '%".$param['namelike']."%'" : '';
+		$string_user = (isset($param['user_id'])) ? "AND UserMembership.user_id = '".$param['user_id']."'" : '';
+		$string_status = (isset($param['status'])) ? "AND UserMembership.status = '".$param['status']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'request_time DESC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS UserMembership.*,
 				User.email, User.first_name, User.last_name,
-				Membership.advert_count, Membership.advert_time
+				Membership.advert_count, Membership.advert_time, Membership.title
 			FROM ".USER_MEMBERSHIP." UserMembership
 			LEFT JOIN ".USER." User ON User.id = UserMembership.user_id
 			LEFT JOIN ".MEMBERSHIP." Membership ON Membership.id = UserMembership.membership_id
-			WHERE 1 $string_namelike $string_filter
+			WHERE 1 $string_namelike $string_user $string_status $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
+		
         $select_result = mysql_query($select_query) or die(mysql_error());
 		while ( $row = mysql_fetch_assoc( $select_result ) ) {
 			$array[] = $this->sync($row, $param);
@@ -90,7 +93,11 @@ class User_Membership_model extends CI_Model {
     }
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".USER_MEMBERSHIP." WHERE id = '".$param['id']."' LIMIT 1";
+		if (isset($param['user_id']) && isset($param['status'])) {
+			$delete_query  = "DELETE FROM ".USER_MEMBERSHIP." WHERE user_id = '".$param['user_id']."' AND status = '".$param['status']."'";
+		} else {
+			$delete_query  = "DELETE FROM ".USER_MEMBERSHIP." WHERE id = '".$param['id']."' LIMIT 1";
+		}
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
@@ -147,5 +154,17 @@ class User_Membership_model extends CI_Model {
 		
 		// execute
 		$this->User_model->update($param_update);
+	}
+	
+	function has_request($param = array()) {
+		$param_membership['user_id'] = $param['user_id'];
+		$param_membership['status'] = 'pending';
+		$array_membership = $this->get_array($param_membership);
+		
+		$result['status'] = (count($array_membership) > 0) ? true : false;
+		if ($result['status']) {
+			$result['array'] = $array_membership[0];
+		}
+		return $result;
 	}
 }

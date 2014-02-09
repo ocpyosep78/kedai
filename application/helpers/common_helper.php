@@ -801,7 +801,10 @@
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 			$headers .= 'From: Kedai Pedia <noreply@kedaipedia.com>' . "\r\n";
-			@mail($param['to'], $param['subject'], $param['message'], $headers);
+			
+			if (SENT_MAIL) {
+				@mail($param['to'], $param['subject'], $param['message'], $headers);
+			}
 			
 			/*
 			$param['subject'] = (isset($param['subject'])) ? $param['subject'] : '';
@@ -997,5 +1000,65 @@
 			function post($url, $vars, $referer_address = '') {
 				return $this->doRequest('POST', $url, $vars, $referer_address);
 			}
+		}
+	}
+	
+	if (! function_exists('search_category_input')) {
+		function search_category_input($param, $search_data) {
+			$content = '';
+			
+			// input data
+			$label = $param['label'];
+			$input_name = get_name($param['title']);
+			
+			if ($param['input_type_name'] == 'select') {
+				$content_option = '';
+				$array_option = explode(',', $param['value']);
+				foreach ($array_option as $key => $value) {
+					$selected = (isset($search_data[$input_name]) && $search_data[$input_name] == $value) ? 'selected' : '';
+					
+					if (empty($key) && empty($value)) {
+						$content_option .= '<option value="">All '.$label.'</option>';
+					} else {
+						$content_option .= '<option value="'.$value.'" '.$selected.'>'.$value.'</option>';
+					}
+				}
+				
+				$content = '
+					<div class="limit category-input-search">
+						<span>'.$label.':</span>
+						<select name="'.$input_name.'" class="form_submit input">
+							'.$content_option.'
+						</select>
+					</div>
+				';
+			} else if ($param['input_type_name'] == 'car') {
+				$library_name = 'input_'.$param['input_type_name'];
+				
+				$ci =& get_instance();
+				$ci->load->library($library_name);
+				$content = $ci->$library_name->get_search($search_data);
+			}
+			
+			return $content;
+		}
+	}
+	
+	if (! function_exists('get_query_category_input')) {
+		function get_query_category_input($param) {
+			$result = '1 ';
+			foreach ($param as $key => $value) {
+				if (!empty($value)) {
+					$result .= "AND Advert.metadata LIKE '%\"".$key."\":\"".$value."\"%' ";
+				}
+			}
+			
+			if (strlen($result) < 5) {
+				$result = '';
+			} else {
+				$result = "AND ($result)";
+			}
+			
+			return $result;
 		}
 	}

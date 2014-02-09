@@ -36,7 +36,7 @@
 							<section>
 								<label class="label">Select Category (statis)</label>
 								<label class="select">
-									<select name="category_id">
+									<select name="category_id" class="required">
 										<?php echo ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
 									</select>
 									<i></i>
@@ -45,7 +45,7 @@
 							<section>
 								<label class="label">Select Sub Category (statis)</label>
 								<label class="select">
-									<select name="category_sub_id">
+									<select name="category_sub_id" class="required">
 										<option value="">-</option>
 									</select>
 									<i></i>
@@ -67,7 +67,7 @@
 							<section class="non-debug">
 								<label class="label">Region (statis)</label>
 								<label class="select">
-									<select name="region_id">
+									<select name="region_id" class="required">
 										<?php echo ShowOption(array( 'Array' => $array_region, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
 									</select>
 									<i></i>
@@ -90,7 +90,7 @@
 							<section class="non-debug">
 								<label class="label">City (statis)</label>
 								<label class="select">
-									<select name="city_id">
+									<select name="city_id" class="required">
 										<option value="">-</option>
 									</select>
 									<i></i>
@@ -105,7 +105,7 @@
 							<section class="non-debug">
 								<label class="label">Title Ad (statis)</label>
 								<label class="input">
-									<input type="text" name="name" placeholder="Title Ad" />
+									<input type="text" name="name" placeholder="Title Ad" class="required" />
 								</label>
 							</section>
 							<section class="non-debug">

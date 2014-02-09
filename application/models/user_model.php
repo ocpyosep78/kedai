@@ -7,7 +7,7 @@ class User_model extends CI_Model {
         $this->field = array(
 			'id', 'user_type_id', 'email', 'alias', 'first_name', 'last_name', 'passwd', 'address', 'phone', 'bb_pin', 'register_date', 'membership_date', 'reset_key',
 			'verify_profile', 'verify_email', 'verify_address', 'thumbnail_profile', 'thumbnail_banner', 'ic_number', 'is_ic_number', 'is_active', 'is_delete',
-			'advert_count', 'city_id', 'user_about', 'user_info', 'postal_code'
+			'advert_count', 'city_id', 'user_about', 'user_info', 'postal_code', 'passwd_reset_key'
 		);
     }
 	
@@ -63,6 +63,8 @@ class User_model extends CI_Model {
             $select_query  = "SELECT * FROM ".USER." WHERE email = '".$param['email']."' LIMIT 1";
         } else if (isset($param['email_key'])) {
 			$select_query  = "SELECT * FROM ".USER." WHERE email = '".$param['email_key']."' LIMIT 1";
+        } else if (isset($param['passwd_reset_key'])) {
+			$select_query  = "SELECT * FROM ".USER." WHERE passwd_reset_key = '".$param['passwd_reset_key']."' LIMIT 1";
         }
 		
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -109,6 +111,16 @@ class User_model extends CI_Model {
     function get_count($param = array()) {
 		if (isset($param['total_user'])) {
 			$select_query = "SELECT COUNT(*) TotalRecord FROM ".USER;
+		} else if (isset($param['total_user_mass_email'])) {
+			$select_query = "
+				SELECT COUNT(*) TotalRecord
+				FROM ".USER." User
+				LEFT JOIN ".USER_SETTING." UserSetting ON UserSetting.user_id = User.id
+				WHERE
+					(UserSetting.email_notify = 1 OR UserSetting.email_notify IS NULL)
+					AND User.is_delete = 0
+					AND User.is_active = 1
+			";
 		} else {
 			$select_query = "SELECT FOUND_ROWS() TotalRecord";
 		}
@@ -118,6 +130,30 @@ class User_model extends CI_Model {
 		$TotalRecord = $row['TotalRecord'];
 		
 		return $TotalRecord;
+    }
+	
+    function get_count_mass_email($param = array()) {
+		$param['offset'] = (isset($param['offset'])) ? $param['offset'] : 0;
+		$param['limit'] = (isset($param['limit'])) ? $param['limit'] : MAXIMUM_SENDING_MAIL;
+		$param['limit'] = ($param['limit'] > MAXIMUM_SENDING_MAIL) ? MAXIMUM_SENDING_MAIL : $param['limit'];
+		
+		$select_query = "
+			SELECT email, first_name, last_name
+			FROM ".USER." User
+			LEFT JOIN ".USER_SETTING." UserSetting ON UserSetting.user_id = User.id
+			WHERE
+				(UserSetting.email_notify = 1 OR UserSetting.email_notify IS NULL)
+				AND User.is_delete = 0
+				AND User.is_active = 1
+			LIMIT ".$param['offset'].", ".$param['limit']."
+		";
+		
+        $select_result = mysql_query($select_query) or die(mysql_error());
+		while ( $row = mysql_fetch_assoc( $select_result ) ) {
+			$array[] = $this->sync($row, $param);
+		}
+		
+        return $array;
     }
 	
     function delete($param) {
@@ -154,6 +190,9 @@ class User_model extends CI_Model {
 		} else {
 			$row['thumbnail_profile_link'] = base_url('static/img/avatar.jpg');
 		}
+		
+		// link
+		$row['user_link'] = base_url($row['alias']);
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

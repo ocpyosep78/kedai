@@ -736,10 +736,11 @@ var combo = {
 	},
 	vehicle_type: function(p) {
 		p.vehicle_brand_id = (p.vehicle_brand_id == null) ? 0 : p.vehicle_brand_id;
+		p.label_empty_select = (p.label_empty_select == null) ? '-' : p.label_empty_select;
 		
 		var ajax_param = {
 			is_json: 0, url: web.base + 'panel/combo',
-			param: { action: 'vehicle_type', vehicle_brand_id: p.vehicle_brand_id },
+			param: { action: 'vehicle_type', vehicle_brand_id: p.vehicle_brand_id, label_empty_select: p.label_empty_select },
 			callback: function(option) {
 				p.target.html(option);
 				

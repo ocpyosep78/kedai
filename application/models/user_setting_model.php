@@ -29,11 +29,31 @@ class User_Setting_model extends CI_Model {
         return $result;
     }
 
+	function update_by_user($param) {
+		$record = $this->get_by_id(array( 'user_id' => $param['user_id'] ));
+		
+		if (count($record) == 0) {
+			$param_update['user_id'] = $param['user_id'];
+			$param_update['email_follow'] = $param['email_follow'];
+			$param_update['email_notify'] = $param['email_notify'];
+			$result = $this->update($param_update);
+		} else {
+			$param_update['id'] = $record['id'];
+			$param_update['email_follow'] = $param['email_follow'];
+			$param_update['email_notify'] = $param['email_notify'];
+			$result = $this->update($param_update);
+		}
+		
+		return $result;
+	}
+	
     function get_by_id($param) {
         $array = array();
        
         if (isset($param['id'])) {
             $select_query  = "SELECT * FROM ".USER_SETTING." WHERE id = '".$param['id']."' LIMIT 1";
+        } else if (isset($param['user_id'])) {
+            $select_query  = "SELECT * FROM ".USER_SETTING." WHERE user_id = '".$param['user_id']."' LIMIT 1";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());

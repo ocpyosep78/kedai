@@ -4,7 +4,9 @@ class Category_Input_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'parent_id', 'input_type_id', 'advert_type_sub_id', 'title', 'label', 'is_required', 'max_length', 'value' );
+        $this->field = array(
+			'id', 'parent_id', 'input_type_id', 'advert_type_sub_id', 'title', 'label', 'is_required', 'is_searchable', 'max_length', 'value', 'order_no'
+		);
     }
 
     function update($param) {
@@ -56,17 +58,18 @@ class Category_Input_model extends CI_Model {
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND CategoryInput.label LIKE '%".$param['namelike']."%'" : '';
 		$string_parent = (isset($param['parent_id'])) ? "AND CategoryInput.parent_id = '".$param['parent_id']."'" : '';
+		$string_searchable = (isset($param['is_searchable'])) ? "AND CategoryInput.is_searchable = '".$param['is_searchable']."'" : '';
 		$string_advert_type_sub = "AND CategoryInput.advert_type_sub_id = '".$param['advert_type_sub_id']."'";
 		
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'label ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'order_no ASC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS CategoryInput.*, InputType.name input_type_name
 			FROM ".CATEGORY_INPUT." CategoryInput
 			LEFT JOIN ".INPUT_TYPE." InputType ON InputType.id = CategoryInput.input_type_id
-			WHERE 1 $string_namelike $string_parent $string_advert_type_sub $string_filter
+			WHERE 1 $string_namelike $string_parent $string_searchable $string_advert_type_sub $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";

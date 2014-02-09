@@ -26,7 +26,7 @@
 									<table class="form"><tbody>
 									<tr>
 										<td>
-											<span class="required">*</span> URL name:
+											<span class="required">*</span> URL name / Alias:
 										</td>
 										<td><input type="text" name="alias" /></td>
 									</tr>
@@ -90,10 +90,11 @@
 								</div>
 				
 								<div class="buttons">
-									<div class="right" style="width: 300px;">
+									<div class="right" style="width: 310px;">
 										<div style="float: left;">I have read and agree to the <a alt="Privacy Policy" href="<?php echo base_url('privacy_policy'); ?>" class="colorbox cboxElement"><b>Privacy Policy</b></a></div>
 										<input type="checkbox" value="1" name="agree" style="float: right;"/>
-										<input type="submit" class="button" value="Continue" />
+										<div style="clear: both;"></div>
+										<div style="margin: 10px 0 0 0;"><input type="submit" class="button" value="Continue" /></div>
 									</div>
 								</div>
 							</form>

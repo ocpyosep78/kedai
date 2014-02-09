@@ -33,7 +33,13 @@ class Category_Sub_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".CATEGORY_SUB." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "
+				SELECT CategorySub.*, Category.alias category_alias
+				FROM ".CATEGORY_SUB." CategorySub
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				WHERE CategorySub.id = '".$param['id']."'
+				LIMIT 1
+			";
         } else if (isset($param['category_id']) && isset($param['alias'])) {
             $select_query  = "
 				SELECT CategorySub.*, Category.alias category_alias
@@ -105,6 +111,10 @@ class Category_Sub_model extends CI_Model {
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
 		$row['category_sub_link'] = base_url($row['category_alias'].'/'.$row['alias']);
+		
+		if (!empty($row['link_override'])) {
+			$row['category_sub_link'] = $row['link_override'];
+		}
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

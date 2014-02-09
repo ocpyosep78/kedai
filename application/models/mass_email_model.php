@@ -1,24 +1,24 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Membership_model extends CI_Model {
+class Mass_Email_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'title', 'advert_count', 'advert_time' );
+        $this->field = array( 'id', 'name', 'content', 'sent_offset', 'sent_limit', 'update_time', 'status' );
     }
 
     function update($param) {
         $result = array();
        
         if (empty($param['id'])) {
-            $insert_query  = GenerateInsertQuery($this->field, $param, MEMBERSHIP);
+            $insert_query  = GenerateInsertQuery($this->field, $param, MASS_EMAIL);
             $insert_result = mysql_query($insert_query) or die(mysql_error());
            
             $result['id'] = mysql_insert_id();
             $result['status'] = '1';
             $result['message'] = 'Data successfully saved.';
         } else {
-            $update_query  = GenerateUpdateQuery($this->field, $param, MEMBERSHIP);
+            $update_query  = GenerateUpdateQuery($this->field, $param, MASS_EMAIL);
             $update_result = mysql_query($update_query) or die(mysql_error());
            
             $result['id'] = $param['id'];
@@ -33,9 +33,9 @@ class Membership_model extends CI_Model {
         $array = array();
        
         if (isset($param['id'])) {
-            $select_query  = "SELECT * FROM ".MEMBERSHIP." WHERE id = '".$param['id']."' LIMIT 1";
+            $select_query  = "SELECT * FROM ".MASS_EMAIL." WHERE id = '".$param['id']."' LIMIT 1";
         } 
-       
+		
         $select_result = mysql_query($select_query) or die(mysql_error());
         if (false !== $row = mysql_fetch_assoc($select_result)) {
             $array = $this->sync($row);
@@ -47,15 +47,14 @@ class Membership_model extends CI_Model {
     function get_array($param = array()) {
         $array = array();
 		
-		$string_namelike = (!empty($param['namelike'])) ? "AND Membership.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
-		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
+		$string_sorting = GetStringSorting($param, @$param['column'], 'update_time DESC');
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS Membership.*
-			FROM ".MEMBERSHIP." Membership
-			WHERE 1 $string_namelike $string_filter
+			SELECT SQL_CALC_FOUND_ROWS MassEmail.*
+			FROM ".MASS_EMAIL." MassEmail
+			WHERE 1 $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";
@@ -77,7 +76,7 @@ class Membership_model extends CI_Model {
     }
 	
     function delete($param) {
-		$delete_query  = "DELETE FROM ".MEMBERSHIP." WHERE id = '".$param['id']."' LIMIT 1";
+		$delete_query  = "DELETE FROM ".MASS_EMAIL." WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());
 		
 		$result['status'] = '1';
@@ -90,6 +89,17 @@ class Membership_model extends CI_Model {
 		$row = StripArray($row);
 		
 		if (count(@$param['column']) > 0) {
+			if (isset($param['grid_type']) && $param['grid_type'] == 'sent_mass_mail') {
+				$param['is_custom']  = '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
+				
+				// only add this button when record is draft
+				if ($row['status'] == 'draft') {
+					$param['is_custom'] .= '<i class="cursor-button fa fa-envelope btn-sent"></i> ';
+				}
+				
+				$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+			}
+			
 			$row = dt_view_set($row, $param);
 		}
 		

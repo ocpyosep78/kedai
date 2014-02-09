@@ -14,38 +14,63 @@
 		<div class="container"><div class="row">
 			<section class="col-lg-99 col-md-9 col-sm-12 col-xs-12 main-column">
 				<div id="content">
-					<form class="sky-form" id="form-login">
-						<input type="hidden" name="action" value="login" />
+					<div class="wrapper underline no-margin">
+						<h2>SIGN IN</h2>
 						
-						<fieldset>
-							<section>
-								<label class="label">Email</label>
-								<label class="input">
-									<input type="text" name="email" placeholder="Email" value="" />
-								</label>
-							</section>
-							<section>
-								<label class="label">Password</label>
-								<label class="input">
-									<input type="password" name="passwd" placeholder="Password" value="" />
-								</label>
-							</section>
-						</fieldset>
-						<br/><br/>
+						<form class="sky-form" id="form-login">
+							<input type="hidden" name="action" value="login" />
+							
+							<fieldset>
+								<section>
+									<label class="label">Email</label>
+									<label class="input">
+										<input type="text" name="email" placeholder="Email" value="" />
+									</label>
+								</section>
+								<section>
+									<label class="label">Password</label>
+									<label class="input">
+										<input type="password" name="passwd" placeholder="Password" value="" />
+									</label>
+								</section>
+							</fieldset>
+							<br/><br/>
+							
+							<footer>
+								<button type="submit" class="button">Sign In</button>
+								<button type="button" class="button button-secondary" onclick="window.history.back();">Cancel</button>
+							</footer>
+						</form>
+					</div>
+					
+					<div class="wrapper underline no-margin">
+						<h2>FORGET PASSWORD</h2>
 						
-						<footer>
-							<button type="submit" class="button">Sign In</button>
-							<button type="button" class="button button-secondary" onclick="window.history.back();">Cancel</button>
-						</footer>
-					</form>
+						<form class="sky-form" id="form-reset">
+							<input type="hidden" name="action" value="reset_password" />
+							
+							<fieldset>
+								<section>
+									<label class="label">Email</label>
+									<label class="input">
+										<input type="text" name="email" placeholder="Email" value="" />
+									</label>
+								</section>
+							</fieldset>
+							<br/><br/>
+							
+							<footer>
+								<button type="submit" class="button">Reset Password</button>
+								<button type="button" class="button button-secondary" onclick="window.history.back();">Cancel</button>
+							</footer>
+						</form>
+					</div>
 				</div>
 			</section>
 			
 			<aside id="oc-column-right" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 offcanvas-sidebar">
 				<div id="column-right" class="sidebar">
-					<div id="column-right" class="sidebar">
-						<?php $this->load->view('website/common/widget_section'); ?>
-					</div>
+					<?php $this->load->view('website/common/widget_section'); ?>
 				</div>
 			</aside>
 		</div></div>
@@ -57,7 +82,7 @@
 <?php $this->load->view('website/common/menu_canvas'); ?>
 
 <script>
-	// form
+	// form login
 	$('#form-login').validate({
 		rules: {
 			email: { required: true, email: true },
@@ -78,6 +103,28 @@
 				$.notify(result.message, "error");
 			}
 		} });
+	});
+	
+	// form reset password
+	$('#form-reset').validate({
+		rules: {
+			email: { required: true, email: true }
+		}
+	});
+	$('#form-reset').submit(function(e) {
+		e.preventDefault();
+		if (! $('#form-reset').valid()) {
+			return;
+		}
+		
+		var param = Site.Form.GetValue('#form-reset');
+		Func.update({
+			param: param,
+			link: web.base + 'login/action',
+			callback: function(result) {
+				$('#form-reset')[0].reset();
+			}
+		});
 	});
 </script>
 

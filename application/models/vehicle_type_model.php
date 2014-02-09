@@ -58,7 +58,7 @@ class Vehicle_Type_model extends CI_Model {
 		$param['field_replace']['vehicle_brand_name'] = 'VehicleBrand.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND VehicleType.name LIKE '%".$param['namelike']."%'" : '';
-		$string_brand = (!empty($param['vehicle_brand_id'])) ? "AND VehicleType.vehicle_brand_id = '".$param['vehicle_brand_id']."'" : '';
+		$string_brand = (isset($param['vehicle_brand_id'])) ? "AND VehicleType.vehicle_brand_id = '".$param['vehicle_brand_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
 		$string_limit = GetStringLimit($param);

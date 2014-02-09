@@ -34,6 +34,10 @@
 										<?php echo ShowOption(array( 'Array' => $array_category, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
 									</select>
 								</div>
+								<div class="form-group">
+									<label>Link Override</label>
+									<input type="text" class="form-control" name="link_override" />
+								</div>
 							</div>
 						</section>
 					</div>

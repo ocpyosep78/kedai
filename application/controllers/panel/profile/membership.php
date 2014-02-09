@@ -5,11 +5,11 @@ class membership extends PANEL_Controller {
     }
     
     function index() {
-		$this->load->view( 'panel/setup/membership' );
+		$this->load->view( 'panel/profile/membership' );
     }
 	
 	function grid() {
-		$_POST['is_edit'] = 1;
+		$_POST['is_custom'] = '<i class="cursor-button fa fa-thumbs-up btn-request"></i> ';
 		$_POST['column'] = array( 'title', 'advert_count', 'advert_time' );
 		
 		$array = $this->Membership_model->get_array($_POST);
@@ -23,13 +23,20 @@ class membership extends PANEL_Controller {
 		$action = (isset($_POST['action'])) ? $_POST['action'] : '';
 		unset($_POST['action']);
 		
+		// user
+		$user = $this->User_model->get_session();
+		
 		$result = array();
-		if ($action == 'update') {
-			$result = $this->Membership_model->update($_POST);
-		} else if ($action == 'get_by_id') {
-			$result = $this->Membership_model->get_by_id(array( 'id' => $_POST['id'] ));
-		} else if ($action == 'delete') {
-			$result = $this->Membership_model->delete($_POST);
+		if ($action == 'request') {
+			$param_update['user_id'] = $user['id'];
+			$param_update['membership_id'] = $_POST['id'];
+			$param_update['request_time'] = $this->config->item('current_datetime');
+			$param_update['status'] = 'pending';
+			$result = $this->User_Membership_model->update($param_update);
+		} else if ($action == 'cancel_request') {
+			$param_delete['user_id'] = $user['id'];
+			$param_delete['status'] = 'pending';
+			$result = $this->User_Membership_model->delete($param_delete);
 		}
 		
 		echo json_encode($result);

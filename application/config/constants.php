@@ -14,6 +14,11 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+/*	SENT MAIL */
+$value = ($_SERVER['SERVER_NAME'] == 'localhost') ? false : true;
+define('SENT_MAIL',								$value);
+
+define('WEBSITE_DOMAIN',						'kedaipedia.com');
 define('WEBSITE_TITLE',							'Kedaipedia');
 define('WEBSITE_DESC',							'The large market online');
 define('SHA_SECRET',							'OraNgerti');
@@ -25,12 +30,16 @@ define('ADVERT_STATUS_REVIEW',					1);
 define('ADVERT_STATUS_RE_REVIEW',				2);
 define('ADVERT_STATUS_APPROVE',					3);
 define('ADVERT_STATUS_REJECT',					4);
+define('ADVERT_STATUS_RE_SUBMIT',				5);
 
 /*	VERIFY ADDRESS */
-define('VERIFY_ADDRESS_MAX',					5);
+define('VERIFY_ADDRESS_MAX',					3);
 
 /*	LOGIN ACTIVE TIME */
 define('LOGIN_ACTIVE_TIME',						(60 * 60 * 1));
+
+/*	MAXIMUM SENDING MAIL */
+define('MAXIMUM_SENDING_MAIL',					5000);
 
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
@@ -47,6 +56,7 @@ define('CITY',									'city');
 define('CITY_IP',								'city_ip');
 define('CONDITION',								'condition');
 define('INPUT_TYPE',							'input_type');
+define('MASS_EMAIL',							'mass_email');
 define('MEMBERSHIP',							'membership');
 define('PAGE_STATIC',							'page_static');
 define('REGION',								'region');

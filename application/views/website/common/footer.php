@@ -1,3 +1,7 @@
+<?php
+	$page_static = $this->Page_Static_model->get_by_id(array( 'alias' => 'about-us' ));
+?>
+
 <footer id="footer">
 	<div class="footer-top"><div class="container">
 	</div></div>
@@ -7,8 +11,8 @@
 			<div class="box about-us">
 				<div class="box-heading"><span>About Us</span></div>
 				<div class="box-content">
-					<p><span style=" line-height: 20px;">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum 2</span></p>
-					<p><a class="link-more" href="http://shopermarket.com/about-us" title="About Us"><i class="fa icon-expand">&nbsp;</i><span>view more</span></a></p>
+					<p><span style=" line-height: 20px;"><?php echo get_length_char($page_static['content'], 150, ' ...'); ?></span></p>
+					<p><a class="link-more" href="<?php echo base_url('about-us'); ?>" title="About Us"><i class="fa icon-expand">&nbsp;</i><span>view more</span></a></p>
 				</div>
 			</div>
 		</div>
@@ -17,10 +21,10 @@
 				<div class="box-heading"><span>Information</span></div>
 				<div class="box-content">
 					<ul class="list">
-						<li class="first"><a href="http://shopermarket.com/about-us">About Us</a></li>
-						<li><a href="http://shopermarket.com/delivery-information">Delivery Information</a></li>
-						<li><a href="http://shopermarket.com/privacy-policy">Privacy Policy</a></li>
-						<li><a href="http://shopermarket.com/terms-conditions">Terms &amp; Conditions</a></li>
+						<li class="first"><a href="<?php echo base_url('about-us'); ?>">About Us</a></li>
+						<li><a href="<?php echo base_url('delivery-information'); ?>">Delivery Information</a></li>
+						<li><a href="<?php echo base_url('privacy-policy'); ?>">Privacy Policy</a></li>
+						<li><a href="<?php echo base_url('terms-conditions'); ?>">Terms &amp; Conditions</a></li>
 					</ul>
 				</div>
 			</div>
@@ -30,10 +34,9 @@
 				<div class="box-heading"><span>Extras</span></div>
 				<div class="box-content">
 					<ul class="list">
-						<li class="first"><a href="http://shopermarket.com/brands">Brands</a></li>
-						<li><a href="http://shopermarket.com/gift-vouchers">Gift Vouchers</a></li>
-						 
-						<li class="last"><a href="http://shopermarket.com/specials">Specials</a></li>
+						<li class="first"><a href="<?php echo base_url('brands'); ?>">Brands</a></li>
+						<li><a href="<?php echo base_url('gift-vouchers'); ?>">Gift Vouchers</a></li>
+						<li class="last"><a href="<?php echo base_url('specials'); ?>">Specials</a></li>
 					</ul>
 				</div>
 			</div>

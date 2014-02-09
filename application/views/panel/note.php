@@ -49,7 +49,7 @@
 									<section class="vbox b-b">
 										<section class="paper">
 											<input type="hidden" name="id" value="0" />
-											<textarea type="text" name="content" class="form-control scrollable" placeholder="Type your note here"></textarea>
+											<textarea type="text" name="content" class="form-control scrollable" placeholder="Type your note here" maxlength="1000"></textarea>
 										</section>
 									</section>
 								</aside>

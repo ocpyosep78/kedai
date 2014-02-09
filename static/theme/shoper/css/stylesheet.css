@@ -2194,6 +2194,9 @@ ul.contact-us li a {
   margin-bottom: 5px;
   min-height: 20px;
 }
+.product-list .my-date {
+  font-size: 10px; color: #e27f7a;
+}
 .product-list .image {
   float: left;
   margin-right: 20px;

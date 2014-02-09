@@ -210,8 +210,8 @@
 				
 				<aside id="oc-column-right" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 offcanvas-sidebar">
 					<div id="column-right" class="sidebar">
-						<?php $this->load->view('website/common/profile'); ?>
-						<?php $this->load->view('website/common/widget_section'); ?>
+						<?php $this->load->view( 'website/common/profile', array( 'user_id' => $advert['user_id'] ) ); ?>
+						<?php $this->load->view( 'website/common/widget_section' ); ?>
 					</div>
 				</aside>
 			</div>

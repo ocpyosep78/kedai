@@ -43,4 +43,26 @@ class input_car {
 		
 		return $content;
 	}
+	
+	function get_search($param = array()) {
+		$array_vehicle_brand = $this->ci->Vehicle_Brand_model->get_array();
+		$array_vehicle_type = $this->ci->Vehicle_Type_model->get_array(array( 'vehicle_brand_id' => $param['vehicle_brand_id'] ));
+		
+		$content = '
+			<div class="limit category-input-search">
+				<span>Vehicle Type:</span>
+				<select name="vehicle_type_id" class="form_submit input">
+					'.ShowOption(array( 'Array' => $array_vehicle_type, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All Type', 'Selected' => @$param['vehicle_type_id'] )).'
+				</select>
+			</div>
+			<div class="limit category-input-search">
+				<span>Vehicle Brand:</span>
+				<select name="vehicle_brand_id" class="input">
+					'.ShowOption(array( 'Array' => $array_vehicle_brand, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All Brand', 'Selected' => @$param['vehicle_brand_id'] )).'
+				</select>
+			</div>
+		';
+		
+		return $content;
+	}
 }

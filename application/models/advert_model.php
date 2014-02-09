@@ -87,6 +87,7 @@ class Advert_model extends CI_Model {
 		$string_category_sub = (!empty($param['category_sub_id'])) ? "AND Advert.category_sub_id = '".$param['category_sub_id']."'" : '';
 		$string_advert_type = (!empty($param['advert_type_id'])) ? "AND Advert.advert_type_id = '".$param['advert_type_id']."'" : '';
 		$string_advert_status = (!empty($param['advert_status_id'])) ? "AND Advert.advert_status_id = '".$param['advert_status_id']."'" : '';
+		$string_category_input = (isset($param['category_input_search'])) ? get_query_category_input($param['category_input_search']) : '';
 		$string_delete = "AND (Advert.is_delete = '".$param['is_delete']."' OR 'x' = '".$param['is_delete']."')";
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'name ASC');
@@ -102,9 +103,11 @@ class Advert_model extends CI_Model {
 		
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS Advert.*,
+				User.email, User.first_name, User.last_name,
 				AdvertStatus.name advert_status_name, City.name city_name, Region.name region_name,
 				Category.name category_name, CategorySub.name category_sub_name
 			FROM ".ADVERT." Advert
+			LEFT JOIN ".USER." User ON User.id = Advert.user_id
 			LEFT JOIN ".CITY." City ON City.id = Advert.city_id
 			LEFT JOIN ".REGION." Region ON Region.id = City.region_id
 			LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
@@ -114,7 +117,7 @@ class Advert_model extends CI_Model {
 				$string_user $string_city $string_region
 				$string_category $string_category_sub
 				$string_price_min $string_price_max
-				$string_advert_type $string_advert_status
+				$string_advert_type $string_advert_status $string_category_input
 				$string_condition $string_delete $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
@@ -130,6 +133,8 @@ class Advert_model extends CI_Model {
     function get_count($param = array()) {
 		if (isset($param['total_user'])) {
 			$select_query = "SELECT COUNT(*) TotalRecord FROM ".ADVERT;
+		} else if (isset($param['user_id'])) {
+			$select_query = "SELECT COUNT(*) TotalRecord FROM ".ADVERT." WHERE user_id = '".$param['user_id']."'";
 		} else {
 			$select_query = "SELECT FOUND_ROWS() TotalRecord";
 		}
@@ -190,7 +195,7 @@ class Advert_model extends CI_Model {
 		
 		// thumbnail
 		$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail'];
-		if (file_exists($file_path)) {
+		if (file_exists($file_path) && !empty($row['thumbnail'])) {
 			$thumbnail_small = preg_replace('/\.(jpg|jpeg|png|gif)/i', '_s.$1', $row['thumbnail']);
 			$row['thumbnail_link'] = base_url('static/upload/'.$thumbnail_small);
 		} else {
@@ -208,6 +213,16 @@ class Advert_model extends CI_Model {
 			unset($row['metadata']);
 		}
 		
+		// fullname
+		if (isset($row['first_name']) && isset($row['last_name'])) {
+			$row['fullname'] = $row['first_name'].' '.$row['last_name'];
+		}
+		
+		// decript email
+		if (isset($row['email'])) {
+			$row['email'] = mcrypt_decode($row['email']);
+		}
+		
 		if (count(@$param['column']) > 0) {
 			$param['is_custom'] = (isset($param['is_custom'])) ? $param['is_custom'] : '';
 			
@@ -217,14 +232,20 @@ class Advert_model extends CI_Model {
 					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
 					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
 					
-					if ($row['advert_status_id'] != ADVERT_STATUS_APPROVE) {
+					if (in_array($row['advert_status_id'], array( ADVERT_STATUS_REVIEW, ADVERT_STATUS_RE_REVIEW ))) {
 						$param['is_custom'] .= '<i class="cursor-button fa fa-check btn-approve"></i> ';
+						$param['is_custom'] .= '<i class="cursor-button fa fa-times btn-reject"></i> ';
 					}
 					
 					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
 				} else if ($param['is_manage'] == 'member') {
 					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
 					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
+					
+					if ($row['advert_status_id'] == ADVERT_STATUS_RE_SUBMIT) {
+						$param['is_custom'] .= '<i class="cursor-button fa fa-refresh btn-resubmit"></i> ';
+					}
+					
 					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
 				}
 			}

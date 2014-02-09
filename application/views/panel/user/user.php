@@ -125,6 +125,12 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-lg-2 control-label">Advert Count</label>
+										<div class="col-lg-10">
+											<input type="text" name="advert_count" class="form-control" placeholder="Advert Count" disabled="disabled" />
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-lg-2 control-label">Membership Date</label>
 										<div class="col-lg-10">
 											<input type="text" name="membership_date" class="form-control" placeholder="Membership Date" disabled="disabled" />

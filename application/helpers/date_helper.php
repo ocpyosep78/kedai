@@ -164,6 +164,8 @@ if (! function_exists('show_time_diff')) {
 			$month = floor($diff_time / (60 * 60 * 24 * 30));
 			$day = floor(($diff_time / (60 * 60 * 24)) / 30);
 			$result = $month.' month '.$day.' day ago';
+		} else {
+			$result = 'long time day ago';
 		}
 		
 		return $result;

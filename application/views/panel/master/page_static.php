@@ -160,9 +160,7 @@ $(document).ready(function() {
 				eval('var record = ' + raw_record);
 				
 				Func.ajax({ url: web.base + 'panel/master/page_static/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					$('#form-page-static [name="id"]').val(result.id);
-					$('#form-page-static [name="name"]').val(result.name);
-					$('#form-page-static [name="alias"]').val(result.alias);
+					Func.populate({ cnt: '#form-page-static', record: result });
 					$('#editor-content').html(result.content);
 					page.show_form();
 				} });
@@ -195,19 +193,14 @@ $(document).ready(function() {
 		
 		var param = Site.Form.GetValue('form-page-static form');
 		param.content = $('#editor-content').html();
-		Func.ajax({ url: web.base + 'panel/master/page_static/action', param: param, callback: function(result) {
-			if (result.status == 1) {
+		Func.update({
+			param: param,
+			link: web.base + 'panel/master/page_static/action',
+			callback: function() {
 				dt.reload();
 				page.show_table();
-				$.notify(result.message, "success");
-				$('#form-page-static').modal('hide');
-				$('#form-page-static form')[0].reset();
-			} else {
-				$.notify(result.message, "error");
 			}
-		} });
-		
-		return false;
+		});
 	});
 	
 	// display
@@ -215,6 +208,7 @@ $(document).ready(function() {
 		page.show_form();
 		$('#form-page-static form')[0].reset();
 		$('#form-page-static [name="id"]').val(0);
+		$('#editor-content').html('');
 	});
 	$('.show-table').click(function() {
 		page.show_table();

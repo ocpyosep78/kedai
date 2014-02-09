@@ -115,6 +115,12 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-lg-2 control-label">Order No</label>
+										<div class="col-lg-10">
+											<input type="text" name="order_no" class="form-control" placeholder="Order No" />
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-lg-2 control-label">Max Length</label>
 										<div class="col-lg-10">
 											<input type="text" name="max_length" class="form-control" placeholder="Max Length" />
@@ -124,6 +130,13 @@
 										<div class="col-lg-offset-2 col-lg-10">
 											<div class="checkbox">
 												<label><input type="checkbox" name="is_required" value="1" /> Required</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="is_searchable" value="1" /> Searchable</label>
 											</div>
 										</div>
 									</div>
@@ -201,17 +214,14 @@ $(document).ready(function() {
 		
 		var param = Site.Form.GetValue('.tree-form-view form');
 		param.advert_type_sub_id = $('input[name="advert_type_sub_id"]').val();
-		Func.ajax({ url: web.base + 'panel/setup/category_input/action', param: param, callback: function(result) {
-			if (result.status == 1) {
+		Func.update({
+			param: param,
+			link: web.base + 'panel/setup/category_input/action',
+			callback: function() {
 				page.tree.load();
 				page.show_tree();
-				$.notify(result.message, "success");
-			} else {
-				$.notify(result.message, "error");
 			}
-		} });
-		
-		return false;
+		});
 	});
 	$('.tree-form-view form .btn-danger').click(function() {
 		var record = Site.Form.GetValue('.tree-form-view form');

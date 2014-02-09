@@ -1,41 +1,39 @@
-width: 300px
-height: 240px
 -----------------------------------------------------------------------------------------------
-Website Iklan Baris seperti Toko Bagus
+Website Iklan Baris seperti Toko Bagus => http://www.kedaipedia.com/
 -----------------------------------------------------------------------------------------------
 Common & Global
 -----------------------------------------------------------------------------------------------
-Lokasi member dicatat (ada history untuk login "ip dan kota")
+cek => Lokasi member dicatat (ada history untuk login "ip dan kota")
 
-Email yang disimpan di db diencript (mcript yang ada keynya)
+cek => Email yang disimpan di db diencript (mcript yang ada keynya)
 
 Additional Input
-- additional input ini melekat pada sub kategori
-- punya additional input, jumlah tak terbatas
-- additional input bisa berupa text, select, checkbox, parent
-- additional input bisa punya child, dan seterusnya
-- additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
-- referensi
+cek => - additional input ini melekat pada sub kategori & advert type
+cek => - punya additional input, jumlah tak terbatas
+cek => - additional input bisa berupa text, select, checkbox, parent
+cek => - additional input bisa punya child, dan seterusnya
+cek => - additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
+cek => - referensi
   - http://www.tokobagus.com/pasang.asp
   - http://www2.mudah.my/ai/form/1
-- contoh kategori mobil
+cek => - contoh kategori mobil
   - ada additional input "merk mobil" dengan pilihan : pilihan honda, toyota, suzuki
   - jika dipilih honda maka akan keluar additional input jenis mobil dari merk honda saja
   - contoh detail : http://www.tokobagus.com/mobil/baru/
-- halaman masing2 sub kategori akan berbeda2 karena filternya juga berbeda2
+cek => - halaman masing2 sub kategori akan berbeda2 karena filternya juga berbeda2
 
 Filter Harga Pencarian
-- setiap sub kategori akan memiliki filter range harga yang bisa di masukan oleh admin
-- terdiri dari 2 filter (harga min & harga max)
+cek => - setiap sub kategori akan memiliki filter range harga yang bisa di masukan oleh admin
+cek => - terdiri dari 2 filter (harga min & harga max)
 
 Verify User
-- ada 2 jenis Verify (email & lokasi)
-- di admin ada fitur untuk get verify location yang akan mengenerate no yang no tersebut akan
-  dikirim admin ke lokasi si request via pos dan si request akan memasukan no tersebut untuk melakukan verifikasi
-- batas untuk verify lokasi sebanyak 3x, jika sudah lebih dari 3x gagal maka user tersebut tidak bisa melakukan verifikasi lagi
+cek => - ada 2 jenis Verify (email & lokasi)
+cek => - di admin ada fitur untuk get verify location yang akan mengenerate no yang no tersebut akan
+		 dikirim admin ke lokasi si request via pos dan si request akan memasukan no tersebut untuk melakukan verifikasi
+cek => - batas untuk verify lokasi sebanyak 3x, jika sudah lebih dari 3x gagal maka user tersebut tidak bisa melakukan verifikasi lagi
 
 Validasi
-- sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
+cek => - sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
 
 Follow Publisher
 - jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
@@ -43,7 +41,7 @@ Follow Publisher
 - follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
 
 Session Login
-- session ada umurnya (2 jam)
+cek => - session ada umurnya (1 jam)
 
 Iklan - Note
 - iklan yang di appove hanya tayang 60 hari
@@ -51,6 +49,9 @@ Iklan - Note
 - iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
 - gambar iklan yang besar saja di watermark
 - iklan punya code id (9 digit angka random)
+- link cron check advert : http://localhost/kedai/trunk/service/advert_expire
+  - approve tayang 60 hari => klo lebih jadi re submit statusnya
+  - reject yang umurnya lebih dari 60 hari akan dihapus
 
 Website - Note
 - ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
@@ -68,21 +69,21 @@ User Profile
 Back End Panel
 -----------------------------------------------------------------------------------------------
 Template
-- http://shoperindo.com/malaysia/admin/ atau http://flatfull.com/themes/note/index.html
+cek => - http://shoperindo.com/malaysia/admin/ atau http://flatfull.com/themes/note/index.html
 
 Note Common
-- data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
+cek => - data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
 
 Advert Type
-- masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
+cek => - masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
 
 Previlege
 - Admin & Editor bisa ganti kategory & subkategory
 - Admin & Editor bisa approval saja
 
 Login History
-- mencatat tanggal akses (login), ip dan lokasi
-- di dashboard panel ditampilan 3 history lastest login
+cek => - mencatat tanggal akses (login), ip dan lokasi
+cek => - di dashboard panel ditampilan 3 history lastest login
 
 Form Listing Iklan
 - page nya seperti http://shoperindo.com/malaysia/admin/myad.html
@@ -113,17 +114,17 @@ Form Listing Member
 - ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
 
 Form Sub Kategory
-- ada link custom seperti shopermarket
+cek => - ada link custom seperti shopermarket
 
 Form Profile Member
 - punya foto profile & foto banner
 - untuk member saja agar dapar memperbaharui foto profile & foto banner
 
 Form Membership
-- jenis membership
-  - free = 10 max ads
-  - 3 bulan = 20 max ads
-  - 6 bulan 30 max ads..
+cek => - jenis membership
+cek =>   - free = 10 max ads
+cek =>   - 3 bulan = 20 max ads
+cek =>   - 6 bulan 30 max ads..
 
 Subscriber
 - pengiriman nya pakai cron
@@ -131,14 +132,14 @@ Subscriber
 - buatnya seperti punya shopermarket
 
 User Setting
-- ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
+cek => - ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
 
 User Note
-- masing2 user punya note sendiri2
-- link : http://shoperindo.com/malaysia/admin/notebook.html
-- max text areanya 1000 karakter
-- note ini seperti notifikasi facebook yang ada di atas
-  - contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
+cek => - masing2 user punya note sendiri2
+cek => - link : http://shoperindo.com/malaysia/admin/notebook.html
+cek => - max text areanya 1000 karakter
+cek => - note ini seperti notifikasi facebook yang ada di atas
+  cek => - contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
 
 Form Update Profile
 - upload foto profile & foto banner
@@ -155,35 +156,35 @@ Note Common
 - login dari www atau tanpa www juga bisa
 
 Website Link
-- linknya seperti : 
-  - website.com/tags/
-  - website.com/region/ => region atau propinsi
-  - website.com/sub kategory/
-  - website.com/kategory/
-  - website.com/city/
+cek => - linknya seperti : 
+cek =>   - website.com/tags/
+cek =>   - website.com/region/ => region atau propinsi
+cek =>   - website.com/sub kategory/
+cek =>   - website.com/kategory/
+cek =>   - website.com/city/
 
 Form Registrasi
-- registrasi harus validasi email
+cek => - registrasi harus validasi email
 
 Form Forget Password
 - untuk mereset password
 
 Form Entri Iklan Baris
-- form seperti http://shoperindo.com/malaysia/post.htm
-- gambar bisa banyak seperti toko bagus
-- gambar bisa di hapus kembali
-- link : http://shoperindo.com/malaysia/post.htm
-- ada IC Number / Other ID Number (centang)
+cek => - form seperti http://shoperindo.com/malaysia/post.htm
+cek => - gambar bisa banyak seperti toko bagus
+cek => - gambar bisa di hapus kembali
+cek => - link : http://shoperindo.com/malaysia/post.htm
+cek => - ada IC Number / Other ID Number (centang)
   - referensi : http://www2.mudah.my/ai/form/0
-- user yang belum login juga bisa pasang iklan, form bisa contoh toko bagus
-- user juga bisa login disini
+cek => - user yang belum login juga bisa pasang iklan, form bisa contoh toko bagus
+cek => - user juga bisa login disini
 
 Listing Page
-- http://shoperindo.com/malaysia/listing.htm
+cek => - http://shoperindo.com/malaysia/listing.htm
 
 Single Page
-- http://shoperindo.com/malaysia/single.htm
-- dibagian bawah ada 3 tab (fitur)
+cek => - http://shoperindo.com/malaysia/single.htm
+cek => - dibagian bawah ada 3 tab (fitur)
 
 Link Profile User
 - link : namadomain.com/namasaya
@@ -206,28 +207,9 @@ Biaya
 - biaya pengembangan 7 jt
 - engine bahasa inggris
 
-Error
-- shopermarket tidak bisa login dari www
-
-
-Priority :
-- Advert Type
-- Category
-- Category Price
-- Category Member
-- City
-- Page Static
-- Region
 -----------------------------------------------------------------------------------------------
 Tambahan
 -----------------------------------------------------------------------------------------------
-Ok mas.. form dinamisnya udah ok..
-
-untuk field kondition di hilangkan saja.. karena bisa di set di aditional kayaknya, karena kemungkinan tidak semua sub kategory mengunakan kondisi yg sama, misal nanti di sub kategori "lowongan kerja" tidak ada condition "bekas"
-
-tapi jika udah kadung linked dengan yang lain.. bisa di buat "lewat aja" jadi boleh tidak di isi, dan field kondisi tidak di tampilkan di form post
-
-Untuk address itu field boleh tidak di isi, karena field itu tidak akan di tampilkan di form post, cuma di biarkan saja... buat jaga jaga kalo perlu...
 
 
 -------------------

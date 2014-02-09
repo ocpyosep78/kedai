@@ -18,6 +18,10 @@
 						<section class="panel panel-default">
 							<div class="panel-body">
 								<div class="form-group">
+									<label>Title</label>
+									<input type="text" class="form-control" name="title" data-required="true" />
+								</div>
+								<div class="form-group">
 									<label>Advert Count</label>
 									<input type="text" class="form-control" name="advert_count" data-required="true" />
 								</div>
@@ -69,8 +73,9 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="40%">Advert Count</th>
-										<th width="40%">Duration</th>
+										<th width="30%">Title</th>
+										<th width="30%">Advert Count</th>
+										<th width="20%">Duration</th>
 										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
@@ -91,9 +96,9 @@
 $(document).ready(function() {
 	// grid
 	var param = {
-		id: 'datatable',
+		id: 'datatable', aaSorting: [[1, 'ASC']],
 		source: web.base + 'panel/setup/membership/grid',
-		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();

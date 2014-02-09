@@ -60,7 +60,7 @@
 $(document).ready(function() {
 	// grid
 	var param = {
-		id: 'datatable',
+		id: 'datatable', aaSorting: [[5, 'desc']],
 		source: web.base + 'panel/user/membership/grid',
 		column: [ { }, { }, { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
