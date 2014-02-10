@@ -5294,7 +5294,7 @@ body.modal-open,
   display: none;
 }
 .show {
-  display: block !important;
+  display: block;
 }
 .invisible {
   visibility: hidden;

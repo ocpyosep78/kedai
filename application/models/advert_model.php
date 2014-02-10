@@ -41,10 +41,12 @@ class Advert_model extends CI_Model {
         if (isset($param['id'])) {
             $select_query  = "
 				SELECT Advert.*,
+					User.email, User.first_name, User.last_name,
 					City.region_id, City.name city_name, Region.name region_name,
 					Category.name category_name, Category.alias category_alias,
 					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
 				FROM ".ADVERT." Advert
+				LEFT JOIN ".USER." User ON User.id = Advert.user_id
 				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
@@ -181,7 +183,7 @@ class Advert_model extends CI_Model {
     }
 	
 	function sync($row, $param = array()) {
-		$row = StripArray($row, array( 'post_time' ));
+		$row = StripArray($row, array( 'post_time', 'sold_time' ));
 		
 		// link
 		$row['edit_link'] = base_url('post/'.$row['id']);
@@ -242,7 +244,9 @@ class Advert_model extends CI_Model {
 					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
 					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
 					
-					if ($row['advert_status_id'] == ADVERT_STATUS_RE_SUBMIT) {
+					if ($row['advert_status_id'] == ADVERT_STATUS_APPROVE && empty($row['sold_time'])) {
+						$param['is_custom'] .= '<i class="cursor-button fa fa-dollar btn-sold"></i> ';
+					} else if ($row['advert_status_id'] == ADVERT_STATUS_RE_SUBMIT) {
 						$param['is_custom'] .= '<i class="cursor-button fa fa-refresh btn-resubmit"></i> ';
 					}
 					

@@ -25,6 +25,13 @@ class home extends KEDAI_Controller {
 			$user = $this->User_model->get_session();
 			$result['count'] = $this->User_Contact_model->get_unread_count(array( 'user_id' => $user['id'] ));
 			$result['array_user_contact'] = $this->User_Contact_model->get_array(array( 'user_id' => $user['id'], 'is_read' => 0, 'limit' => 5 ));
+			
+			// check active user
+			$user = $this->User_model->get_by_id(array( 'id' => $user['id'] ));
+			if (empty($user['is_active'])) {
+				$this->User_model->del_session();
+				$result['reload'] = true;
+			}
 		}
 		
 		echo json_encode($result);

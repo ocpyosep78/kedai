@@ -36,35 +36,36 @@ Validasi
 cek => - sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
 
 Follow Publisher
-- jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
-- pengiriman emailnya ketika iklan yang dipasang penjual telah di approve oleh admin dan dilakukan oleh cron
-- follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
+cek => - jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
+cek => - pengiriman emailnya ketika iklan yang dipasang penjual telah di approve oleh admin
+cek => - follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
 
 Session Login
 cek => - session ada umurnya (1 jam)
 
 Iklan - Note
-- iklan yang di appove hanya tayang 60 hari
-- setelah 60 hari sistem akan kirim notifikasi ke email / message bahwa iklan sudah expired dan ada tombol re-submit
-- iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
-- gambar iklan yang besar saja di watermark
-- iklan punya code id (9 digit angka random)
-- link cron check advert : http://localhost/kedai/trunk/service/advert_expire
-  - approve tayang 60 hari => klo lebih jadi re submit statusnya
-  - reject yang umurnya lebih dari 60 hari akan dihapus
+cek => - iklan yang di appove hanya tayang 60 hari
+cek => - setelah 60 hari sistem akan kirim notifikasi ke email / message bahwa iklan sudah expired dan ada tombol re-submit
+cek => - iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
+cek => - gambar iklan yang besar saja di watermark
+cek => - iklan punya code id (9 digit angka random)
+cek => - link cron check advert : http://localhost/kedai/trunk/service/advert_expire
+         - approve tayang 60 hari => klo lebih jadi re submit statusnya
+         - reject yang umurnya lebih dari 60 hari akan dihapus
 
 Website - Note
-- ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
+cek => - ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
 
 Website Common :
 - folder view/controller/model klo bisa direname agar ngak ditebak orang lain
 
 User Alias :
-- untuk dafault user alias berupa random number
-- nanti alias ini bisa diubah oleh user sebagai nama toko dia
+cek => - untuk dafault user alias berupa random number (user bisa entry sendiri ketika dia register, tetapi jika tidak bisa memilih alias yang sudah dipakai)
+cek => - nanti alias ini bisa diubah oleh user sebagai nama toko dia
 
 User Profile
-- field : first name, last name, about, tag of me
+cek => - field : first name, last name, about, tag of me
+cek => - link http://localhost/kedai/trunk/her0satr
 -----------------------------------------------------------------------------------------------
 Back End Panel
 -----------------------------------------------------------------------------------------------
@@ -78,19 +79,19 @@ Advert Type
 cek => - masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
 
 Previlege
-- Admin & Editor bisa ganti kategory & subkategory
-- Admin & Editor bisa approval saja
+cek =>- Admin bisa ganti kategory & subkategory
+cek => - Editor bisa approval saja
 
 Login History
 cek => - mencatat tanggal akses (login), ip dan lokasi
 cek => - di dashboard panel ditampilan 3 history lastest login
 
 Form Listing Iklan
-- page nya seperti http://shoperindo.com/malaysia/admin/myad.html
-- status iklan : review, re-review, uproverd, ditolak
-- status default : review
-- ada penanda klo item ini sudah terjual / sold
-- ketika di approve oleh admin maka mengirim notifikasi seperti :
+cek => - page nya seperti http://shoperindo.com/malaysia/admin/myad.html
+cek => - status iklan : review, re-review, uproverd, ditolak
+cek => - status default : review
+cek => - ada penanda klo item ini sudah terjual / sold
+cek => - ketika di approve oleh admin maka mengirim notifikasi seperti :
    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
    Hi User, <nama register>
 
@@ -105,20 +106,20 @@ Form Listing Iklan
 
    kedai.com
    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-   - ketika di approve akan keluar popup dengan form untuk text area
-   - saat di email formatnya sesuai diatas
+cek =>    - ketika di approve akan keluar popup dengan form untuk text area
+cek =>    - saat di email formatnya sesuai diatas
 
 Form Listing Member
-- dapat men-disable member
-- ada fitur untuk non aktifkan member
-- ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
+cek => - dapat men-disable member
+cek => - ada fitur untuk non aktifkan member
+cek => - ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
 
 Form Sub Kategory
 cek => - ada link custom seperti shopermarket
 
 Form Profile Member
-- punya foto profile & foto banner
-- untuk member saja agar dapar memperbaharui foto profile & foto banner
+cek => - punya foto profile & foto banner
+cek => - untuk member saja agar dapar memperbaharui foto profile & foto banner
 
 Form Membership
 cek => - jenis membership
@@ -127,9 +128,9 @@ cek =>   - 3 bulan = 20 max ads
 cek =>   - 6 bulan 30 max ads..
 
 Subscriber
-- pengiriman nya pakai cron
-- sekali kirim bisa mencapai 5 rb email
-- buatnya seperti punya shopermarket
+cek => - pengiriman nya pakai cron
+cek => - sekali kirim bisa mencapai 5 rb email
+cek => - buatnya seperti punya shopermarket
 
 User Setting
 cek => - ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
@@ -142,18 +143,18 @@ cek => - note ini seperti notifikasi facebook yang ada di atas
   cek => - contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
 
 Form Update Profile
-- upload foto profile & foto banner
+cek => - upload foto profile & foto banner
 
 Form Widget
-- ada form widget
-- ini bisa diakses dengan 2 versi link seperti :
-  - website.com/widget-name
-  - website.com/page/widget-name
+cek => - ada form widget
+cek => - ini bisa diakses dengan 2 versi link seperti :
+cek =>   - website.com/widget-name
+cek =>   - website.com/page/widget-name
 -----------------------------------------------------------------------------------------------
 Website
 -----------------------------------------------------------------------------------------------
 Note Common
-- login dari www atau tanpa www juga bisa
+cek => - login dari www atau tanpa www juga bisa
 
 Website Link
 cek => - linknya seperti : 
@@ -167,7 +168,7 @@ Form Registrasi
 cek => - registrasi harus validasi email
 
 Form Forget Password
-- untuk mereset password
+cek => - untuk mereset password
 
 Form Entri Iklan Baris
 cek => - form seperti http://shoperindo.com/malaysia/post.htm
@@ -187,14 +188,14 @@ cek => - http://shoperindo.com/malaysia/single.htm
 cek => - dibagian bawah ada 3 tab (fitur)
 
 Link Profile User
-- link : namadomain.com/namasaya
-- pakai nama alias
+cek => - link : namadomain.com/namasaya
+cek => - pakai nama alias
 
 Pengiriman Pesan dari Single Page
-- pesan yang dikirim akan masuk ke http://shoperindo.com/malaysia/admin/message.html
-- kirim info ke email pemasang iklan karena ada yang contact yang masuk (singkat saja)
-- email yang dikirim, juga di cc ke ridwanamirsene@yahoo.com
-- catat ip dan lokasi
+cek => - pesan yang dikirim akan masuk ke http://shoperindo.com/malaysia/admin/message.html
+cek => - kirim info ke email pemasang iklan karena ada yang contact yang masuk (singkat saja)
+cek => - email yang dikirim, juga di cc ke ridwanamirsene@yahoo.com
+cek => - catat ip dan lokasi
 -----------------------------------------------------------------------------------------------
 Tambahan
 -----------------------------------------------------------------------------------------------
@@ -211,10 +212,6 @@ Biaya
 Tambahan
 -----------------------------------------------------------------------------------------------
 
-
--------------------
-
-validasi : only Integer, Letters only, no karakter spesial, no uppercase, Mungkin di buat model centang di sebelah centang "Required"
 
 -------------------
 

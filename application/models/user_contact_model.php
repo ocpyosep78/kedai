@@ -4,7 +4,9 @@ class User_Contact_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'user_id', 'sender_id', 'advert_id', 'name', 'email', 'phone', 'message', 'post_time', 'is_read', 'title' );
+        $this->field = array(
+			'id', 'user_id', 'sender_id', 'advert_id', 'name', 'email', 'phone', 'message', 'post_time', 'is_read', 'title', 'ip_address', 'city'
+		);
     }
 
     function update($param) {

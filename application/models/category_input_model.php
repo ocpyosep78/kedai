@@ -5,7 +5,8 @@ class Category_Input_model extends CI_Model {
         parent::__construct();
 		
         $this->field = array(
-			'id', 'parent_id', 'input_type_id', 'advert_type_sub_id', 'title', 'label', 'is_required', 'is_searchable', 'max_length', 'value', 'order_no'
+			'id', 'parent_id', 'input_type_id', 'advert_type_sub_id', 'title', 'label', 'is_required', 'is_searchable', 'max_length', 'value', 'order_no',
+			'is_numeric', 'is_letter', 'no_uppercase', 'no_special_char'
 		);
     }
 
@@ -107,6 +108,10 @@ class Category_Input_model extends CI_Model {
 				'value' => $row['value'],
 				'max_length' => $row['max_length'],
 				'is_required' => $row['is_required'],
+				'is_numeric' => $row['is_numeric'],
+				'is_letter' => $row['is_letter'],
+				'no_uppercase' => $row['no_uppercase'],
+				'no_special_char' => $row['no_special_char'],
 				'input_type_name' => $row['input_type_name']
 			);
 			if (count($array_child) > 0) {

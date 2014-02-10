@@ -10,11 +10,11 @@ class advert extends PANEL_Controller {
 	
 	function grid() {
 		$_POST['is_manage'] = 'admin';
-		$_POST['column'] = array( 'category_name', 'category_sub_name', 'name', 'post_time', 'advert_status_name' );
+		$_POST['column'] = array( 'category_name', 'category_sub_name', 'name', 'post_time', 'sold_time', 'advert_status_name' );
 		
 		// set previlege
 		$user = $this->User_model->get_session();
-		if ($user['user_type_id'] == USER_TYPE_MEMBER) {
+		if ($user['user_type_id'] == USER_TYPE_MEMBER || isset($_POST['user_id'])) {
 			$_POST['is_manage'] = 'member';
 		}
 		
@@ -68,13 +68,20 @@ Salam hangat,
 			}
 			
 			$result = $this->Advert_model->update($_POST);
-		} else if ($action == 'get_by_id') {
+		}
+		else if ($action == 'get_by_id') {
 			$result = $this->Advert_model->get_by_id(array( 'id' => $_POST['id'] ));
-		} else if ($action == 'resubmit') {
+		}
+		else if ($action == 'resubmit') {
 			$_POST['post_time'] = $this->config->item('current_datetime');
 			$_POST['advert_status_id'] = ADVERT_STATUS_REVIEW;
 			$result = $this->Advert_model->update($_POST);
-		} else if ($action == 'delete') {
+		}
+		else if ($action == 'sold') {
+			$_POST['sold_time'] = $this->config->item('current_datetime');
+			$result = $this->Advert_model->update($_POST);
+		}
+		else if ($action == 'delete') {
 			$_POST['is_delete'] = 1;
 			$result = $this->Advert_model->update($_POST);
 		}

@@ -24,12 +24,14 @@
 	if (!empty($advert_type_id) && !empty($category_sub['id'])) {
 		$advert_type_sub = $this->Advert_Type_Sub_model->get_by_id(array( 'advert_type_id' => $advert_type_id, 'category_sub_id' => $category_sub['id'] ));
 		
-		$param_category_input = array(
-			'is_searchable' => 1,
-			'advert_type_sub_id' => $advert_type_sub['id'],
-			'sort' => '[{"property":"CategoryInput.order_no","direction":"DESC"}]'
-		);
-		$array_category_input = $this->Category_Input_model->get_array($param_category_input);
+		if (count($advert_type_sub) > 0) {
+			$param_category_input = array(
+				'is_searchable' => 1,
+				'advert_type_sub_id' => $advert_type_sub['id'],
+				'sort' => '[{"property":"CategoryInput.order_no","direction":"DESC"}]'
+			);
+			$array_category_input = $this->Category_Input_model->get_array($param_category_input);
+		}
 	}
 	
 	// category input data
@@ -142,7 +144,7 @@
 							<input type="hidden" name="price_max" value="<?php echo $price_max; ?>" />
 							<input type="hidden" name="condition" value="<?php echo $condition; ?>" />
 							<input type="hidden" name="advert_type_id" value="<?php echo $advert_type_id; ?>" />
-							<input type="hidden" name="category_input_json" value="<?php echo $category_input_json; ?>" />
+							<input type="hidden" name="category_input_json" value="<?php echo htmlentities($category_input_json); ?>" />
 							
 							<input type="hidden" name="page_sort" value="<?php echo htmlentities($page_sort); ?>" />
 							<input type="hidden" name="page_active" value="<?php echo 1; ?>" />

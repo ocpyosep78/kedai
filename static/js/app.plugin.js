@@ -216,6 +216,11 @@
 	// add notes or message
 	function addMsg($msg){
 		Func.ajax({ url: web.base + 'panel/home/action', param: { action: 'get_notify' }, callback: function(result) {
+			// inactive user
+			if (result.reload) {
+				window.location = window.location.href;
+			}
+			
 			var $el = $('.nav-user'), $n = $('.count:first', $el), $v = parseInt($n.text());
 			if (result.count > 0) {
 				// set count message

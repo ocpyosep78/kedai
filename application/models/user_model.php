@@ -185,7 +185,8 @@ class User_model extends CI_Model {
 		}
 		
 		// thumbnail
-		if (isset($row['thumbnail_profile']) && !empty($row['thumbnail_profile'])) {
+		$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail_profile'];
+		if (file_exists($file_path) && isset($row['thumbnail_profile']) && !empty($row['thumbnail_profile'])) {
 			$row['thumbnail_profile_link'] = base_url('static/upload/'.$row['thumbnail_profile']);
 		} else {
 			$row['thumbnail_profile_link'] = base_url('static/img/avatar.jpg');

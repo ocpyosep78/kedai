@@ -272,10 +272,26 @@
 					var max_length = (array_input[i].max_length == 0) ? '' : 'maxlength="' + array_input[i].max_length + '"';
 					var required = (array_input[i].is_required == 0) ? '' : 'required';
 					
+					// generate class
+					var class_attr = '';
+					if (array_input[i].is_numeric == 1) {
+						class_attr += ' digits';
+					}
+					if (array_input[i].is_letter == 1) {
+						class_attr += ' letter_only';
+					}
+					if (array_input[i].no_uppercase == 1) {
+						class_attr += ' no_uppercase';
+					}
+					if (array_input[i].no_special_char == 1) {
+						class_attr += ' no_special_char';
+					}
+					class_attr = (class_attr == '') ? class_attr : 'class="' + class_attr + '"';
+					
 					template += '<section>';
 					template += '<label class="label">' + array_input[i].label + '</label>';
 					template += '<label class="input">';
-					template += '<input type="text" name="' + name + '" placeholder="' + array_input[i].label + '" ' + value + ' ' + max_length + ' ' + required + ' />';
+					template += '<input type="text" name="' + name + '" placeholder="' + array_input[i].label + '" ' + class_attr + value + ' ' + max_length + ' ' + required + ' />';
 					template += '</label>';
 					template += '</section>';
 				}

@@ -650,6 +650,26 @@
         }
     }
     
+    if (! function_exists('watermark')) {
+		function watermark($img_source, $img_stamp, $img_result) {
+			// Load the stamp and the photo to apply the watermark to
+			$im = imagecreatefromjpeg($img_source);
+			$stamp = imagecreatefrompng($img_stamp);
+
+			// Set the margins for the stamp and get the height/width of the stamp image
+			$marge_right = 10;
+			$marge_bottom = 10;
+			$sx = imagesx($stamp);
+			$sy = imagesy($stamp);
+			
+			// Copy the stamp image onto our photo using the margin offsets and the photo 
+			// width to calculate positioning of the stamp. 
+			imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
+			imagepng($im, $img_result);
+			imagedestroy($im);
+		}
+	}
+	
     if (! function_exists('ImageCrop')) {
         function ImageCrop($source, $output, $out_x, $out_y) {
             $info = @getimagesize($source);
@@ -801,6 +821,10 @@
 			$headers  = 'MIME-Version: 1.0' . "\r\n";
 			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 			$headers .= 'From: Kedai Pedia <noreply@kedaipedia.com>' . "\r\n";
+			
+			if (isset($param['header'])) {
+				$headers .= $param['header'];
+			}
 			
 			if (SENT_MAIL) {
 				@mail($param['to'], $param['subject'], $param['message'], $headers);

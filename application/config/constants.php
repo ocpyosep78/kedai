@@ -41,6 +41,15 @@ define('LOGIN_ACTIVE_TIME',						(60 * 60 * 1));
 /*	MAXIMUM SENDING MAIL */
 define('MAXIMUM_SENDING_MAIL',					5000);
 
+/*	MAXIMUM IP ACCESS PER HOUR */
+define('MAXIMUM_IP_ACCESS_PER_HOUR',			250);
+
+/*	IMAGE ADVERT STAMP */
+define('IMAGE_ADVERT_STAMP',					'static/img/stamp.png');
+
+/*	EMAIL CC ADMIN */
+define('EMAIL_CC_ADMIN',						'her0satr@yahoo.com');
+
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
 define('ADVERT_STATUS',							'advert_status');
@@ -56,6 +65,9 @@ define('CITY',									'city');
 define('CITY_IP',								'city_ip');
 define('CONDITION',								'condition');
 define('INPUT_TYPE',							'input_type');
+define('IP_BANNED',								'ip_banned');
+define('IP_LOG',								'ip_log');
+define('IP_PASS',								'ip_pass');
 define('MASS_EMAIL',							'mass_email');
 define('MEMBERSHIP',							'membership');
 define('PAGE_STATIC',							'page_static');

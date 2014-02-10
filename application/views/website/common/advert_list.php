@@ -1,6 +1,6 @@
 <div class="product-grid"><div class="products-block"><div class="row">
 	<?php foreach ($array_advert as $row) { ?>
-		<div class="col-lg-333 col-md-3 col-sm-6 col-xs-12">
+		<div class="col-lg-333 col-md-3 col-sm-6 col-xs-12" style="max-height: 365px;">
 			<div class="product-block">
 				<div class="tanggal"><?php echo $row['post_time_text']; ?></div>
 				<div class="image">

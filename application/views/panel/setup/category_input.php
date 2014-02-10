@@ -140,6 +140,34 @@
 											</div>
 										</div>
 									</div>
+									<div class="form-group cnt-numeric">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="is_numeric" value="1" /> Numeric</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group cnt-letter">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="is_letter" value="1" /> Letter</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group cnt-uppercase">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="no_uppercase" value="1" /> Uppercase</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group cnt-special-char">
+										<div class="col-lg-offset-2 col-lg-10">
+											<div class="checkbox">
+												<label><input type="checkbox" name="no_special_char" value="1" /> No Special Character</label>
+											</div>
+										</div>
+									</div>
 									<div class="form-group">
 										<label class="col-lg-2 control-label">Value</label>
 										<div class="col-lg-10">
@@ -195,12 +223,30 @@ $(document).ready(function() {
 							var row = $(this).data('row');
 							Func.ajax({ url: web.base + 'panel/setup/category_input/action', param: { action: 'get_by_id', id: row.id }, callback: function(result) {
 								Func.populate({ cnt: '.tree-form-view form', record: result });
+								page.input_type();
+								
 								page.show_form();
 							} });
 						});
 					}
 				});
 			}
+		},
+		input_type: function() {
+			var value = $('.tree-form-view form [name="input_type_id"]').val();
+			if (value == 1) {
+				$('.cnt-numeric').show();
+				$('.cnt-letter').show();
+				$('.cnt-uppercase').show();
+				$('.cnt-special-char').show();
+			} else {
+				$('.cnt-numeric').hide();
+				$('.cnt-letter').hide();
+				$('.cnt-uppercase').hide();
+				$('.cnt-special-char').hide();
+			}
+			
+			console.log(value);
 		}
 	}
 	
@@ -232,6 +278,9 @@ $(document).ready(function() {
 				page.tree.load();
 			}
 		});
+	});
+	$('.tree-form-view form [name="input_type_id"]').click(function() {
+		page.input_type();
 	});
 	
 	// helper

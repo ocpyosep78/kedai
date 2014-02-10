@@ -54,6 +54,12 @@
 							
 							<ul class="nav lt">
 								<li>
+									<a href="<?php echo base_url('panel/profile/info'); ?>" data-menu-child="info">
+										<i class="fa fa-angle-right"></i>
+										<span>Edit Info</span>
+									</a>
+								</li>
+								<li>
 									<a href="<?php echo base_url('panel/profile/account'); ?>" data-menu-child="account">
 										<i class="fa fa-angle-right"></i>
 										<span>Edit Account</span>
@@ -111,12 +117,14 @@
 										<span>Advert</span>
 									</a>
 								</li>
+								<?php if (in_array($user['user_type_id'], array(USER_TYPE_ADMINISTRATOR))) { ?>
 								<li>
 									<a href="<?php echo base_url('panel/manage/announce'); ?>" data-menu-child="announce">
 										<i class="fa fa-angle-right"></i>
 										<span>Announce</span>
 									</a>
 								</li>
+								<?php } ?>
 							</ul>
 						</li>
 						<?php } ?>
@@ -208,7 +216,7 @@
 							</ul>
 						</li>
 						<?php } ?>
-						<?php if (in_array($user['user_type_id'], array(USER_TYPE_ADMINISTRATOR, USER_TYPE_EDITOR))) { ?>
+						<?php if (in_array($user['user_type_id'], array(USER_TYPE_ADMINISTRATOR))) { ?>
 						<li data-menu-parent="master">
 							<a>
 								<i class="fa fa-file-text icon"><b class="bg-primary"></b></i>

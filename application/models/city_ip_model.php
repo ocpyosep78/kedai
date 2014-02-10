@@ -79,8 +79,6 @@ class City_Ip_model extends CI_Model {
     }
 	
 	function get_location($param = array()) {
-		$param['ip'] = '175.45.189.139';
-		
 		if ($param['ip'] == '::1') {
 			return 'localhost';
 		}

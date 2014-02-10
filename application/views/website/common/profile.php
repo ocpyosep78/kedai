@@ -5,13 +5,14 @@
 	$advert_count = $this->Advert_model->get_count(array( 'user_id' => $user_id ));
 	
 	// user session
+	$is_login = $this->User_model->is_login();
 	$user_session = $this->User_model->get_session();
 	
 	// data
 	$is_follow = $this->User_Follow_model->is_follow(array( 'user_id' => @$user_session['id'], 'follow_id' => $user['id'] ));
 	$is_follow = ($is_follow) ? 1 : 0;
 ?>
-<div id="cnt-profile" class="box category highlights" data-is-follow="<?php echo $is_follow; ?>">
+<div id="cnt-profile" class="box category highlights" data-is-follow="<?php echo $is_follow; ?>" data-is-login="<?php echo ($is_login) ? 1 : 0; ?>">
 	<article class="hotel-details clearfix">
 		<h1>
 			<?php echo $user['fullname']; ?>
@@ -34,7 +35,6 @@
 
 <script>
 var is_follow = $('#cnt-profile').data('is-follow');
-console.log(is_follow)
 if (is_follow == 1) {
 	$('#cnt-profile .cnt-follow').hide();
 	$('#cnt-profile .cnt-unfollow').show();
@@ -48,6 +48,12 @@ $('#cnt-profile .btn-contact').click(function() {
 });
 
 $('#cnt-profile .btn-follow').click(function() {
+	// check login
+	var is_login = $('#cnt-profile').data('is-login');
+	if (is_login == 0) {
+		window.location = web.base + 'login';
+	}
+	
 	var element = $(this);
 	var param = Site.Form.GetValue('#form-advert');
 	Func.update({

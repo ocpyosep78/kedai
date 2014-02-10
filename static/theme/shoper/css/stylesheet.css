@@ -2314,6 +2314,9 @@ ul.contact-us li a {
   margin-bottom: 33px;
   text-align: center;
 }
+.product-info .image img {
+  margin: 0 auto;
+}
 .product-info .share {
   padding: 10px 0;
 }

@@ -65,7 +65,7 @@
 											<div class="image">
 												<?php foreach ($advert_pic as $key => $row) { ?>
 												<?php $class_name = ($key == 0) ? 'show' : 'hide'; ?>
-												<img src="<?php echo $row['thumbnail_link']; ?>" class="<?php echo $class_name; ?>" />
+												<img src="<?php echo $row['thumbnail_link_show']; ?>" class="<?php echo $class_name; ?>" />
 												<?php } ?>
 											</div>
 											
@@ -82,6 +82,9 @@
 										<p>
 											<b>Price:</b>
 											<span class="availability"><?php echo $advert['price_text']; ?></span>
+											<?php if (!empty($advert['sold_time'])) { ?>
+												<span style="color: #d95750;">sold</span>
+											<?php } ?>
 										</p>
 									</div>
 									
