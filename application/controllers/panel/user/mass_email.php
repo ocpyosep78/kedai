@@ -58,7 +58,7 @@ class mass_email extends PANEL_Controller {
 				$param_mail['subject'] = $mass_email['name'];
 				$param_mail['message'] = $mass_email['content'];
 				$param_mail['to'] = $user['email'];
-//				sent_mail($param_mail);
+				sent_mail($param_mail);
 				$counter++;
 			}
 			

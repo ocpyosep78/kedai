@@ -48,7 +48,7 @@ define('MAXIMUM_IP_ACCESS_PER_HOUR',			250);
 define('IMAGE_ADVERT_STAMP',					'static/img/stamp.png');
 
 /*	EMAIL CC ADMIN */
-define('EMAIL_CC_ADMIN',						'her0satr@yahoo.com');
+define('EMAIL_CC_ADMIN',						'ridwanamirsene@yahoo.com');
 
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
