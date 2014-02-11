@@ -49,7 +49,7 @@ class User_model extends CI_Model {
             $select_query  = "
 				SELECT User.*, UserType.name user_type_name,
 					City.name city_name, City.region_id, Region.name region_name
-				FROM ".USER."
+				FROM ".USER." User
 				LEFT JOIN ".USER_TYPE." UserType ON UserType.id = User.user_type_id
 				LEFT JOIN ".CITY." City ON City.id = User.city_id
 				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
@@ -133,6 +133,7 @@ class User_model extends CI_Model {
     }
 	
     function get_count_mass_email($param = array()) {
+		$array = array();
 		$param['offset'] = (isset($param['offset'])) ? $param['offset'] : 0;
 		$param['limit'] = (isset($param['limit'])) ? $param['limit'] : MAXIMUM_SENDING_MAIL;
 		$param['limit'] = ($param['limit'] > MAXIMUM_SENDING_MAIL) ? MAXIMUM_SENDING_MAIL : $param['limit'];
@@ -185,15 +186,18 @@ class User_model extends CI_Model {
 		}
 		
 		// thumbnail
-		$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail_profile'];
-		if (file_exists($file_path) && isset($row['thumbnail_profile']) && !empty($row['thumbnail_profile'])) {
-			$row['thumbnail_profile_link'] = base_url('static/upload/'.$row['thumbnail_profile']);
-		} else {
-			$row['thumbnail_profile_link'] = base_url('static/img/avatar.jpg');
+		$row['thumbnail_profile_link'] = base_url('static/img/avatar.jpg');
+		if (isset($row['thumbnail_profile'])) {
+			$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail_profile'];
+			if (file_exists($file_path) && isset($row['thumbnail_profile']) && !empty($row['thumbnail_profile'])) {
+				$row['thumbnail_profile_link'] = base_url('static/upload/'.$row['thumbnail_profile']);
+			}
 		}
 		
 		// link
-		$row['user_link'] = base_url($row['alias']);
+		if (isset($row['alias'])) {
+			$row['user_link'] = base_url($row['alias']);
+		}
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

@@ -128,7 +128,9 @@ class Verify_Address_model extends CI_Model {
         $select_query = "
 			SELECT COUNT(*) count
 			FROM ".VERIFY_ADDRESS." VerifyAddress
-			WHERE request_time >= '$limit_date'
+			WHERE
+				request_time >= '$limit_date'
+				AND user_id = '".$param['user_id']."'
 		";
         $select_result = mysql_query($select_query) or die(mysql_error());
 		if ( $row = mysql_fetch_assoc( $select_result ) ) {

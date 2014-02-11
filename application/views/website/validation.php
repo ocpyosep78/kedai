@@ -1,6 +1,6 @@
 <?php
 	// validation key
-	preg_match('/validation\/([a-z0-9\-]+)$/i', $_SERVER['REQUEST_URI'], $match);
+	preg_match('/validation\/([a-z0-9\-\_]+)$/i', $_SERVER['REQUEST_URI'], $match);
 	$key = (isset($match[1])) ? $match[1] : '';
 	$user = $this->User_model->get_by_id(array( 'email_key' => $key ));
 	

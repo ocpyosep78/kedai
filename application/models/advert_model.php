@@ -54,6 +54,22 @@ class Advert_model extends CI_Model {
 				WHERE Advert.id = '".$param['id']."'
 				LIMIT 1
 			";
+        } else if (isset($param['code'])) {
+            $select_query  = "
+				SELECT Advert.*,
+					User.email, User.first_name, User.last_name,
+					City.region_id, City.name city_name, Region.name region_name,
+					Category.name category_name, Category.alias category_alias,
+					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
+				FROM ".ADVERT." Advert
+				LEFT JOIN ".USER." User ON User.id = Advert.user_id
+				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
+				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				WHERE Advert.code = '".$param['code']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -187,7 +203,7 @@ class Advert_model extends CI_Model {
 		
 		// link
 		$row['edit_link'] = base_url('post/'.$row['id']);
-		$row['advert_link'] = base_url('advert/'.$row['id']);
+		$row['advert_link'] = (empty($row['code'])) ? base_url('advert/'.$row['id']) : base_url('advert/'.$row['code']);
 		if (isset($row['category_alias'])) {
 			$row['category_link'] = base_url($row['category_alias']);
 		}

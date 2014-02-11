@@ -9,8 +9,11 @@
 	$user_session = $this->User_model->get_session();
 	
 	// data
-	$is_follow = $this->User_Follow_model->is_follow(array( 'user_id' => @$user_session['id'], 'follow_id' => $user['id'] ));
-	$is_follow = ($is_follow) ? 1 : 0;
+	$is_follow = false;
+	if ($is_login) {
+		$is_follow = $this->User_Follow_model->is_follow(array( 'user_id' => @$user_session['id'], 'follow_id' => $user['id'] ));
+		$is_follow = ($is_follow) ? 1 : 0;
+	}
 ?>
 <div id="cnt-profile" class="box category highlights" data-is-follow="<?php echo $is_follow; ?>" data-is-login="<?php echo ($is_login) ? 1 : 0; ?>">
 	<article class="hotel-details clearfix">

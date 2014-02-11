@@ -3,95 +3,96 @@ Website Iklan Baris seperti Toko Bagus => http://www.kedaipedia.com/
 -----------------------------------------------------------------------------------------------
 Common & Global
 -----------------------------------------------------------------------------------------------
-cek => Lokasi member dicatat (ada history untuk login "ip dan kota")
+ok => Lokasi member dicatat (ada history untuk login "ip dan kota")
 
-cek => Email yang disimpan di db diencript (mcript yang ada keynya)
+ok => Email yang disimpan di db diencript (mcript yang ada keynya)
 
 Additional Input
-cek => - additional input ini melekat pada sub kategori & advert type
-cek => - punya additional input, jumlah tak terbatas
-cek => - additional input bisa berupa text, select, checkbox, parent
-cek => - additional input bisa punya child, dan seterusnya
-cek => - additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
-cek => - referensi
+ok => - additional input ini melekat pada sub kategori & advert type
+ok => - punya additional input, jumlah tak terbatas
+ok => - additional input bisa berupa text, select, checkbox, parent
+ok => - additional input bisa punya child, dan seterusnya
+ok => - additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
+ok => - referensi
   - http://www.tokobagus.com/pasang.asp
   - http://www2.mudah.my/ai/form/1
-cek => - contoh kategori mobil
+ok => - contoh kategori mobil
   - ada additional input "merk mobil" dengan pilihan : pilihan honda, toyota, suzuki
   - jika dipilih honda maka akan keluar additional input jenis mobil dari merk honda saja
   - contoh detail : http://www.tokobagus.com/mobil/baru/
-cek => - halaman masing2 sub kategori akan berbeda2 karena filternya juga berbeda2
+ok => - halaman masing2 sub kategori akan berbeda2 karena filternya juga berbeda2
 
 Filter Harga Pencarian
-cek => - setiap sub kategori akan memiliki filter range harga yang bisa di masukan oleh admin
-cek => - terdiri dari 2 filter (harga min & harga max)
+ok => - setiap sub kategori akan memiliki filter range harga yang bisa di masukan oleh admin
+ok => - terdiri dari 2 filter (harga min & harga max)
 
 Verify User
-cek => - ada 2 jenis Verify (email & lokasi)
-cek => - di admin ada fitur untuk get verify location yang akan mengenerate no yang no tersebut akan
+ok => - ada 2 jenis Verify (email & lokasi)
+ok => - di admin ada fitur untuk get verify location yang akan mengenerate no yang no tersebut akan
 		 dikirim admin ke lokasi si request via pos dan si request akan memasukan no tersebut untuk melakukan verifikasi
-cek => - batas untuk verify lokasi sebanyak 3x, jika sudah lebih dari 3x gagal maka user tersebut tidak bisa melakukan verifikasi lagi
+ok => - batas untuk verify lokasi sebanyak 3x, jika sudah lebih dari 3x gagal maka user tersebut tidak bisa melakukan verifikasi lagi
 
 Validasi
-cek => - sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
+ok => - sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
 
 Follow Publisher
-cek => - jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
-cek => - pengiriman emailnya ketika iklan yang dipasang penjual telah di approve oleh admin
-cek => - follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
+ok => - jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
+ok => - pengiriman emailnya ketika iklan yang dipasang penjual telah di approve oleh admin
+ok => - follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
 
 Session Login
-cek => - session ada umurnya (1 jam)
+ok => - session ada umurnya (1 jam)
 
 Iklan - Note
-cek => - iklan yang di appove hanya tayang 60 hari
-cek => - setelah 60 hari sistem akan kirim notifikasi ke email / message bahwa iklan sudah expired dan ada tombol re-submit
-cek => - iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
-cek => - gambar iklan yang besar saja di watermark
-cek => - iklan punya code id (9 digit angka random)
-cek => - link cron check advert : http://localhost/kedai/trunk/service/advert_expire
+ok => - iklan yang di appove hanya tayang 60 hari
+ok => - setelah 60 hari sistem akan kirim notifikasi ke email / message bahwa iklan sudah expired dan ada tombol re-submit
+ok => - iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
+ok => - gambar iklan yang besar saja di watermark
+ok => - iklan punya code id (9 digit angka random)
+ok => - link cron check advert : kedaipedia.com/service/advert_expire
          - approve tayang 60 hari => klo lebih jadi re submit statusnya
          - reject yang umurnya lebih dari 60 hari akan dihapus
 
 Website - Note
-cek => - ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
+ok => - ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
+      - sementara dibatasi untuk 1 ip maksimal aksesnya 250 per jam, ini bisa di set di contant => MAXIMUM_IP_ACCESS_PER_HOUR
 
 Website Common :
 - folder view/controller/model klo bisa direname agar ngak ditebak orang lain
 
 User Alias :
-cek => - untuk dafault user alias berupa random number (user bisa entry sendiri ketika dia register, tetapi jika tidak bisa memilih alias yang sudah dipakai)
-cek => - nanti alias ini bisa diubah oleh user sebagai nama toko dia
+ok => - untuk dafault user alias berupa random number (user bisa entry sendiri ketika dia register, tetapi jika tidak bisa memilih alias yang sudah dipakai)
+ok => - nanti alias ini bisa diubah oleh user sebagai nama toko dia
 
 User Profile
-cek => - field : first name, last name, about, tag of me
-cek => - link http://localhost/kedai/trunk/her0satr
+ok => - field : first name, last name, about, tag of me
+ok => - link http://kedaipedia.com/gmail
 -----------------------------------------------------------------------------------------------
 Back End Panel
 -----------------------------------------------------------------------------------------------
 Template
-cek => - http://shoperindo.com/malaysia/admin/ atau http://flatfull.com/themes/note/index.html
+ok => - http://shoperindo.com/malaysia/admin/ atau http://flatfull.com/themes/note/index.html
 
 Note Common
-cek => - data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
+ok => - data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
 
 Advert Type
-cek => - masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
+ok => - masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
 
 Previlege
-cek =>- Admin bisa ganti kategory & subkategory
-cek => - Editor bisa approval saja
+ok => - Admin bisa ganti kategory & subkategory
+ok => - Editor bisa approval saja
 
 Login History
 cek => - mencatat tanggal akses (login), ip dan lokasi
 cek => - di dashboard panel ditampilan 3 history lastest login
 
 Form Listing Iklan
-cek => - page nya seperti http://shoperindo.com/malaysia/admin/myad.html
-cek => - status iklan : review, re-review, uproverd, ditolak
-cek => - status default : review
-cek => - ada penanda klo item ini sudah terjual / sold
-cek => - ketika di approve oleh admin maka mengirim notifikasi seperti :
+ok => - page nya seperti http://shoperindo.com/malaysia/admin/myad.html
+ok => - status iklan : review, re-review, uproverd, ditolak
+ok => - status default : review
+ok => - ada penanda klo item ini sudah terjual / sold
+ok => - ketika di approve oleh admin maka mengirim notifikasi seperti :
    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
    Hi User, <nama register>
 
@@ -106,96 +107,96 @@ cek => - ketika di approve oleh admin maka mengirim notifikasi seperti :
 
    kedai.com
    iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-cek =>    - ketika di approve akan keluar popup dengan form untuk text area
-cek =>    - saat di email formatnya sesuai diatas
+ok =>    - ketika di approve akan keluar popup dengan form untuk text area
+ok =>    - saat di email formatnya sesuai diatas
 
 Form Listing Member
-cek => - dapat men-disable member
-cek => - ada fitur untuk non aktifkan member
-cek => - ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
+ok => - dapat men-disable member
+ok => - ada fitur untuk non aktifkan member
+ok => - ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
 
 Form Sub Kategory
-cek => - ada link custom seperti shopermarket
+ok => - ada link custom seperti shopermarket
 
 Form Profile Member
-cek => - punya foto profile & foto banner
-cek => - untuk member saja agar dapar memperbaharui foto profile & foto banner
+ok => - punya foto profile & foto banner
+ok => - untuk member saja agar dapar memperbaharui foto profile & foto banner
 
 Form Membership
-cek => - jenis membership
-cek =>   - free = 10 max ads
-cek =>   - 3 bulan = 20 max ads
-cek =>   - 6 bulan 30 max ads..
+ok => - jenis membership
+ok =>   - free = 10 max ads
+ok =>   - 3 bulan = 20 max ads
+ok =>   - 6 bulan 30 max ads..
 
-Subscriber
-cek => - pengiriman nya pakai cron
-cek => - sekali kirim bisa mencapai 5 rb email
-cek => - buatnya seperti punya shopermarket
+Subscriber => revisi mass email
+ok => - pengiriman nya pakai cron
+ok => - sekali kirim bisa mencapai 5 rb email
+ok => - buatnya seperti punya shopermarket
 
 User Setting
-cek => - ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
+ok => - ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
 
 User Note
-cek => - masing2 user punya note sendiri2
-cek => - link : http://shoperindo.com/malaysia/admin/notebook.html
-cek => - max text areanya 1000 karakter
-cek => - note ini seperti notifikasi facebook yang ada di atas
-  cek => - contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
+ok => - masing2 user punya note sendiri2
+ok => - link : http://shoperindo.com/malaysia/admin/notebook.html
+ok => - max text areanya 1000 karakter
+ok => - note ini seperti notifikasi facebook yang ada di atas
+  ok => - contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
 
 Form Update Profile
-cek => - upload foto profile & foto banner
+ok => - upload foto profile & foto banner
 
 Form Widget
-cek => - ada form widget
-cek => - ini bisa diakses dengan 2 versi link seperti :
-cek =>   - website.com/widget-name
-cek =>   - website.com/page/widget-name
+ok => - ada form widget
+ok => - ini bisa diakses dengan 2 versi link seperti :
+ok =>   - website.com/widget-name
+ok =>   - website.com/page/widget-name
 -----------------------------------------------------------------------------------------------
 Website
 -----------------------------------------------------------------------------------------------
 Note Common
-cek => - login dari www atau tanpa www juga bisa
+ok => - login dari www atau tanpa www juga bisa
 
 Website Link
-cek => - linknya seperti : 
-cek =>   - website.com/tags/
-cek =>   - website.com/region/ => region atau propinsi
-cek =>   - website.com/sub kategory/
-cek =>   - website.com/kategory/
-cek =>   - website.com/city/
+ok => - linknya seperti : 
+   - website.com/tags/ => wait
+   - website.com/region/ => region atau propinsi
+   - website.com/sub kategory/
+   - website.com/kategory/
+   - website.com/city/
 
 Form Registrasi
-cek => - registrasi harus validasi email
+ok => - registrasi harus validasi email
 
 Form Forget Password
-cek => - untuk mereset password
+ok => - untuk mereset password
 
 Form Entri Iklan Baris
-cek => - form seperti http://shoperindo.com/malaysia/post.htm
-cek => - gambar bisa banyak seperti toko bagus
-cek => - gambar bisa di hapus kembali
-cek => - link : http://shoperindo.com/malaysia/post.htm
-cek => - ada IC Number / Other ID Number (centang)
+ok => - form seperti http://shoperindo.com/malaysia/post.htm
+ok => - gambar bisa banyak seperti toko bagus
+ok => - gambar bisa di hapus kembali
+ok => - link : http://shoperindo.com/malaysia/post.htm
+ok => - ada IC Number / Other ID Number (centang)
   - referensi : http://www2.mudah.my/ai/form/0
-cek => - user yang belum login juga bisa pasang iklan, form bisa contoh toko bagus
-cek => - user juga bisa login disini
+ok => - user yang belum login juga bisa pasang iklan, form bisa contoh toko bagus
+ok => - user juga bisa login disini
 
 Listing Page
-cek => - http://shoperindo.com/malaysia/listing.htm
+ok => - http://shoperindo.com/malaysia/listing.htm
 
 Single Page
-cek => - http://shoperindo.com/malaysia/single.htm
-cek => - dibagian bawah ada 3 tab (fitur)
+ok => - http://shoperindo.com/malaysia/single.htm
+ok => - dibagian bawah ada 3 tab (fitur)
 
 Link Profile User
-cek => - link : namadomain.com/namasaya
-cek => - pakai nama alias
+ok => - link : namadomain.com/namasaya
+ok => - pakai nama alias
 
 Pengiriman Pesan dari Single Page
-cek => - pesan yang dikirim akan masuk ke http://shoperindo.com/malaysia/admin/message.html
-cek => - kirim info ke email pemasang iklan karena ada yang contact yang masuk (singkat saja)
-cek => - email yang dikirim, juga di cc ke ridwanamirsene@yahoo.com
-cek => - catat ip dan lokasi
+ok => - pesan yang dikirim akan masuk ke http://shoperindo.com/malaysia/admin/message.html
+ok => - kirim info ke email pemasang iklan karena ada yang contact yang masuk (singkat saja)
+ok => - email yang dikirim, juga di cc ke ridwanamirsene@yahoo.com
+ok => - catat ip dan lokasi
 -----------------------------------------------------------------------------------------------
 Tambahan
 -----------------------------------------------------------------------------------------------
@@ -241,3 +242,4 @@ tinggal buat aja sperti 'kategory price' bisa entry harga(integer) nanti di buat
 
 
 
+- folder view/controller/model klo bisa direname agar ngak ditebak orang lain

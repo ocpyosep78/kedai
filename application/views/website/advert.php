@@ -3,6 +3,11 @@
 	$advert_id = (isset($match[1])) ? $match[1] : 0;
 	$advert = $this->Advert_model->get_by_id(array( 'id' => $advert_id ));
 	
+	// get form code
+	if (count($advert) == 0) {
+		$advert = $this->Advert_model->get_by_id(array( 'code' => $advert_id ));
+	}
+	
 	// user
 	$is_login = $this->User_model->is_login();
 	$user = $this->User_model->get_session();
@@ -14,7 +19,7 @@
 	}
 	
 	// advert detail
-	$advert_pic = $this->Advert_Pic_model->get_array(array( 'advert_id' => $advert_id ));
+	$advert_pic = $this->Advert_Pic_model->get_array(array( 'advert_id' => $advert['id'] ));
 	$category_input = $this->Category_Input_model->get_tree(array( 'advert_type_sub_id' => $advert['advert_type_sub_id'] ));
 	$report_type = $this->Report_Type_model->get_array();
 	

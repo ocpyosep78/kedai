@@ -48,6 +48,7 @@ class User_Note_model extends CI_Model {
         $array = array();
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND UserNote.content LIKE '%".$param['namelike']."%'" : '';
+		$string_user = (isset($param['user_id'])) ? "AND UserNote.user_id = '".$param['user_id']."'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
 		$string_sorting = GetStringSorting($param, @$param['column'], 'note_update DESC');
 		$string_limit = GetStringLimit($param);
@@ -55,7 +56,7 @@ class User_Note_model extends CI_Model {
 		$select_query = "
 			SELECT SQL_CALC_FOUND_ROWS UserNote.*
 			FROM ".USER_NOTE." UserNote
-			WHERE 1 $string_namelike $string_filter
+			WHERE 1 $string_namelike $string_user $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
 		";

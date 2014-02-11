@@ -573,9 +573,9 @@ var Func = {
 				var input = $(p.cnt + ' [name="' + form_name + '"]');
 				var value = p.record[form_name];
 				if (input.attr('type') == 'checkbox') {
-					input.attr('checked', false);
+					input.prop('checked', false);
 					if (value == 1) {
-						input.click();
+						input.prop('checked', true);
 					}
 				} else if (input.hasClass('datepicker')) {
 					input.val(Func.SwapDate(value));
