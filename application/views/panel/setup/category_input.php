@@ -133,7 +133,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group cnt-searchable">
 										<div class="col-lg-offset-2 col-lg-10">
 											<div class="checkbox">
 												<label><input type="checkbox" name="is_searchable" value="1" /> Searchable</label>
@@ -234,19 +234,22 @@ $(document).ready(function() {
 		},
 		input_type: function() {
 			var value = $('.tree-form-view form [name="input_type_id"]').val();
+			
 			if (value == 1) {
 				$('.cnt-numeric').show();
 				$('.cnt-letter').show();
 				$('.cnt-uppercase').show();
+				$('.cnt-searchable').hide();
 				$('.cnt-special-char').show();
+			} else if (value == 2) {
+				$('.cnt-searchable').show();
 			} else {
 				$('.cnt-numeric').hide();
 				$('.cnt-letter').hide();
 				$('.cnt-uppercase').hide();
+				$('.cnt-searchable').hide();
 				$('.cnt-special-char').hide();
 			}
-			
-			console.log(value);
 		}
 	}
 	
@@ -279,7 +282,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	$('.tree-form-view form [name="input_type_id"]').click(function() {
+	$('.tree-form-view form [name="input_type_id"]').change(function() {
 		page.input_type();
 	});
 	
@@ -291,9 +294,11 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		page.show_form();
 		$('.tree-form-view form')[0].reset();
 		$('.tree-form-view [name="id"]').val(0);
+		
+		page.show_form();
+		page.input_type();
 	});
 	$('.show-tree').click(function() {
 		page.show_tree();
