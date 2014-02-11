@@ -10,7 +10,7 @@ class category_price extends PANEL_Controller {
 	
 	function grid() {
 		$_POST['is_edit'] = 1;
-		$_POST['no_default'] = false;
+		$_POST['with_default'] = false;
 		$_POST['column'] = array( 'price_text' );
 		
 		$array = $this->Category_Price_model->get_array($_POST);

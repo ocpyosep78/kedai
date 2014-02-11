@@ -48,6 +48,7 @@ class Category_Price_model extends CI_Model {
         $array = array();
 		
 		$param['field_replace']['price_text'] = 'CategoryPrice.price';
+		$param['with_default'] = (isset($param['with_default'])) ? $param['with_default'] : true;
 		
 		$string_price_type = (!empty($param['price_type'])) ? "AND CategoryPrice.price_type = '".$param['price_type']."'" : '';
 		$string_category_sub = (isset($param['category_sub_id'])) ? "AND CategoryPrice.category_sub_id = '".$param['category_sub_id']."'" : '';
@@ -67,11 +68,12 @@ class Category_Price_model extends CI_Model {
 			$array[] = $this->sync($row, $param);
 		}
 		
-		if (count($array) == 0 && $param['price_type'] == 1) {
+		
+		if ($param['with_default'] && count($array) == 0 && $param['price_type'] == 1) {
 			foreach (array(100000, 500000, 1000000, 5000000, 10000000, 50000000) as $key => $value) {
 				$array[] = array( 'id' => $key + 1, 'category_sub_id' => 0, 'price_type' => 1, 'price' => $value, 'price_text' => MoneyFormat($value) );
 			}
-		} else if (count($array) == 0 && $param['price_type'] == 2) {
+		} else if ($param['with_default'] && count($array) == 0 && $param['price_type'] == 2) {
 			foreach (array(500000, 1000000, 5000000, 10000000, 50000000, 100000000) as $key => $value) {
 				$array[] = array( 'id' => $key + 1, 'category_sub_id' => 0, 'price_type' => 1, 'price' => $value, 'price_text' => MoneyFormat($value) );
 			}
