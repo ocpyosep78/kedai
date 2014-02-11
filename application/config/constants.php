@@ -42,7 +42,7 @@ define('LOGIN_ACTIVE_TIME',						(60 * 60 * 1));
 define('MAXIMUM_SENDING_MAIL',					5000);
 
 /*	MAXIMUM IP ACCESS PER HOUR */
-define('MAXIMUM_IP_ACCESS_PER_HOUR',			250);
+define('MAXIMUM_IP_ACCESS_PER_HOUR',			500);
 
 /*	IMAGE ADVERT STAMP */
 define('IMAGE_ADVERT_STAMP',					'static/img/stamp.png');
