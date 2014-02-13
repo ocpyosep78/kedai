@@ -93,7 +93,15 @@ class City_Ip_model extends CI_Model {
 			// make sure no empty result
 			if (!empty($ip_record_raw)) {
 				$ip_record = json_decode($ip_record_raw);
-				$result = $ip_record->city;
+				
+				$result = '';
+				if (!empty($ip_record->city)) {
+					$result = $ip_record->city;
+				} else if (!empty($ip_record->org)) {
+					$result = $ip_record->org;
+				} else if (!empty($ip_record->country)) {
+					$result = $ip_record->country;
+				}
 			}
 			
 			// insert to db
