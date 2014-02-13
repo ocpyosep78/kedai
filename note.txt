@@ -1,245 +1,481 @@
------------------------------------------------------------------------------------------------
-Website Iklan Baris seperti Toko Bagus => http://www.kedaipedia.com/
------------------------------------------------------------------------------------------------
-Common & Global
------------------------------------------------------------------------------------------------
-ok => Lokasi member dicatat (ada history untuk login "ip dan kota")
+All Modul
+- semua button ada tooltips nya
+- select yang dinamis, isi default nya -
 
-ok => Email yang disimpan di db diencript (mcript yang ada keynya)
-
-Additional Input
-ok => - additional input ini melekat pada sub kategori & advert type
-ok => - punya additional input, jumlah tak terbatas
-ok => - additional input bisa berupa text, select, checkbox, parent
-ok => - additional input bisa punya child, dan seterusnya
-ok => - additional input punya properti untuk fungsi validasi seperti input text bisa punya maxlength 40 dkk
-ok => - referensi
-  - http://www.tokobagus.com/pasang.asp
-  - http://www2.mudah.my/ai/form/1
-ok => - contoh kategori mobil
-  - ada additional input "merk mobil" dengan pilihan : pilihan honda, toyota, suzuki
-  - jika dipilih honda maka akan keluar additional input jenis mobil dari merk honda saja
-  - contoh detail : http://www.tokobagus.com/mobil/baru/
-ok => - halaman masing2 sub kategori akan berbeda2 karena filternya juga berbeda2
-
-Filter Harga Pencarian
-ok => - setiap sub kategori akan memiliki filter range harga yang bisa di masukan oleh admin
-ok => - terdiri dari 2 filter (harga min & harga max)
-
-Verify User
-ok => - ada 2 jenis Verify (email & lokasi)
-ok => - di admin ada fitur untuk get verify location yang akan mengenerate no yang no tersebut akan
-		 dikirim admin ke lokasi si request via pos dan si request akan memasukan no tersebut untuk melakukan verifikasi
-ok => - batas untuk verify lokasi sebanyak 3x, jika sudah lebih dari 3x gagal maka user tersebut tidak bisa melakukan verifikasi lagi
-
-Validasi
-ok => - sebelum memasang iklan, user harus mengisi profile terlebih dahulu dengan lengkap, jika belum di isi maka user tidak bisa mengirim iklan dia
-
-Follow Publisher
-ok => - jika ada yang follow penjual, ketika penjual tersebut memasang iklan, maka user yang follow penjual tersebut mendapat informasi email
-ok => - pengiriman emailnya ketika iklan yang dipasang penjual telah di approve oleh admin
-ok => - follow ini merupakan button di profile penjual, jika ada yang akan follow tetapi dia belum login, maka diarahkan ke form registrasi
+Advert
+- image default jika tidak advert tidak memiliki image maka image diambil dari image pada category sub
+- iklan yang sudah didelete diarahkan ke halaman index atau ada info "this ad was not available"
 
 Session Login
-ok => - session ada umurnya (1 jam)
+- dengan domain www atau tidak, user yang sudah login di 1 protocol tidak perlu login lagi di protocol lainnya
+- disimpan di cookies aja
 
-Iklan - Note
-ok => - iklan yang di appove hanya tayang 60 hari
-ok => - setelah 60 hari sistem akan kirim notifikasi ke email / message bahwa iklan sudah expired dan ada tombol re-submit
-ok => - iklan yang sudah di reject dalam 60 hari akan dihapus dari db agar tidak memberatkan system
-ok => - gambar iklan yang besar saja di watermark
-ok => - iklan punya code id (9 digit angka random)
-ok => - link cron check advert : kedaipedia.com/service/advert_expire
-         - approve tayang 60 hari => klo lebih jadi re submit statusnya
-         - reject yang umurnya lebih dari 60 hari akan dihapus
+Forget Password
+- link http://kedaipedia.com/login
+- dibuatkan page terpisah saja jangan jadi satu
 
-Website - Note
-ok => - ip yang terlalu banyak akses dalam 1 waktu otomatis masuk ke list banned
-      - sementara dibatasi untuk 1 ip maksimal aksesnya 250 per jam, ini bisa di set di contant => MAXIMUM_IP_ACCESS_PER_HOUR
+Labeling
+- 19 hour 45 minute ago kalo udah kemarin jadi Yesterday
+- kalo kemarin lusa jadi tanggal saja dan detik
 
-Website Common :
-- folder view/controller/model klo bisa direname agar ngak ditebak orang lain
-
-User Alias :
-ok => - untuk dafault user alias berupa random number (user bisa entry sendiri ketika dia register, tetapi jika tidak bisa memilih alias yang sudah dipakai)
-ok => - nanti alias ini bisa diubah oleh user sebagai nama toko dia
+Advert Post
+- setelah submit, form nya di reset
+- waktu post lagi, cek title yang sama, klo sama ngak bisa insert lagi
+- cek kondisi login dan belum login
 
 User Profile
-ok => - field : first name, last name, about, tag of me
-ok => - link http://kedaipedia.com/gmail
------------------------------------------------------------------------------------------------
-Back End Panel
------------------------------------------------------------------------------------------------
-Template
-ok => - http://shoperindo.com/malaysia/admin/ atau http://flatfull.com/themes/note/index.html
+- Your Name = max 30 karakter
+- Phone Number = integer only, no spesial karakter, 14 karakter max
+- blackberry = 9 karakter no spesial karakter
 
-Note Common
-ok => - data yang dihapus tidak dihapus dari db tapi cukup dikasih tanda is_delete
+Category Search
+- link http://www.kedaipedia.com/vehicles/car
+- untuk advert type nya, default nya 'For Sale' jangan 'All'
+- biar langsung keliatan filternya
 
-Advert Type
-ok => - masing2 sub kategory memiliki advert type yang berbeda2 tergatung setting dari admin
+Category Page
+- link http://www.kedaipedia.com/vehicles
+- tidak keluar list item nya
+- nanti ada list item & list category yang ada
 
-Previlege
-ok => - Admin bisa ganti kategory & subkategory
-ok => - Editor bisa approval saja
+-------------------------------------------------------------------------------------------------------------------
 
-Login History
-cek => - mencatat tanggal akses (login), ip dan lokasi
-cek => - di dashboard panel ditampilan 3 history lastest login
-
-Form Listing Iklan
-ok => - page nya seperti http://shoperindo.com/malaysia/admin/myad.html
-ok => - status iklan : review, re-review, uproverd, ditolak
-ok => - status default : review
-ok => - ada penanda klo item ini sudah terjual / sold
-ok => - ketika di approve oleh admin maka mengirim notifikasi seperti :
-   iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-   Hi User, <nama register>
-
-   Terima kasih telah menggunakan kedai.com sebagai media iklan online Anda.
-
-   ID: 38411838
-   Judul: FSDFJSDJFJSDFSD
-
-   <text area> Saat ini iklan Anda belum dapat ditayangkan karena terdapat unsur-unsur yang dapat mengurangi kualitas produk/jasa yang ditawarkan oleh kedai.com dan kurang dapat dipertanggungjawabkan keberadaan maupun kualitasnya.
-
-   Salam hangat,
-
-   kedai.com
-   iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
-ok =>    - ketika di approve akan keluar popup dengan form untuk text area
-ok =>    - saat di email formatnya sesuai diatas
-
-Form Listing Member
-ok => - dapat men-disable member
-ok => - ada fitur untuk non aktifkan member
-ok => - ketika member mang-akses dashbord selalu check ini, klo dia tidak aktif otomatis log out
-
-Form Sub Kategory
-ok => - ada link custom seperti shopermarket
-
-Form Profile Member
-ok => - punya foto profile & foto banner
-ok => - untuk member saja agar dapar memperbaharui foto profile & foto banner
-
-Form Membership
-ok => - jenis membership
-ok =>   - free = 10 max ads
-ok =>   - 3 bulan = 20 max ads
-ok =>   - 6 bulan 30 max ads..
-
-Subscriber => revisi mass email
-ok => - pengiriman nya pakai cron
-ok => - sekali kirim bisa mencapai 5 rb email
-ok => - buatnya seperti punya shopermarket
-
-User Setting
-ok => - ada fitur untuk stop notifikasi agar masing2 user bisa ngeset email notifikasi buat dia
-
-User Note
-ok => - masing2 user punya note sendiri2
-ok => - link : http://shoperindo.com/malaysia/admin/notebook.html
-ok => - max text areanya 1000 karakter
-ok => - note ini seperti notifikasi facebook yang ada di atas
-  ok => - contoh : http://shoperindo.com/malaysia/admin/myad.html (3) => angka 3 di sisi kanan atas
-
-Form Update Profile
-ok => - upload foto profile & foto banner
-
-Form Widget
-ok => - ada form widget
-ok => - ini bisa diakses dengan 2 versi link seperti :
-ok =>   - website.com/widget-name
-ok =>   - website.com/page/widget-name
------------------------------------------------------------------------------------------------
-Website
------------------------------------------------------------------------------------------------
-Note Common
-ok => - login dari www atau tanpa www juga bisa
-
-Website Link
-ok => - linknya seperti : 
-   - website.com/tags/ => wait
-   - website.com/region/ => region atau propinsi
-   - website.com/sub kategory/
-   - website.com/kategory/
-   - website.com/city/
-
-Form Registrasi
-ok => - registrasi harus validasi email
-
-Form Forget Password
-ok => - untuk mereset password
-
-Form Entri Iklan Baris
-ok => - form seperti http://shoperindo.com/malaysia/post.htm
-ok => - gambar bisa banyak seperti toko bagus
-ok => - gambar bisa di hapus kembali
-ok => - link : http://shoperindo.com/malaysia/post.htm
-ok => - ada IC Number / Other ID Number (centang)
-  - referensi : http://www2.mudah.my/ai/form/0
-ok => - user yang belum login juga bisa pasang iklan, form bisa contoh toko bagus
-ok => - user juga bisa login disini
-
-Listing Page
-ok => - http://shoperindo.com/malaysia/listing.htm
-
-Single Page
-ok => - http://shoperindo.com/malaysia/single.htm
-ok => - dibagian bawah ada 3 tab (fitur)
-
-Link Profile User
-ok => - link : namadomain.com/namasaya
-ok => - pakai nama alias
-
-Pengiriman Pesan dari Single Page
-ok => - pesan yang dikirim akan masuk ke http://shoperindo.com/malaysia/admin/message.html
-ok => - kirim info ke email pemasang iklan karena ada yang contact yang masuk (singkat saja)
-ok => - email yang dikirim, juga di cc ke ridwanamirsene@yahoo.com
-ok => - catat ip dan lokasi
------------------------------------------------------------------------------------------------
-Tambahan
------------------------------------------------------------------------------------------------
-Next Development Plan
-- bisa connect fb
-- kategori bisa punya template sendiri2
-- ada sistem token seperti phpmyadmin
-
-Biaya
-- biaya pengembangan 7 jt
-- engine bahasa inggris
-
------------------------------------------------------------------------------------------------
-Tambahan
------------------------------------------------------------------------------------------------
-
-
--------------------
-
-saya udah coba buat sub kategory "rumah" boleh di cek http://www.kedaipedia.com/post
-
-dari form itu yang bisa di sortir apa saja..
-
-jadi misal untuk sortir dinamisnya :
-
-Type Rumah : Yes Sortir
-Label Kamar Mandi : Yes Sortir
-Status Kepemilikan :No Sortir
-Kondisi Rumah : Yes Sortir
-
-itu gimana..
----------------------------------------
-
-Sort Max : Contoh "Max Luas Bangunan"
-
-sort max adalah sortir/menampilkan untuk integer max yang di masukan di field text, dalam hal ini contoh field "Luas Bangunan"
-
-itu kan yang di masukan Only integer..
-
-tinggal buat aja sperti 'kategory price' bisa entry harga(integer) nanti di buat untuk sortir dari field yang di kaitkan..  misal "luas Bangunan"
+Ridwan Amir: email register blum work
+herry: seep 
+Ridwan Amir: email register blum work
+herry: link ?
+Ridwan Amir: kemarin coba blum jalan..
+Ridwan Amir: http://www.kedaipedia.com/register
+Ridwan Amir: nga terkirim validasi ke email..
+herry: harusnya terkirim
+herry: pean pakai email yahoo / gmail mas ?
+Ridwan Amir: iya
+herry: nanti saya cek lagi mas
+Ridwan Amir: ok nanti aku cek juga...
+herry: kemarin saya coba pakai gmail 
+herry: belum tau yahoo
+Ridwan Amir: sama yang versi "New Member" itu nga ada validasi email ya..
+herry: "New Member" saat post iklan itu yaa ?
+Ridwan Amir: aku pake email yahoo
+Ridwan Amir: iya new member post
+herry: di yahoo biasanya masuk spam mas
+herry: atau lama sampai nya
+herry: Ridwan Amir: iya new member post => ok mas, nanti q tambahkan validasi user nya
+Ridwan Amir: yang info notifikasi ada terkirim ke email saya..
+Ridwan Amir: cuma yang register sama new member ni yang blum
+Ridwan Amir: di spam nga ada..
+Ridwan Amir: nanti kita cek lagi aja...
+herry: ok mas
+Ridwan Amir: yang new member tambah validasi email ya... baru masuk ke admin tuk di uprove..
+herry: ok mas seep
+Ridwan Amir is typing...
 
 
 
+-------------------------------------------------------------------------------------------------------------------
+Ridwan Amir: http://www.kedaipedia.com/post
 
+java checker tombol SUBMIT : jika dia mau tekan submit cek java apa aktif.. kalo nda aktif tampilkan <div>please actif your java,</div>
+-------------------------------------------------------------------------------------------------------------------
+Ridwan Amir: sub kategory jangan dulu tampil nanti di load baru tampil sperti tokobagus
+Ridwan Amir is typing...
+Ridwan Amir: http://www.tokobagus.com/pasang.asp
+herry: oo i see
+Ridwan Amir: city jangan dulu tampil nanti di load baru tampil
+Ridwan Amir: sama..
+Ridwan Amir: kayak tokobagus
+Ridwan Amir: Address (statis) di comment
+Ridwan Amir: price integer only kalo di pindah otomatis ada titiknya dan no spesial karakter
+Ridwan Amir: lanjut..
+Ridwan Amir is typing...
+Ridwan Amir: otomatis itu kayak harga di tokobagus itu.
+-------------------------------------------------------------------------------------------------------------------
+Ridwan Amir: ya selain address di buat <li)
+Ridwan Amir: contoh http://www.tokobagus.com/iklan/luxury-residence-di-area-simprug-nyaman-harga-ok-32882220.html#pn_6c18efcecec62889856a44bae324386b
+Ridwan Amir: yang model chek tetap speri itu...
+Ridwan Amir: address nga ikut dalam <li>
+Ridwan Amir: karena adress akan saya tempatkan sendiri di bawah gambar..
+Ridwan Amir: stelah itu formasi <li>
+herry: ooo i see
+Ridwan Amir: nanti saya kirim gambar saja..
+herry: barusan saya cek untuk address (textarea)
+herry: jadi untuk  textarea formatnya tetap seperti skr
+herry: tapi nanti untuk selain textarea template html nya memakai li
+herry: gitu yaa ?
+Ridwan Amir: ya betull..
+-------------------------------------------------------------------------------------------------------------------
+herry: pagi mas
+Ridwan Amir: pagi juga mas..
+Ridwan Amir: mulai..
+herry: ok
+Ridwan Amir: opsi opsi di member area di ganti tex huruf besar saja ato kasih ALT
+Ridwan Amir: ganti text aja biar jelas..
+Ridwan Amir: DELETE EDIT dll..
+herry: oiya 
+herry: kasih tooltips aja gimana ?
+Ridwan Amir: ok boleh..
+Ridwan Amir: alt
+Ridwan Amir: opsi opsi di member area di ganti tex huruf besar saja ato kasih ALT
+Ridwan Amir: defaut image kl nga ada image di upload, pake default image yg di upload di kategory
+Ridwan Amir: ngerti ya..
+herry: defaut image kl nga ada image di upload, pake default image yg di upload di kategory => ???
+Ridwan Amir: klo user nga upload image waktu post.. gambar yg tampil di http://www.kedaipedia.com/advert/330215898 itu jadi gambar default yang di set di kategory
+Ridwan Amir: kan aku liat setiap kategory bisa set upload gambar
+Ridwan Amir: dari admin
+herry: ooo iya2
+herry: ngerti skr
+Ridwan Amir: seep lanjut..
+herry: seep mas
+Ridwan Amir: cek session login :
+http://kedaipedia.com/register
+http://kedaipedia.com/login
+http://kedaipedia.com/reset_pass
 
-- folder view/controller/model klo bisa direname agar ngak ditebak orang lain
+baik di versi www ato tanpa www
+Ridwan Amir: url di atas biar aku dah login kalo aku pangil langsung urlnya.. tetep muncul.. mestinya jadi muncul dashboard...
+herry: ooo ok mas
+herry: bisa itu
+Ridwan Amir: untuk reset pass form.. boleh buat page sendiri.. ato buat versi java saja.. jika di klik tombol reset yangmuncul form reset..
+Ridwan Amir: .boleh versi http://kedaipedia.com/reset_pass
+Ridwan Amir: boleh versi ajax..
+Ridwan Amir: yang di sini ini http://kedaipedia.com/login
+herry: jadi page sendiri gitu yaa mas ?
+Ridwan Amir: boleh.. reset pass di pasang di halaman http://kedaipedia.com/reset_pass
+herry: ok mas seep
+Ridwan Amir: iklan yang sudah Is_delete, set ke halaman this ad was not available
+Ridwan Amir: di halaman single jika status udah Is_delete arahkan ke halaman lain..
+Ridwan Amir: karena iklan kan aslinya nga terhapus...
+Ridwan Amir: cuma menjaga pengunjung dari search engine..
+Ridwan Amir: ato redirect ke halaman index..
+herry: ooo i see
+herry: mudeng2 mas, lanjut
+Ridwan Amir: 19 hour 45 minute ago kalo udah kemarin jadi Yesterday, kalo kemarin lusa jadi tanggal saja dan detik
+Ridwan Amir: bisa
+Ridwan Amir: itu jam
+herry: bisa mas
+Ridwan Amir: ok lanjut
+Ridwan Amir: email register blum work
+herry: seep 
+Ridwan Amir: email register blum work
+herry: link ?
+Ridwan Amir: kemarin coba blum jalan..
+Ridwan Amir: http://www.kedaipedia.com/register
+Ridwan Amir: nga terkirim validasi ke email..
+herry: harusnya terkirim
+herry: pean pakai email yahoo / gmail mas ?
+Ridwan Amir: iya
+herry: nanti saya cek lagi mas
+Ridwan Amir: ok nanti aku cek juga...
+herry: kemarin saya coba pakai gmail 
+herry: belum tau yahoo
+Ridwan Amir: sama yang versi "New Member" itu nga ada validasi email ya..
+herry: "New Member" saat post iklan itu yaa ?
+Ridwan Amir: aku pake email yahoo
+Ridwan Amir: iya new member post
+herry: di yahoo biasanya masuk spam mas
+herry: atau lama sampai nya
+herry: Ridwan Amir: iya new member post => ok mas, nanti q tambahkan validasi user nya
+Ridwan Amir: yang info notifikasi ada terkirim ke email saya..
+Ridwan Amir: cuma yang register sama new member ni yang blum
+Ridwan Amir: di spam nga ada..
+Ridwan Amir: nanti kita cek lagi aja...
+herry: ok mas
+Ridwan Amir: yang new member tambah validasi email ya... baru masuk ke admin tuk di uprove..
+herry: ok mas seep
+Ridwan Amir: http://www.kedaipedia.com/post
+
+java checker tombol SUBMIT : jika dia mau tekan submit cek java apa aktif.. kalo nda aktif tampilkan <div>please actif your java,</div>
+
+Ridwan Amir: ngerti..
+herry: oo i see
+herry: ngerti mas
+Ridwan Amir: sub kategory jangan dulu tampil nanti di load baru tampil sperti tokobagus
+Ridwan Amir: http://www.tokobagus.com/pasang.asp
+herry: oo i see
+herry: ok mas
+Ridwan Amir: city jangan dulu tampil nanti di load baru tampil
+Ridwan Amir: sama..
+Ridwan Amir: kayak tokobagus
+herry: ok mas seep
+Ridwan Amir: Address (statis) di comment
+Ridwan Amir: price integer only kalo di pindah otomatis ada titiknya dan no spesial karakter
+Ridwan Amir: lanjut..
+Ridwan Amir: otomatis itu kayak harga di tokobagus itu.
+herry: oh ok mas
+Ridwan Amir: validasi gambar yang diupload, cek mungkin bisa file injeksi yang di upload only image dan max size upload, dan cek juga upload profile dan banner di member area validasi di pasang
+
+Ridwan Amir: max image upload 6 gambar saja
+Ridwan Amir: set utama gambar yang di upload
+Ridwan Amir: set gambar utamanya yang mana...
+Ridwan Amir: misal 5 gambar di upload.. yang gambar utama/thumnail iklan yang mana..
+Ridwan Amir: gimana..
+herry: yang skr, gambar utam yang ada border / garis abu2 itu mas
+herry: mungkin dibawah nya dikasih image yang ukuran nya rada gede gitu gimana ?
+herry: gambar yang gede itu sebagai gambar utama
+herry: biar lebih menegaskan gitu yakpa ?
+herry: jadi nanti ada 2 baris untuk gambar ini
+herry: 1 untuk list image
+1 untuk gambar utama ( ukuran nya yang rada besar )
+Ridwan Amir: hallo mas .. sorry reset hp...
+herry: oiya mas gpp
+Ridwan Amir: jadi brarti yang last upload yang jadi gambar utama ya
+herry: iya
+herry: skr posisi nya seperti itu
+herry: dan untuk gambar utama yang punya garis abu2 itu
+Ridwan Amir: ok mas.. lanjut ya..
+herry: oh ok 
+Ridwan Amir: stelah tekan submit langsung clear form
+herry: boleh2
+Ridwan Amir: jadi waktu dia tekan submit langsung clear smua..
+Ridwan Amir: cek duplikat title dalam 1 user yang sama
+Ridwan Amir: bisa..
+herry: bisa mas
+Ridwan Amir: meski waktu blum login..
+Ridwan Amir: karena ada dua posisi..
+Ridwan Amir: udah login dan blum login pasang iklan..
+herry: ok mas seep
+Ridwan Amir: untuk yang dinamis bisa nda default dinamis select itu jadi ini -
+Ridwan Amir: -
+Ridwan Amir: yang select
+herry: ok mas
+herry: bisa
+Ridwan Amir: itu validasi ya.. jika posisi - trus required.. maka muncul warning..
+Ridwan Amir: ngerti ya..
+herry: ok mas
+herry: ini select aja yaa ?
+Ridwan Amir: iya..
+herry: ok mas lanjut
+Ridwan Amir: Your Name = max 30 karakter
+Phone Number = integer only, no spesial karakter, 14 karakter max
+blackberry = 9 karakter no spesial karakter
+Ridwan Amir: itu yang new member form
+herry: ok mas seep
+herry: bisa itu
+Ridwan Amir: ok mas.. lanjut..
+herry: ok mas seep
+Ridwan Amir: http://www.kedaipedia.com/advert/152767820
+Ridwan Amir: itu selain address itu di buat <li>
+Ridwan Amir: nanti aku kirim polanya...
+Ridwan Amir: sperti tokobagus..
+Ridwan Amir: bisa
+herry: yang Facilities & Others itu yaa mas ?
+Ridwan Amir: hehe lanjut mas..
+herry: ok mas 
+herry: yang ini : itu selain address itu di buat <li>
+herry: ?
+Ridwan Amir: ya selain address di buat <li)
+Ridwan Amir: contoh http://www.tokobagus.com/iklan/luxury-residence-di-area-simprug-nyaman-harga-ok-32882220.html#pn_6c18efcecec62889856a44bae324386b
+Ridwan Amir: yang model chek tetap speri itu...
+Ridwan Amir: address nga ikut dalam <li>
+Ridwan Amir: karena adress akan saya tempatkan sendiri di bawah gambar..
+Ridwan Amir: stelah itu formasi <li>
+herry: ooo i see
+Ridwan Amir: nanti saya kirim gambar saja..
+herry: barusan saya cek untuk address (textarea)
+herry: jadi untuk  textarea formatnya tetap seperti skr
+herry: tapi nanti untuk selain textarea template html nya memakai li
+herry: gitu yaa ?
+Ridwan Amir: ya betull..
+herry: seep
+herry: bisa itu mas
+herry: soalnya kemarin saya cari desain buat halaman single masih terbatas
+herry: lebih enak sekarang ada contoh dari toko bagus
+herry: lanjut mas
+Ridwan Amir: ok seep.. 
+Ridwan Amir: yang http://www.kedaipedia.com/vehicles/car sortir by brand mobil
+Ridwan Amir: di sub kat car bisa pasang sortir brand..
+Ridwan Amir: kan ada brand cars disitu..
+herry: harus milih advert type nya dulu mas
+Ridwan Amir: trus..
+herry: yang select box : 'Show' dikanan nya 'Condition'
+Ridwan Amir: boleh juga kalo berdasarkan itu..
+herry: itu pean ganti
+herry: nanti dibawah nya keluar filter nya
+Ridwan Amir: oala.....
+Ridwan Amir: ic ic..
+herry: soalnya kemarin waktu pembuatan category inputan itu
+herry: datanya berdasarkan category, sub category & advert type
+herry: jadi waktu di show dia juga berdasarkan itu
+herry: yang barusan itu karena advert type nya masih kosong
+Ridwan Amir: ya ya boleh boleh..
+Ridwan Amir: kalo shownya itu checkednya for sale bisa..
+herry: ??
+herry: show milih yang option pertama gitu yaa ?
+herry: bukan 'All'
+Ridwan Amir: SHOW defaul for sale..
+Ridwan Amir: ya betul..
+herry: bisa
+Ridwan Amir: ok coba set ke situ nanti..
+Ridwan Amir: biar user yang liat.. sendiri kebutuhanya,,
+herry: ok mas, seep
+Ridwan Amir: http://www.kedaipedia.com/vehicles nga ada listing
+herry: oiya, nanti saya buatkan mas
+herry: mas ?
+Ridwan Amir: hehe ok mas.. gimana..
+herry: nanti saya buatkan mas untuk page ini http://www.kedaipedia.com/vehicles
+Ridwan Amir: ok
+Ridwan Amir: yang pola searching...
+Ridwan Amir: http://www.kedaipedia.com/search/a
+http://www.shopermarket.com/appliances/coffee-makers/search/a
+http://www.shopermarket.com/appliances/search/a
+jika select region dan city, bisa nda url listingnya berubah
+herry: ooo i see
+herry: ok mas
+Ridwan Amir: follow ? saya blum terima update email dari user yang saya follow
+Ridwan Amir: nanti dicek
+herry: ok mas
+herry: oiya mas bentar
+Ridwan Amir: ok mas..
+herry: jika select region dan city, bisa nda url listingnya berubah => ok
+herry: ketika untuk melakukan pencarian, maka linknya berubah seperti ini yaa ?
+herry: http://www.kedaipedia.com/search/a
+http://www.shopermarket.com/appliances/coffee-makers/search/a
+http://www.shopermarket.com/appliances/search/a
+Ridwan Amir: untuk regin url dah ok..
+Ridwan Amir: misal mencari 'a' di kategori mobil...
+Ridwan Amir: trus waktu di listing kan...
+Ridwan Amir: dia pillih regin johor,,
+Ridwan Amir: maka url ikut berubah..
+herry: oh ok mas
+herry: lanjut
+Ridwan Amir: http://kedaipedia.com/advert/152767820 jadi 
+http://kedaipedia.com/jual-barang-bagus-deh-bro
+Ridwan Amir: lanjut
+herry: judul nya jadi link yaa
+herry: ok mas, lanjut
+Ridwan Amir: iya..
+Ridwan Amir: meta 
+rss
+Dilihat: 31
+Ridwan Amir: untuk tags.. pending saja dulu....
+Ridwan Amir: kedaipedia.com/tags/
+herry: ok mas
+Ridwan Amir: rss : index, region, kategory,subkategory
+Ridwan Amir: untuk meta tunggun konsep dari saya..
+herry: ok mas seep
+Ridwan Amir: laporkan blum ya..
+herry: iya, belum ada laporan
+herry: ntar saya buatkan laporan nya
+Ridwan Amir: gimana kalo di set lapor ke email saja..
+Ridwan Amir: jadi nga ribet..
+herry: oh ok mas
+herry: bisa
+Ridwan Amir: laporkan : cc
+
+url iklan
+isi
+
+nama pengirim
+alamat email pengirim 
+Ridwan Amir: judulya email sesuaikan dengan opsi yang ada...
+herry: oh ok mas
+Ridwan Amir: ok itu saja dulu yang penting..
+Ridwan Amir: untuk fee aku jadikan 8 juta ya mas...
+herry: oh ok mas
+herry: makasih yaa mas 
+Ridwan Amir: sama sama mas..
+herry: 2 minggu lagi perkiraan saya untuk revisinya
+Ridwan Amir: untuk di script duniadb.com..
+Ridwan Amir: bisa edit di urlnya nda..
+Ridwan Amir: coba login
+Ridwan Amir: malaysianfair.com
+Ridwan Amir: ridwan ridwan
+herry: Link Artikel itu yaa mas ?
+Ridwan Amir: iya..
+Ridwan Amir: di Link Artikel  itu bisa nda.. di buat multi karakter...
+Ridwan Amir: misal saya isi dengan /advert/405484742
+Ridwan Amir: maka akan jadi malaysianfair.com/advert/405484742
+Ridwan Amir: gitu...
+Ridwan Amir: karena engine ini mau saya jadikan secondry engine seo..
+herry: maaf mas belum mudeng saya
+Ridwan Amir: misal gini...
+Ridwan Amir: coba buka artikel Maktab Koperasi Malaysia
+Ridwan Amir: udah kebuka..
+herry: ini yaa ?
+herry: http://www.malaysianfair.com/page/8882342342344888
+Ridwan Amir: di artikel coba klik edit di artikel maktab koperasi
+Ridwan Amir: yang menu artikel.. 
+Ridwan Amir: coba klik edit di artikel maktab koperasi malaysia..
+herry: iya
+Ridwan Amir: nah liat di link artikel..
+herry: "post-11119994444"
+Ridwan Amir: post-11119994444 ya sperti itu..
+Ridwan Amir: nah url di end user kan begini http://www.malaysianfair.com/read/post-11119994444
+Ridwan Amir: ngerti ya..
+herry: yups
+Ridwan Amir: nah bisa nda...
+Ridwan Amir: yang post-11119994444 di ganti dengan advert/459767244
+Ridwan Amir: disitu allowed multi karakter..
+herry: ooo bisa aja mas
+herry: 'post-' => dihilangkan
+Ridwan Amir: saya sudah coba http://www.malaysianfair.com/read/advert/459767244
+Ridwan Amir: coba cek..
+Ridwan Amir: status not found..
+herry: iya
+herry: btw, url yang di inginkan jadi apa mas ?
+Ridwan Amir: sesukaku..
+herry: menyesuikan "Link Artikel" yaa ?
+Ridwan Amir: nda.. 
+herry: soalnya yang skr itu belum support sama "/"
+Ridwan Amir: aku sesuikan sendiri...
+Ridwan Amir: nah bisa nda support sama "/"
+Ridwan Amir: perlunya di situ..
+Ridwan Amir: suport '/, ?+ dll
+herry: oh ok mas
+herry: apapun ini "Link Artikel", maka ini system bisa support untuk url artikel nya yaa
+herry: apapun isi "Link Artikel", maka ini system bisa support untuk url artikel nya yaa
+Ridwan Amir: ya karena ni engine cuma buat crawiling seo saja..
+Ridwan Amir: aku setup di kedaipedia.com
+Ridwan Amir: untuk engine ini aku entry manual artikel pendek..
+Ridwan Amir: urlnya bagian belakang aku sesuikan dengan yang ada di kedaipedia.com
+Ridwan Amir: misal profile ridwan di kediapedia.com
+Ridwan Amir: saya isi link artikel dengan ridwan...
+Ridwan Amir: maka akan di indek google dengan kata malaysianfair.com/ridwan
+Ridwan Amir: cuma waktu di buka masuk ke kedaipedia...
+Ridwan Amir: PERLU di redirect ya..
+Ridwan Amir: tambahkan 1 field redirect..
+Ridwan Amir: gimana...
+herry: masing2 user punya 1 link redirect gitu yaa ?
+Ridwan Amir: iya..
+Ridwan Amir: untuk multi di set di menu member..
+Ridwan Amir: dan menu article..
+herry: mungkin ini konsepnya sama account
+herry: jadi misal kita punya 1 account facebook
+herry: itu kita kan bisa connect kan ke gmail / yahoo
+herry: seperti itu yaa ?
+Ridwan Amir: bukan..
+Ridwan Amir: fungsi cuma untuk di index saja.. oleh google..
+herry: hmm
+Ridwan Amir: cuma perbanyak index disini https://www.google.com/#q=site:kedaipedia.com
+Ridwan Amir: engine ni saya setup di kedaipedia.com 
+Ridwan Amir: ngerti ya...
+herry: iya
+Ridwan Amir: nah waktu create artikel
+Ridwan Amir: misal saya copy 1 iklan di keday pedai (dupliaksi)
+Ridwan Amir: saya dulikasi ke engine duniadb
+Ridwan Amir: misal saya copy iklan ini http://www.kedaipedia.com/advert/609190213
+Ridwan Amir: nah di engine dunidb
+Ridwan Amir: saya isi judlul "apartemen for rent her"
+Ridwan Amir: nah di bagian field link artikel saya isi advert/609190213
+Ridwan Amir: berarti ada dua link index...
+Ridwan Amir: 1 versi kedaipedia
+Ridwan Amir: 2 versi dunidb
+Ridwan Amir: nah kan sama sama di index sama google
+Ridwan Amir: akan masuk disini https://www.google.com/#q=site:kedaipedia.com
+Ridwan Amir: ngerti ya...
+herry: yups
+herry: lanjut
+Ridwan Amir: tapi google akan index artikel dunia db dengan versi http://www.kedaipedia.com/advert/609190213 
+Ridwan Amir: dan pas di klik akan masuk ke duniadb
+Ridwan Amir: eh salah masuk ke kedaipedai
+Ridwan Amir: tapi aslinya itu ada di engine dunia db..
+Ridwan Amir: cuma otomatis redirect saja..
+Ridwan Amir: itu tujuanya..
+herry: redirect ini bentuk link kan mas ?
+herry: seperti <a href ...............
+herry: eh salah
+herry: ntar aja mas ini
+herry: sepertinya masih rada sulit udah dipahami 
+herry: btw yang link yang redirect tadi mau di tambahkan dimana ?
+herry: apa di kedaipedia.com => Panel => User => User => Form User ?
+-------------------------------------------------------------------------------------------------------------------
