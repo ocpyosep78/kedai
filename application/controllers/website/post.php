@@ -22,26 +22,26 @@ class post extends KEDAI_Controller {
 		if ($action == 'update') {
 			/*	User Region */
 			if (isset($_POST['user_action']) && $_POST['user_action'] == 'member_register') {
-				$user_check = $this->User_model->get_by_id(array( 'email' => $_POST['email'] ));
-				if (count($user_check) > 0) {
-					$user = $user_check;
-				} else {
-					// insert for new user
-					$array_fullname = explode(' ', $_POST['fullname'], 2);
-					$param_user['first_name'] = $array_fullname[0];
-					$param_user['last_name'] = @$array_fullname[1];
-					$param_user['email'] = $_POST['email'];
-					$param_user['passwd'] = $_POST['passwd'];
-					$param_user['is_ic_number'] = $_POST['is_ic_number'];
-					$param_user['ic_number'] = $_POST['ic_number'];
-					$param_user['phone'] = $_POST['phone'];
-					$param_user['bb_pin'] = $_POST['bb_pin'];
-					$result_user = $this->User_model->update($param_user);
-					
-					// get user data
+				// register for new user
+				$array_fullname = explode(' ', $_POST['fullname'], 2);
+				$param_user['first_name'] = $array_fullname[0];
+				$param_user['last_name'] = @$array_fullname[1];
+				$param_user['alias'] = $_POST['alias'];
+				$param_user['email'] = $_POST['email'];
+				$param_user['passwd'] = $_POST['passwd'];
+				$param_user['is_ic_number'] = $_POST['is_ic_number'];
+				$param_user['ic_number'] = $_POST['ic_number'];
+				$param_user['phone'] = $_POST['phone'];
+				$param_user['bb_pin'] = $_POST['bb_pin'];
+				$result_user = $this->User_model->register($param_user);
+				if ($result_user['status']) {
 					$user = $this->User_model->get_by_id(array( 'id' => $result_user['id'] ));
+				} else {
+					echo json_encode($result_user);
+					exit;
 				}
-			} else if (isset($_POST['user_action']) && $_POST['user_action'] == 'member_login') {
+			}
+			else if (isset($_POST['user_action']) && $_POST['user_action'] == 'member_login') {
 				$user_login = $this->User_model->sign_in(array( 'email' => $_POST['email'], 'passwd' => $_POST['passwd'] ));
 				if (!$user_login['status']) {
 					echo json_encode($user_login);
@@ -50,7 +50,8 @@ class post extends KEDAI_Controller {
 				
 				// get user
 				$user = $this->User_model->get_session();
-			} else {
+			}
+			else {
 				$user = $this->User_model->get_session();
 			}
 			/*	End User Region */

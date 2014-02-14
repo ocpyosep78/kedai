@@ -301,4 +301,54 @@ class User_model extends CI_Model {
 	}
 	
 	/*	End Region Session */
+	
+	function register($param = array()) {
+		// validate password
+		if (isset($param['passwd'])) {
+			if (empty($param['passwd'])) {
+				unset($param['passwd']);
+			} else {
+				$param['passwd'] = EncriptPassword($param['passwd']);
+			}
+		}
+		
+		// validation empty email or alias
+		if (empty($param['email'])) {
+			$result['status'] = '0';
+			$result['message'] = 'Please enter your email.';
+			return $result;
+		} else if (empty($param['alias'])) {
+			$result['status'] = '0';
+			$result['message'] = 'Please enter your alias.';
+			return $result;
+		}
+		
+		// validation db
+		$user_email = $this->User_model->get_by_id(array( 'email' => $param['email'] ));
+		$user_alias = $this->User_model->get_by_id(array( 'alias' => $param['alias'] ));
+		if (count($user_alias) > 0) {
+			$result['status'] = '0';
+			$result['message'] = 'Sorry, URL name already taken.';
+		}
+		else if (count($user_email) > 0) {
+			$result['status'] = '0';
+			$result['message'] = 'Sorry, your email already has account, please login.';
+		}
+		else {
+			// sent mail validation
+			$link_validation = base_url('validation/'.mcrypt_encode($param['email']));
+			$param_mail['to'] = $param['email'];
+			$param_mail['subject'] = WEBSITE_TITLE.' - Validation Account';
+			$param_mail['message'] = 'Please click link below to validation your account :<br />'.$link_validation;
+			sent_mail($param_mail);
+			
+			// update
+			$param['register_date'] = $this->config->item('current_datetime');
+			$param['user_type_id'] = (isset($param['user_type_id'])) ? $param['user_type_id'] : USER_TYPE_MEMBER;
+			$result = $this->User_model->update($param);
+			$result['message'] = 'Registration Succesful, please check your email to validate your registration.';
+		}
+		
+		return $result;
+	}
 }

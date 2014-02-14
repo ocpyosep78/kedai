@@ -118,8 +118,8 @@ class User_Membership_model extends CI_Model {
 			// user membership
 			if (isset($param['user_membership']) && $param['user_membership']) {
 				if ($row['status'] == 'pending') {
-					$param['is_custom']  = '<i class="cursor-button fa fa-check btn-approve"></i> ';
-					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-reject"></i> ';
+					$param['is_custom']  = '<i class="cursor-button tool-tip fa fa-check btn-approve" title="Approve"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-power-off btn-reject" title="Reject"></i> ';
 				} else {
 					$param['is_custom']  = '&nbsp;';
 				}

@@ -46,7 +46,7 @@ class input_car {
 	
 	function get_search($param = array()) {
 		$array_vehicle_brand = $this->ci->Vehicle_Brand_model->get_array();
-		$array_vehicle_type = $this->ci->Vehicle_Type_model->get_array(array( 'vehicle_brand_id' => $param['vehicle_brand_id'] ));
+		$array_vehicle_type = $this->ci->Vehicle_Type_model->get_array(array( 'vehicle_brand_id' => @$param['vehicle_brand_id'] ));
 		
 		$content = '
 			<div class="limit category-input-search">

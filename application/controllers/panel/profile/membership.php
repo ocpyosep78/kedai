@@ -9,8 +9,8 @@ class membership extends PANEL_Controller {
     }
 	
 	function grid() {
-		$_POST['is_custom'] = '<i class="cursor-button fa fa-thumbs-up btn-request"></i> ';
 		$_POST['column'] = array( 'title', 'advert_count', 'advert_time' );
+		$_POST['is_custom'] = '<i class="cursor-button tool-tip fa fa-thumbs-up btn-request" title="Request Membership"></i> ';
 		
 		$array = $this->Membership_model->get_array($_POST);
 		$count = $this->Membership_model->get_count();

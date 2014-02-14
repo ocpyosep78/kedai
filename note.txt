@@ -1,15 +1,15 @@
 All Modul
-- semua button ada tooltips nya
-- select yang dinamis, isi default nya - dan coba di validasi
+cek => - semua button ada tooltips nya
+cek => - select yang dinamis, isi default nya
 
 Advert Post
-- link : http://www.kedaipedia.com/post
-- Untuk pemasangan advert dari member "New Member" ada validasi email dia
-- check javascript browser, pastikan aktif jika tidak aktif ada tulisan <div>please activate your javascript</div>
-- Sub Category jangan keluar dulu jika Category kosong
-- City jangan keluar dulu jika Region kosong
-- Address di hidden
-- Price seperti toko bagus, ada money format nya
+cek => - link : http://www.kedaipedia.com/post
+cek => - Untuk pemasangan advert dari member "New Member" ada validasi email dia
+cek => - check javascript browser, pastikan aktif jika tidak aktif ada tulisan <div>please activate your javascript</div>
+cek => - Sub Category jangan keluar dulu jika Category kosong
+cek => - City jangan keluar dulu jika Region kosong
+cek => - Address di hidden
+- Price seperti toko bagus, ada money format nya => pastikan sama dengan MoneyFormat di php
 - Waktu post lagi, cek title yang sama, klo sama ngak bisa insert lagi
 - Ketika berhasil disimpan, form direset
 - Double cek kondisi login dan belum login
@@ -48,8 +48,9 @@ User Profile
 - Phone Number = integer only, no spesial karakter, 14 karakter max
 - blackberry = 9 karakter no spesial karakter
 
-Register
+User Register
 - Check email yahoo tidak masuk
+- Coba daftar dengan user yahoo yang baru
 - link http://www.kedaipedia.com/register
 -------------------------------------------------------------------------------------------------------------------
 Global

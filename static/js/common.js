@@ -523,8 +523,8 @@ var Func = {
 				"sLengthMenu": "_MENU_ <span>entries per page</span>"
 			},
 			"fnDrawCallback": function (oSettings) {
-				// tooltip
-				$('.btn-xs').tooltip();
+				// init tooltips
+				$(cnt_id + ' .tool-tip').tooltip({ placement: 'top' });
 				
 				if (p.callback != null) {
 					p.callback();

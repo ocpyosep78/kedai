@@ -90,14 +90,14 @@ class Mass_Email_model extends CI_Model {
 		
 		if (count(@$param['column']) > 0) {
 			if (isset($param['grid_type']) && $param['grid_type'] == 'sent_mass_mail') {
-				$param['is_custom']  = '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
+				$param['is_custom']  = '<i class="cursor-button tool-tip fa fa-pencil btn-edit" title="Edit"></i> ';
 				
 				// only add this button when record is draft
 				if ($row['status'] == 'draft') {
-					$param['is_custom'] .= '<i class="cursor-button fa fa-envelope btn-sent"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-envelope btn-sent" title="Sent"></i> ';
 				}
 				
-				$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+				$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-power-off btn-delete" title="Delete"></i> ';
 			}
 			
 			$row = dt_view_set($row, $param);

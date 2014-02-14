@@ -8,6 +8,7 @@
 	$price_max = (isset($_POST['price_max'])) ? $_POST['price_max'] : 0;
 	$condition = (isset($_POST['condition'])) ? $_POST['condition'] : '';
 	$advert_type_id = (isset($_POST['advert_type_id'])) ? $_POST['advert_type_id'] : 0;
+	$advert_type_last_id = (isset($_POST['advert_type_last_id'])) ? $_POST['advert_type_last_id'] : 0;
 	$category_input_json = (isset($_POST['category_input_json'])) ? $_POST['category_input_json'] : '[]';
 	
 	$array_region = $this->Region_model->get_array();
@@ -36,9 +37,11 @@
 	
 	// category input data
 	$category_input_search = array();
-	$array_temp = object_to_array(json_decode($category_input_json));
-	foreach ($array_temp as $input) {
-		$category_input_search[$input['name']] = $input['value'];
+	if (empty($advert_type_last_id) || $advert_type_id == $advert_type_last_id) {
+		$array_temp = object_to_array(json_decode($category_input_json));
+		foreach ($array_temp as $input) {
+			$category_input_search[$input['name']] = $input['value'];
+		}
 	}
 	
 	/* end region form */
@@ -144,6 +147,7 @@
 							<input type="hidden" name="price_max" value="<?php echo $price_max; ?>" />
 							<input type="hidden" name="condition" value="<?php echo $condition; ?>" />
 							<input type="hidden" name="advert_type_id" value="<?php echo $advert_type_id; ?>" />
+							<input type="hidden" name="advert_type_last_id" value="<?php echo $advert_type_id; ?>" />
 							<input type="hidden" name="category_input_json" value="<?php echo htmlentities($category_input_json); ?>" />
 							
 							<input type="hidden" name="page_sort" value="<?php echo htmlentities($page_sort); ?>" />

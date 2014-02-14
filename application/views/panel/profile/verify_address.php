@@ -56,7 +56,9 @@
 									</div>
 									<div class="form-group">
 										<label>City</label>
-										<select name="city_id" class="form-control" data-required="true" disabled="disabled"></select>
+										<select name="city_id" class="form-control" data-required="true" disabled="disabled">
+											<option value="">-</option>
+										</select>
 									</div>
 									<div class="form-group">
 										<label>Postal Code</label>

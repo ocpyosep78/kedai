@@ -28,7 +28,7 @@
 		<div class="container"><div class="row">
 			<section class="col-lg-99 col-md-9 col-sm-12 col-xs-12 main-column">
 				<div id="content">
-					<form class="sky-form" id="form-advert">
+					<form class="sky-form hide" id="form-advert">
 						<input type="hidden" name="id" value="0" />
 						<input type="hidden" name="action" value="update" />
 						
@@ -42,7 +42,7 @@
 									<i></i>
 								</label>
 							</section>
-							<section>
+							<section class="cnt-category-sub hide">
 								<label class="label">Select Sub Category (statis)</label>
 								<label class="select">
 									<select name="category_sub_id" class="required">
@@ -51,20 +51,11 @@
 									<i></i>
 								</label>
 							</section>
-							<section class="cnt-advert-type">
+							<section class="cnt-advert-type hide">
 								<label class="label">Ad Type (dinamis)</label>
 								<div class="inline-group"></div>
 							</section>
-							<section class="non-debug hide">
-								<label class="label">Condition Ad (statis)</label>
-								<label class="select">
-									<select name="condition_id">
-										<?php echo ShowOption(array( 'Array' => $array_condition, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
-									</select>
-									<i></i>
-								</label>
-							</section>
-							<section class="non-debug">
+							<section>
 								<label class="label">Region (statis)</label>
 								<label class="select">
 									<select name="region_id" class="required">
@@ -73,21 +64,7 @@
 									<i></i>
 								</label>
 							</section>
-							<section class="hide">
-								<label class="label">Area (statis)</label>
-								<label class="select">
-									<select>
-										<option selected="selected" value="3">Select Area</option>
-										<option value="1">Alexandra</option>
-										<option value="2">Alice</option>
-									
-										<option value="4">Avelina</option>
-										
-									</select>
-									<i></i>
-								</label>
-							</section>
-							<section class="non-debug">
+							<section class="cnt-city hide">
 								<label class="label">City (statis)</label>
 								<label class="select">
 									<select name="city_id" class="required">
@@ -96,7 +73,7 @@
 									<i></i>
 								</label>
 							</section>
-							<section class="non-debug">
+							<section class="hide">
 								<label class="label">Address (statis)</label>
 								<label class="textarea textarea-resizable">
 									<textarea rows="2" cols="60" name="address" placeholder="Ad address"></textarea>
@@ -164,6 +141,12 @@
 									<input type="text" name="email" class="required email" placeholder="Email" />
 								</label>
 							</section>
+							<section class="cnt-alias">
+								<label class="label">URL Name / Alias</label>
+								<label class="input">
+									<input type="text" name="alias" class="required" placeholder="URL Name / Alias" />
+								</label>
+							</section>
 							<section class="cnt-password">
 								<label class="label">Password</label>
 								<label class="input">
@@ -206,6 +189,12 @@
 							<button type="button" class="button button-secondary" onclick="window.history.back();">Cancel</button>
 						</footer>
 					</form>
+					
+					<noscript class="js-warning">
+						<div class="wrapper underline no-margin">
+							<h2>Please activate your javascript</h2>
+						</div>
+					</noscript>
 				</div>
 			</section>
 			
@@ -223,6 +212,10 @@
 <?php $this->load->view('website/common/menu_canvas'); ?>
 
 <script>
+	// check js browser
+	$('#content .sky-form').show();
+	$('#content .js-warning').hide();
+	
 	var is_debug = false;
 	if (is_debug) {
 		$('.non-debug').hide();
@@ -477,7 +470,10 @@
 	$('#form-advert [name="category_id"]').change(function() {
 		combo.category_sub({
 			category_id: $(this).val(),
-			target: $('#form-advert [name="category_sub_id"]')
+			target: $('#form-advert [name="category_sub_id"]'),
+			callback: function() {
+				$('.cnt-category-sub').show();
+			}
 		});
 	});
 	$('#form-advert [name="category_sub_id"]').change(function() {
@@ -487,13 +483,17 @@
 			callback: function() {
 				$('#form-advert [name="advert_type_id"]').click(function() { page.load_input({}); });
 				$('#form-advert [name="advert_type_id"]').eq(0).click();
+				$('.cnt-advert-type').show();
 			}
 		});
 	});
 	$('#form-advert [name="region_id"]').change(function() {
 		combo.city({
 			region_id: $(this).val(),
-			target: $('#form-advert [name="city_id"]')
+			target: $('#form-advert [name="city_id"]'),
+			callback: function() {
+				$('.cnt-city').show();
+			}
 		});
 	});
 	$('#form-advert [name="is_ic_number"]').click(function() {
@@ -506,6 +506,7 @@
 			// container
 			$('#form-advert .cnt-fullname').hide();
 			$('#form-advert .cnt-email').show();
+			$('#form-advert .cnt-alias').hide();
 			$('#form-advert .cnt-password').show();
 			$('#form-advert .cnt-id-number').hide();
 			$('#form-advert .cnt-phone').hide();
@@ -521,6 +522,7 @@
 			// container
 			$('#form-advert .cnt-fullname').show();
 			$('#form-advert .cnt-email').show();
+			$('#form-advert .cnt-alias').show();
 			$('#form-advert .cnt-password').hide();
 			$('#form-advert .cnt-id-number').show();
 			$('#form-advert .cnt-phone').show();

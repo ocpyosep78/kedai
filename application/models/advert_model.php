@@ -246,27 +246,27 @@ class Advert_model extends CI_Model {
 			
 			if (!empty($param['is_manage'])) {
 				if ($param['is_manage'] == 'admin') {
-					$param['is_custom'] .= '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
-					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
-					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-pencil btn-edit" title="Edit Category"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-list-alt btn-hyperlink" title="Edit Detail"></i> ';
+					$param['is_custom'] .= '<a class="cursor-button tool-tip fa fa-link" href="'.$row['advert_link'].'" target="_blank" title="Preview"></a> ';
 					
 					if (in_array($row['advert_status_id'], array( ADVERT_STATUS_REVIEW, ADVERT_STATUS_RE_REVIEW ))) {
-						$param['is_custom'] .= '<i class="cursor-button fa fa-check btn-approve"></i> ';
-						$param['is_custom'] .= '<i class="cursor-button fa fa-times btn-reject"></i> ';
+						$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-check btn-approve" title="Approve"></i> ';
+						$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-times btn-reject" title="Reject"></i> ';
 					}
 					
-					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-power-off btn-delete" title="Delete"></i> ';
 				} else if ($param['is_manage'] == 'member') {
-					$param['is_custom'] .= '<i class="cursor-button fa fa-list-alt btn-hyperlink"></i> ';
-					$param['is_custom'] .= '<a class="cursor-button fa fa-link" href="'.$row['advert_link'].'" target="_blank"></a> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-list-alt btn-hyperlink" title="Edit Detail"></i> ';
+					$param['is_custom'] .= '<a class="cursor-button tool-tip fa fa-link" href="'.$row['advert_link'].'" target="_blank" title="Preview"></a> ';
 					
 					if ($row['advert_status_id'] == ADVERT_STATUS_APPROVE && empty($row['sold_time'])) {
-						$param['is_custom'] .= '<i class="cursor-button fa fa-dollar btn-sold"></i> ';
+						$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-dollar btn-sold" title="Sold"></i> ';
 					} else if ($row['advert_status_id'] == ADVERT_STATUS_RE_SUBMIT) {
-						$param['is_custom'] .= '<i class="cursor-button fa fa-refresh btn-resubmit"></i> ';
+						$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-refresh btn-resubmit" title="Resubmit"></i> ';
 					}
 					
-					$param['is_custom'] .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-power-off btn-delete" title="Delete"></i> ';
 				}
 			}
 			

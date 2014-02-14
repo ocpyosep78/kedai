@@ -110,7 +110,7 @@ class Verify_Address_model extends CI_Model {
 				if ($param['grid_view'] == 'manage_user') {
 					$param['is_custom']  = '&nbsp;';
 					if ($row['status'] == 'pending') {
-						$param['is_custom'] = '<i class="cursor-button fa fa-check btn-approve"></i> ';
+						$param['is_custom'] = '<i class="cursor-button tool-tip fa fa-check btn-approve" title="Approve"></i> ';
 					}
 				}
 			}

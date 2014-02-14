@@ -778,14 +778,14 @@
             
 			$temp_column = '';
             if ($param['is_edit'] == 1) {
-                $temp_column .= '<i class="cursor-button fa fa-pencil btn-edit"></i> ';
-                $temp_column .= '<i class="cursor-button fa fa-power-off btn-delete"></i> ';
+                $temp_column .= '<i class="cursor-button tool-tip fa fa-pencil btn-edit" title="Edit"></i> ';
+                $temp_column .= '<i class="cursor-button tool-tip fa fa-power-off btn-delete" title="Delete"></i> ';
             }
             if (isset($param['is_edit_only']) && $param['is_edit_only'] == 1) {
-                $temp_column .= '<i class="cursor-button fa fa-pencil"></i> ';
+                $temp_column .= '<i class="cursor-button tool-tip fa fa-pencil" title="Edit"></i> ';
             }
             if ($param['is_delete'] == 1) {
-                $temp_column .= '<i class="cursor-button fa fa-power-off"></i> ';
+                $temp_column .= '<i class="cursor-button tool-tip fa fa-power-off" title="Delete"></i> ';
             }
             if (!empty($param['is_custom'])) {
                 $temp_column .= $param['is_custom'];

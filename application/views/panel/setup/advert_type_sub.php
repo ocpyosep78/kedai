@@ -29,7 +29,9 @@
 								</div>
 								<div class="form-group">
 									<label>Sub Category</label>
-									<select name="category_sub_id" class="form-control" data-required="true"></select>
+									<select name="category_sub_id" class="form-control" data-required="true">
+										<option value="">-</option>
+									</select>
 								</div>
 								<div class="form-group">
 									<label>Advert Type</label>
