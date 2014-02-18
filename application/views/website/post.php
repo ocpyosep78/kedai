@@ -132,7 +132,7 @@
 							<section class="cnt-fullname">
 								<label class="label">Your Name</label>
 								<label class="input">
-									<input type="text" name="fullname" class="required" placeholder="Your Name" />
+									<input type="text" name="fullname" class="required" placeholder="Your Name" maxlength="30" />
 								</label>
 							</section>
 							<section class="cnt-email">
@@ -144,7 +144,7 @@
 							<section class="cnt-alias">
 								<label class="label">URL Name / Alias</label>
 								<label class="input">
-									<input type="text" name="alias" class="required" placeholder="URL Name / Alias" />
+									<input type="text" name="alias" class="required no_special_char" placeholder="URL Name / Alias" />
 								</label>
 							</section>
 							<section class="cnt-password">
@@ -172,13 +172,13 @@
 							<section class="cnt-phone">
 								<label class="label">Phone Number</label>
 								<label class="input">
-									<input type="text" name="phone" class="required" placeholder="Phone Number" />
+									<input type="text" name="phone" class="required digits no_special_char" placeholder="Phone Number" maxlength="14" />
 								</label>
 							</section>		
 							<section class="cnt-bb-pin">
 								<label class="label">Blackberry (Optional)</label>
 								<label class="input">
-									<input type="text" name="bb_pin" placeholder="Blackberry Pin" />
+									<input type="text" name="bb_pin" class="no_special_char" placeholder="Blackberry Pin" maxlength="9" />
 								</label>
 							</section>
 						</fieldset>
@@ -296,10 +296,12 @@
 					// generate option
 					var selected = '';
 					var cnt_option = '';
+					var display_value = '';
 					var array_value = array_input[i].value.split(',');
 					for (var j = 0; j < array_value.length; j++) {
 						selected = (array_value[j] == value) ? 'selected' : '';
-						cnt_option += '<option value="' + array_value[j] + '" ' + selected + '>' + array_value[j] + '</option>';
+						display_value = (array_value[j] == '') ? '-' : array_value[j];
+						cnt_option += '<option value="' + array_value[j] + '" ' + selected + '>' + display_value + '</option>';
 					}
 					
 					template += '<section>';
