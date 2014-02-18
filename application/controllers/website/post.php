@@ -79,7 +79,11 @@ class post extends KEDAI_Controller {
 			// collect param
 			foreach ($array_form as $name) {
 				if (isset($_POST[$name])) {
-					$advert_update[$name] = $_POST[$name];
+					if ($name == 'price') {
+						$advert_update[$name] = preg_replace('/[^0-9]/i', '', $_POST[$name]);
+					} else {
+						$advert_update[$name] = $_POST[$name];
+					}
 				}
 			}
 			

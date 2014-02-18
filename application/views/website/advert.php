@@ -266,7 +266,11 @@
 				var label = array_input[i].label;
 				var value = page.advert[name];
 				
-				if (Func.InArray(array_input[i].input_type_name, ['checkbox', 'text', 'select'])) {
+				if (Func.InArray(array_input[i].input_type_name, ['text', 'select'])) {
+					template += label + '<hr /><div class="text-wrap"><ul class="three-col">';
+					template += '<li>' + value + '</li>';
+					template += '</ul></div><br />';
+				} else if (Func.InArray(array_input[i].input_type_name, ['checkbox'])) {
 					// generate option
 					var cnt_option = '';
 					var array_value = array_input[i].value.split(',');

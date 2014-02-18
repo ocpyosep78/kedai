@@ -396,6 +396,7 @@
 			// common entry
 			Func.populate({ cnt: '#form-advert', record: advert });
 			combo.city({ region_id: advert.region_id, target: $('#form-advert [name="city_id"]'), value: advert.city_id });
+			$('#form-advert [name="price"]').blur();
 			
 			// ajax entry
 			$('.cnt-advert-type').show();
