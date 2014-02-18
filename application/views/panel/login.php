@@ -18,23 +18,8 @@
 					<label class="control-label">Password</label>
 					<input type="password" name="passwd" placeholder="Password" class="form-control input-lg" data-required="true" />
 				</div>
-				<!--
-				<div class="checkbox">
-					<label>
-						<input type="checkbox"> Keep me logged in
-					</label>
-				</div>
-				-->
-				<a href="#" class="pull-right m-t-xs"><small>Forgot password?</small></a>
+				<a href="<?php echo base_url('forget_password'); ?>" class="pull-right m-t-xs"><small>Forgot password?</small></a>
 				<button type="submit" class="btn btn-primary">Sign in</button>
-				<!--
-				<div class="line line-dashed"></div>
-				<a href="#" class="btn btn-facebook btn-block m-b-sm"><i class="fa fa-facebook pull-left"></i>Sign in with Facebook</a>
-				<a href="#" class="btn btn-twitter btn-block"><i class="fa fa-twitter pull-left"></i>Sign in with Twitter</a>
-				<div class="line line-dashed"></div>
-				<p class="text-muted text-center"><small>Do not have an account?</small></p>
-				<a href="signup.html" class="btn btn-default btn-block">Create an account</a>
-				-->
 			</form>
 		</section>
 	</div>

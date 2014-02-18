@@ -1,5 +1,8 @@
 <?php
 	/*	start up data */
+	$_POST['region_id'] = $region['id'];
+	$_POST['city_id'] = $city['id'];
+	
 	$search_link = get_search_link();
 	if (!empty($search_link)) {
 		$_POST['namelike'] = $search_link;
@@ -9,47 +12,20 @@
 	/* region form */
 	
 	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
-	$city_id = (isset($_POST['city_id'])) ? $_POST['city_id'] : 0;
 	$region_id = (isset($_POST['region_id'])) ? $_POST['region_id'] : 0;
+	$city_id = (isset($_POST['city_id'])) ? $_POST['city_id'] : 0;
 	$price_min = (isset($_POST['price_min'])) ? $_POST['price_min'] : 0;
 	$price_max = (isset($_POST['price_max'])) ? $_POST['price_max'] : 0;
 	$condition = (isset($_POST['condition'])) ? $_POST['condition'] : '';
-	$advert_type_id = (isset($_POST['advert_type_id'])) ? $_POST['advert_type_id'] : DEFAULT_ADVERT_TYPE;
-	$advert_type_last_id = (isset($_POST['advert_type_last_id'])) ? $_POST['advert_type_last_id'] : 0;
-	$category_input_json = (isset($_POST['category_input_json'])) ? $_POST['category_input_json'] : '[]';
+	$advert_type_id = (isset($_POST['advert_type_id'])) ? $_POST['advert_type_id'] : 0;
 	
 	$array_region = $this->Region_model->get_array();
-	$array_city = $this->City_model->get_array(array( 'region_id' => $region_id ));
 	$array_sort = $this->Advert_model->get_array_sort();
 	$array_limit = $this->Advert_model->get_array_limit();
 	$array_condition = $this->Condition_model->get_array();
 	$array_advert_type = $this->Advert_Type_model->get_array();
-	$array_price_min = $this->Category_Price_model->get_array(array( 'category_sub_id' => $category_sub['id'], 'price_type' => 1 ));
-	$array_price_max = $this->Category_Price_model->get_array(array( 'category_sub_id' => $category_sub['id'], 'price_type' => 2 ));
-	
-	// advert type sub id & category input
-	$advert_type_sub = $array_category_input = array();
-	if (!empty($advert_type_id) && !empty($category_sub['id'])) {
-		$advert_type_sub = $this->Advert_Type_Sub_model->get_by_id(array( 'advert_type_id' => $advert_type_id, 'category_sub_id' => $category_sub['id'] ));
-		
-		if (count($advert_type_sub) > 0) {
-			$param_category_input = array(
-				'is_searchable' => 1,
-				'advert_type_sub_id' => $advert_type_sub['id'],
-				'sort' => '[{"property":"CategoryInput.order_no","direction":"DESC"}]'
-			);
-			$array_category_input = $this->Category_Input_model->get_array($param_category_input);
-		}
-	}
-	
-	// category input data
-	$category_input_search = array();
-	if (empty($advert_type_last_id) || $advert_type_id == $advert_type_last_id) {
-		$array_temp = object_to_array(json_decode($category_input_json));
-		foreach ($array_temp as $input) {
-			$category_input_search[$input['name']] = $input['value'];
-		}
-	}
+	$array_price_min = $this->Category_Price_model->get_array(array( 'category_sub_id' => 0, 'price_type' => 1 ));
+	$array_price_max = $this->Category_Price_model->get_array(array( 'category_sub_id' => 0, 'price_type' => 2 ));
 	
 	/* end region form */
 	
@@ -63,15 +39,14 @@
 	$param_advert = array(
 		'namelike' => $namelike,
 		'advert_status_id' => ADVERT_STATUS_APPROVE,
-		'city_id' => $city_id,
-		'region_id' => $region_id,
+		'region_id' => @$region['id'],
+		'city_id' => @$city['id'],
 		'condition' => $condition,
 		'advert_type_id' => $advert_type_id,
 		'price_min' => $price_min,
 		'price_max' => $price_max,
 		'category_id' => @$category['id'],
 		'category_sub_id' => @$category_sub['id'],
-		'category_input_search' => $category_input_search,
 		'sort' => $page_sort,
 		'start' => $page_offset,
 		'limit' => $page_limit
@@ -84,8 +59,8 @@
 	
 	// build breadcrumb
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
-	$param_breadcrumb['title_list'][] = array( 'link' => $category['category_link'], 'title' => $category['name'] );
-	$param_breadcrumb['title_list'][] = array( 'link' => $category_sub['category_sub_link'], 'title' => $category_sub['name'] );
+	$param_breadcrumb['title_list'][] = array( 'link' => $region['region_link'], 'title' => $region['name'] );
+	$param_breadcrumb['title_list'][] = array( 'link' => $city['city_link'], 'title' => $city['name'] );
 	
 	// advert list
 	$param_advert_view['array_advert'] = $array_advert;
@@ -109,18 +84,6 @@
 					<h1>Refine Search</h1>
 					<div class="category-info clearfix">
 						<div class="product-filter clearfix">
-							<div class="display" style="padding-top: 0px;">
-								<div class="limit">
-									<select name="city_id" class="form_submit">
-										<?php echo ShowOption(array( 'Array' => $array_city, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All City', 'Selected' => $city_id )); ?>
-									</select>
-								</div>
-								<div class="limit">
-									<select name="region_id" class="form_change">
-										<?php echo ShowOption(array( 'Array' => $array_region, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All Region', 'Selected' => $region_id )); ?>
-									</select>
-								</div>
-							</div>
 							<div class="sort">
 								<select>
 									<option>Max sq.ft</option>
@@ -148,15 +111,12 @@
 					<div class="hidden">
 						<form id="form-hidden" method="post">
 							<input type="hidden" name="namelike" value="<?php echo $namelike; ?>" />
-							<input type="hidden" name="city_id" value="<?php echo $city_id; ?>" />
 							<input type="hidden" name="region_id" value="<?php echo $region_id; ?>" />
+							<input type="hidden" name="city_id" value="<?php echo $city_id; ?>" />
 							<input type="hidden" name="price_min" value="<?php echo $price_min; ?>" />
 							<input type="hidden" name="price_max" value="<?php echo $price_max; ?>" />
 							<input type="hidden" name="condition" value="<?php echo $condition; ?>" />
 							<input type="hidden" name="advert_type_id" value="<?php echo $advert_type_id; ?>" />
-							<input type="hidden" name="advert_type_last_id" value="<?php echo $advert_type_id; ?>" />
-							<input type="hidden" name="category_input_json" value="<?php echo htmlentities($category_input_json); ?>" />
-							
 							<input type="hidden" name="page_sort" value="<?php echo htmlentities($page_sort); ?>" />
 							<input type="hidden" name="page_active" value="<?php echo 1; ?>" />
 							<input type="hidden" name="page_limit" value="<?php echo $page_limit; ?>" />
@@ -193,10 +153,6 @@
 								<?php echo ShowOption(array( 'Array' => $array_condition, 'ArrayID' => 'name', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All', 'Selected' => $condition )); ?>
 							</select>
 						</div>
-						<div style="clear: both;"></div>
-						<?php foreach ($array_category_input as $key => $row) { ?>
-							<?php echo search_category_input($row, $category_input_search); ?>
-						<?php } ?>
 					</div>
 					
 					<?php $this->load->view( 'website/common/advert_list', $param_advert_view ); ?>
@@ -212,48 +168,15 @@
 
 <script type="text/javascript">
 	// form
-	$('.category-info [name="region_id"]').change(function() {
-		combo.city({
-			region_id: $(this).val(),
-			target: $('.category-info [name="city_id"]'),
-			label_empty_select: 'All City'
-		});
-	});
-	$('.product-filter [name="vehicle_brand_id"]').change(function() {
-		combo.vehicle_type({
-			vehicle_brand_id: $(this).val(),
-			target: $('.product-filter [name="vehicle_type_id"]'),
-			label_empty_select: 'All Type'
-		});
-	});
 	$('.form_change').change(function() {
 		var name = $(this).attr('name');
 		var value = $(this).val();
 		$('#form-hidden [name="' + name + '"]').val(value);
-		
-		if (name == 'region_id') {
-			$('#form-hidden [name="city_id"]').val(0);
-		}
 	});
 	$('.form_submit').change(function() {
-		// set common search
 		var name = $(this).attr('name');
 		var value = $(this).val();
 		$('#form-hidden [name="' + name + '"]').val(value);
-		
-		// set category input search
-		var array_category_input = [];
-		for (var i = 0; i < $('.category-input-search').length; i++) {
-			var temp_object = {
-				value: $('.category-input-search').eq(i).find('.input').val(),
-				name: $('.category-input-search').eq(i).find('.input').attr('name')
-			}
-			array_category_input.push(temp_object);
-		}
-		var category_input_json = Func.ArrayToJson(array_category_input);
-		$('#form-hidden [name="category_input_json"]').val(category_input_json);
-		
-		// submit form
 		$('#form-hidden').submit();
 	});
 	

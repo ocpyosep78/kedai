@@ -9,99 +9,100 @@ cek => - check javascript browser, pastikan aktif jika tidak aktif ada tulisan <
 cek => - Sub Category jangan keluar dulu jika Category kosong
 cek => - City jangan keluar dulu jika Region kosong
 cek => - Address di hidden
-- Price seperti toko bagus, ada money format nya => pastikan sama dengan MoneyFormat di php
-- Waktu post lagi, cek title yang sama, klo sama ngak bisa insert lagi
-- Ketika berhasil disimpan, form direset
-- Double cek kondisi login dan belum login
+cek => - Price seperti toko bagus, ada money format nya => pastikan sama dengan MoneyFormat di php
+cek => - Waktu post lagi, cek title yang sama, klo sama ngak bisa insert lagi
+cek => - Ketika berhasil disimpan, form direset
+cek => - Double cek kondisi login dan belum login
 
 Advert Single Page
-- image default jika tidak advert tidak memiliki image maka image diambil dari image pada category sub
-- iklan yang sudah didelete diarahkan ke halaman index atau ada info "this ad was not available"
-- sample : http://www.tokobagus.com/iklan/luxury-residence-di-area-simprug-nyaman-harga-ok-32882220.html#pn_6c18efcecec62889856a44bae324386b
-- untuk textarea formatnya seperti skr
-- untuk selain textarea formatnya pakai li
+cek => - image default jika tidak advert tidak memiliki image maka image diambil dari image pada category sub
+cek => - iklan yang sudah didelete diarahkan ke halaman index atau ada info "this ad was not available"
+cek => - sample : http://www.tokobagus.com/iklan/luxury-residence-di-area-simprug-nyaman-harga-ok-32882220.html#pn_6c18efcecec62889856a44bae324386b
+cek => - untuk textarea formatnya seperti skr
+cek => - untuk selain textarea formatnya pakai li
 
 Category Search
-- link http://www.kedaipedia.com/vehicles/car
-- untuk advert type nya, default nya 'For Sale' jangan 'All'
-- biar langsung keliatan filternya
+cek => - link http://www.kedaipedia.com/vehicles/car
+cek => - untuk advert type nya, default nya 'For Sale' jangan 'All'
+cek => - biar langsung keliatan filternya
 
 Category Page
-- link http://www.kedaipedia.com/vehicles
-- tidak keluar list item nya
-- nanti ada list item & list category yang ada
+cek => - link http://www.kedaipedia.com/vehicles
+cek => - tidak keluar list item nya
+cek => - nanti ada list item & list category yang ada
 
 Forget Password
-- link http://kedaipedia.com/login
-- dibuatkan page terpisah saja jangan jadi satu
+cek => - link http://kedaipedia.com/login
+cek => - dibuatkan page terpisah saja jangan jadi satu
 
 Session Login
-- dengan domain www atau tidak, user yang sudah login di 1 protocol tidak perlu login lagi di protocol lainnya
-- disimpan di cookies aja
+cek => - dengan domain www atau tidak, user yang sudah login di 1 protocol tidak perlu login lagi di protocol lainnya
+cek => - disimpan di cookies aja
 
 Labeling
-- 19 hour 45 minute ago kalo udah kemarin jadi Yesterday
-- kalo kemarin lusa jadi tanggal saja dan detik
+cek => - 19 hour 45 minute ago kalo udah kemarin jadi Yesterday
+cek => - kalo kemarin lusa jadi tanggal saja dan detik
 
 User Profile
-- Your Name = max 30 karakter
-- Phone Number = integer only, no spesial karakter, 14 karakter max
-- blackberry = 9 karakter no spesial karakter
+cek => - Your Name = max 30 karakter
+cek => - Phone Number = integer only, no spesial karakter, 14 karakter max
+cek => - blackberry = 9 karakter no spesial karakter
 
 User Register
-- Check email yahoo tidak masuk
-- Coba daftar dengan user yahoo yang baru
-- link http://www.kedaipedia.com/register
+cek => - Check email yahoo tidak masuk
+cek => - Coba daftar dengan user yahoo yang baru
+cek => - link http://www.kedaipedia.com/register
 -------------------------------------------------------------------------------------------------------------------
 Global
-- untuk advert image jika kosong diambilkan dari image milik category yang bersangkutan
-- tambah tooltips untuk semua button di datatables
-- data user disimpan di cookie
-- upload file hanya bisa format gambar => jpg, png, jpg, gif, jpeg
+cek => - untuk advert image jika kosong diambilkan dari image milik category yang bersangkutan
+cek => - tambah tooltips untuk semua button di datatables
+cek => - data user disimpan di cookie
+cek => - upload file hanya bisa format gambar => jpg, png, jpg, gif, jpeg
 
 Forget Password
-- link http://kedaipedia.com/reset_pass
-- form untuk forget password biar terpisah dengan login
+cek => - link http://kedaipedia.com/reset_password
+cek => - form untuk forget password biar terpisah dengan login
 
 Panel Forget Password
-- lempar aja ke http://kedaipedia.com/reset_pass
+cek => - lempar aja ke http://kedaipedia.com/reset_pass
 
 Advert Deleted
-- iklan yang sudah didelete diredirect ke page dengan info iklan sudah tidak ada
+cek => - iklan yang sudah didelete diredirect ke page dengan info iklan sudah tidak ada
 
 Advert Post
-- upload gambar max 6
-- setelah submit berhasil, form direset
+cek => - upload gambar max 6
+cek => - setelah submit berhasil, form direset
 
 Category Page
-- link http://www.kedaipedia.com/vehicles
-- harusnya ada list sub category nya
+cek => - link http://www.kedaipedia.com/vehicles
+cek => - harusnya ada list sub category nya
 
 Search Page Common
-- link : http://www.kedaipedia.com/search/a
-- link : http://www.kedaipedia.com/appliances/search/a
-- link : http://www.kedaipedia.com/appliances/coffee-makers/search/a
-- link nya seperti diatas
+cek => - link : http://www.kedaipedia.com/search/a
+cek => - link : http://www.kedaipedia.com/appliances/search/a
+cek => - link : http://www.kedaipedia.com/appliances/coffee-makers/search/a
+cek => - link nya seperti diatas
 
 Region Page
-- jika select region dan city maka url nya berubah menyesuaikan
+cek => - jika select region dan city maka url nya berubah menyesuaikan
 
 Follow
-- Cek email follow, apa user yang follow masih menerima email ketika iklan di approve
+cek => - Cek email follow, apa user yang follow masih menerima email ketika iklan di approve
 
 Advert
-- punya status dilihat berapa kali
-- advert punya alias_name jadi bisa diakses dengan link seperti : http://kedaipedia.com/jual-barang-bagus-deh-bro
+cek => - punya status dilihat berapa kali
+cek => - advert punya alias_name jadi bisa diakses dengan link seperti : http://kedaipedia.com/jual-barang-bagus-deh-bro
 
 RSS
-- http://www.kedaipedia.com/rss
+cek => - http://www.kedaipedia.com/rss
 
 Report
-- buat list report dari user
-- ini kirim email ke user dan cc admin
+cek => - buat list report dari user
+cek => - ini kirim email ke user dan cc admin
 ------------------------------------------------------------------------------------------------------------------------------------------
 Panel Artikel :
-- Link Artikel => ini value nya bisa support seperti /advert/405484742
-- dan ketika diakses dia bisa support '/' (/, ?+)
-- link hasil nanti seperti : http://www.malaysianfair.com/read/advert/459767244
-- note : untuk link redirect ini tempatnya dimana yaa ? kedaipedia atau malaysianfair ?
+ok => - Link Artikel => ini value nya bisa support seperti /advert/405484742
+ok => - dan ketika diakses dia bisa support '/' (/, ?+)
+ok => - link hasil nanti seperti : http://www.malaysianfair.com/read/advert/459767244
+
+note : untuk link redirect ini tempatnya dimana yaa ? kedaipedia atau malaysianfair ?

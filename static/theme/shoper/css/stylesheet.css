@@ -2261,6 +2261,9 @@ ul.contact-us li a {
 .product-grid {
   position: relative;
 }
+.product-grid .col-fullgrid {
+  height: 365px;
+}
 .product-grid .description,
 .product-grid .price-tax,
 .product-grid .rating {
@@ -4072,7 +4075,7 @@ label {
 }
 
 .text-wrap ul li {
-  background: url("../v3/bullet-gold-6x6.png") no-repeat scroll 0 7px transparent;
+  background: url("../img/bullet-gold-6x6.png") no-repeat scroll 0 7px transparent;
   padding: 0 0 4px 17px;
 }
 

@@ -389,7 +389,7 @@
 			var raw_advert = $('.advert-record').html();
 			eval('var advert = ' + raw_advert);
 			page.advert = advert;
-			if (advert.length == 0) {
+			if (advert.length == 0 || advert.id == null) {
 				return;
 			}
 			
@@ -398,9 +398,13 @@
 			combo.city({ region_id: advert.region_id, target: $('#form-advert [name="city_id"]'), value: advert.city_id });
 			
 			// ajax entry
+			$('.cnt-advert-type').show();
+			$('.cnt-category-sub').show();
 			combo.category_sub({ category_id: advert.category_id, target: $('#form-advert [name="category_sub_id"]'), value: advert.category_sub_id });
 			radio.advert_type_sub({
-				category_sub_id: advert.category_sub_id, target: '.cnt-advert-type .inline-group', value: advert.advert_type_id,
+				value: advert.advert_type_id,
+				category_sub_id: advert.category_sub_id,
+				target: '.cnt-advert-type .inline-group',
 				callback: function() {
 					$('#form-advert [name="advert_type_id"]').click(function() { page.load_input({}); });
 				}
@@ -496,6 +500,10 @@
 			}
 		});
 	});
+	$('#form-advert [name="price"]').blur(function() {
+		var value = $('#form-advert [name="price"]').val();
+		$('#form-advert [name="price"]').val(formatMoney(value, 0, ',', '.'));
+	});
 	$('#form-advert [name="is_ic_number"]').click(function() {
 		page.ic_number();
 	});
@@ -547,14 +555,35 @@
 			param: param,
 			link: web.base + 'post/action',
 			callback: function(result) {
-				$('#form-advert [name="id"]').val(result.id);
+				$('.cnt-city').hide();
+				$('.cnt-advert-type').hide();
+				$('.cnt-category-sub').hide();
+				$('#form-advert #cnt-form-add').html('');
+				$('#form-advert .cnt-list-thumbnail').html('');
+				
+				$('#form-advert')[0].reset();
+				$('#form-advert [name="id"]').val(0);
+				$('#form-advert [name="user_action"]').eq(0).click();
 			}
 		});
 	});
 	
 	// upload
-	$('.browse-thumbnail-advert').click(function() { window.iframe_thumbnail_advert.browse() });
+	$('.browse-thumbnail-advert').click(function() {
+		var param = Site.Form.GetValue('#form-advert');
+		param.list_thumbnail = (param.list_thumbnail == null) ? [] : param.list_thumbnail;
+		if (param.list_thumbnail.length < 6) {
+			window.iframe_thumbnail_advert.browse();
+		} else {
+			$.notify( 'You have reach maximum image', "warn" );
+		}
+	});
 	set_thumbnail_advert = function(p) {
+		if (p.file_name == '') {
+			$.notify( p.message, "warn" );
+			return;
+		}
+		
 		// set value
 		$('#form-advert [name="thumbnail"]').val(p.file_name);
 		

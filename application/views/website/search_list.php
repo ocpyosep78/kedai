@@ -1,9 +1,9 @@
 <?php
 	/*	start up data */
-	preg_match('/search\/([a-z0-9\-]+)/', $_SERVER['REQUEST_URI'], $match);
-	$temp = (!empty($match[1])) ? $match[1] : '';
-	$temp = preg_replace('/-/i', ' ', $temp);
-	$_POST['namelike'] = $temp;
+	$search_link = get_search_link();
+	if (!empty($search_link)) {
+		$_POST['namelike'] = $search_link;
+	}
 	/*	end start up data */
 	
 	/* region form */
@@ -82,7 +82,7 @@
 					<h1>Refine Search</h1>
 					<div class="category-info clearfix">
 						<div class="product-filter clearfix">
-							<div class="display">
+							<div class="display" style="padding-top: 0px;">
 								<div class="limit">
 									<select name="city_id" class="form_submit">
 										<?php echo ShowOption(array( 'Array' => $array_city, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All City', 'Selected' => $city_id )); ?>

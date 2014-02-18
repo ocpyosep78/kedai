@@ -15,10 +15,10 @@
 			<section class="col-lg-99 col-md-9 col-sm-12 col-xs-12 main-column">
 				<div id="content">
 					<div class="wrapper underline no-margin">
-						<h2>SIGN IN</h2>
+						<h2>FORGET PASSWORD</h2>
 						
-						<form class="sky-form" id="form-login">
-							<input type="hidden" name="action" value="login" />
+						<form class="sky-form" id="form-reset">
+							<input type="hidden" name="action" value="reset_password" />
 							
 							<fieldset>
 								<section>
@@ -27,17 +27,11 @@
 										<input type="text" name="email" placeholder="Email" value="" />
 									</label>
 								</section>
-								<section>
-									<label class="label">Password</label>
-									<label class="input">
-										<input type="password" name="passwd" placeholder="Password" value="" />
-									</label>
-								</section>
 							</fieldset>
 							<br/><br/>
 							
 							<footer>
-								<button type="submit" class="button">Sign In</button>
+								<button type="submit" class="button">Reset Password</button>
 								<button type="button" class="button button-secondary" onclick="window.history.back();">Cancel</button>
 							</footer>
 						</form>
@@ -59,27 +53,26 @@
 <?php $this->load->view('website/common/menu_canvas'); ?>
 
 <script>
-	// form login
-	$('#form-login').validate({
+	// form reset password
+	$('#form-reset').validate({
 		rules: {
-			email: { required: true, email: true },
-			passwd: { required: true }
+			email: { required: true, email: true }
 		}
 	});
-	$('#form-login').submit(function(e) {
+	$('#form-reset').submit(function(e) {
 		e.preventDefault();
-		if (! $('#form-login').valid()) {
+		if (! $('#form-reset').valid()) {
 			return;
 		}
 		
-		var param = Site.Form.GetValue('#form-login');
-		Func.ajax({ url: web.base + 'login/action', param: param, callback: function(result) {
-			if (result.status == 1) {
-				window.location = result.panel_link;
-			} else {
-				$.notify(result.message, "error");
+		var param = Site.Form.GetValue('#form-reset');
+		Func.update({
+			param: param,
+			link: web.base + 'forget_password/action',
+			callback: function(result) {
+				$('#form-reset')[0].reset();
 			}
-		} });
+		});
 	});
 </script>
 

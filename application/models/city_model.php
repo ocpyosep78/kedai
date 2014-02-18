@@ -4,7 +4,7 @@ class City_model extends CI_Model {
     function __construct() {
         parent::__construct();
 		
-        $this->field = array( 'id', 'region_id', 'name' );
+        $this->field = array( 'id', 'region_id', 'name', 'alias' );
     }
 
     function update($param) {
@@ -34,6 +34,17 @@ class City_model extends CI_Model {
        
         if (isset($param['id'])) {
             $select_query  = "SELECT * FROM ".CITY." WHERE id = '".$param['id']."' LIMIT 1";
+		} else if (isset($param['alias']) && isset($param['region_id'])) {
+            $select_query  = "
+				SELECT City.*,
+					Region.name region_name, Region.alias region_alias
+				FROM ".CITY." City
+				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				WHERE
+					City.alias = '".$param['alias']."'
+					AND City.region_id = '".$param['region_id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -57,7 +68,7 @@ class City_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS City.*, Region.name region_name
+			SELECT SQL_CALC_FOUND_ROWS City.*, Region.name region_name, Region.alias region_alias
 			FROM ".CITY." City
 			LEFT JOIN ".REGION." Region ON Region.id = City.region_id
 			WHERE 1 $string_namelike $string_region $string_filter
@@ -93,6 +104,10 @@ class City_model extends CI_Model {
 	
 	function sync($row, $param = array()) {
 		$row = StripArray($row);
+		
+		if (isset($row['region_alias']) && isset($row['alias'])) {
+			$row['city_link'] = base_url($row['region_alias'].'/'.$row['alias']);
+		}
 		
 		if (count(@$param['column']) > 0) {
 			$row = dt_view_set($row, $param);

@@ -56,6 +56,7 @@ class Report_model extends CI_Model {
         $array = array();
 		
 		$param['field_replace']['name'] = 'Report.name';
+		$param['field_replace']['report_type_name'] = 'ReportType.name';
 		
 		$string_namelike = (!empty($param['namelike'])) ? "AND Report.name LIKE '%".$param['namelike']."%'" : '';
 		$string_filter = GetStringFilter($param, @$param['column']);
@@ -63,9 +64,11 @@ class Report_model extends CI_Model {
 		$string_limit = GetStringLimit($param);
 		
 		$select_query = "
-			SELECT SQL_CALC_FOUND_ROWS Report.*, ReportType.name report_type_name
+			SELECT SQL_CALC_FOUND_ROWS Report.*, ReportType.name report_type_name,
+				Advert.alias advert_alias, Advert.code advert_code, Advert.id advert_id
 			FROM ".REPORT." Report
 			LEFT JOIN ".REPORT_TYPE." ReportType ON ReportType.id = Report.report_type_id
+			LEFT JOIN ".ADVERT." Advert ON Advert.id = Report.advert_id
 			WHERE 1 $string_namelike $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit
@@ -100,7 +103,24 @@ class Report_model extends CI_Model {
 	function sync($row, $param = array()) {
 		$row = StripArray($row, array( 'post_time' ));
 		
+		// advert link
+		if (!empty($row['advert_alias'])) {
+			$row['advert_link'] = base_url('advert/'.$row['advert_alias']);
+		} else if (!empty($row['advert_code'])) {
+			$row['advert_link'] = base_url('advert/'.$row['advert_code']);
+		} else {
+			$row['advert_link'] = base_url('advert/'.$row['advert_id']);
+		}
+		
 		if (count(@$param['column']) > 0) {
+			if (!empty($param['is_manage'])) {
+				if ($param['is_manage'] == 'admin') {
+					$param['is_custom']  = '<i class="cursor-button tool-tip fa fa-list-alt btn-edit" title="View Detail"></i> ';
+					$param['is_custom'] .= '<a class="cursor-button tool-tip fa fa-link" href="'.$row['advert_link'].'" target="_blank" title="View Advert"></a> ';
+					$param['is_custom'] .= '<i class="cursor-button tool-tip fa fa-power-off btn-delete" title="Delete"></i> ';
+				}
+			}
+			
 			$row = dt_view_set($row, $param);
 		}
 		

@@ -36,11 +36,11 @@
 									
 									<div class="form-group">
 										<label>First Name</label>
-										<input type="text" name="first_name" placeholder="First Name" class="form-control" data-required="true" />
+										<input type="text" name="first_name" placeholder="First Name" class="form-control" data-required="true" maxlength="30" />
 									</div>
 									<div class="form-group">
 										<label>Last Name</label>
-										<input type="text" name="last_name" placeholder="Last Name" class="form-control" />
+										<input type="text" name="last_name" placeholder="Last Name" class="form-control" maxlength="30" />
 									</div>
 									<div class="form-group">
 										<label>Address (max 200 charakter)</label>

@@ -25,6 +25,8 @@ if ($is_website) {
 	$route['post/(:any)'] = "website/post";
 	$route['login'] = "website/login";
 	$route['login/(:any)'] = "website/login";
+	$route['forget_password'] = "website/forget_password";
+	$route['forget_password/(:any)'] = "website/forget_password";
 	$route['register'] = "website/register";
 	$route['register/(:any)'] = "website/register";
 	$route['validation/(:any)'] = "website/validation";
@@ -37,6 +39,7 @@ if ($is_website) {
 	$route['user/(:any)'] = "website/user";
 	$route['reset'] = "website/reset";
 	$route['reset/(:any)'] = "website/reset";
+	$route['rss'] = "website/rss";
 	$route['ajax'] = "website/ajax";
 	$route['(:any)'] = "website/selector";
 	$route['(:any)/(:any)'] = "website/selector";

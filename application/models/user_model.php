@@ -245,6 +245,9 @@ class User_model extends CI_Model {
 		$user['is_login'] = true;
 		$user['active_time'] = $this->config->item('current_datetime');
 		
+		// add to cookie
+		$this->set_cookie($user);
+		
 		// set session
 		$_SESSION['user_login'] = $user;
 	}
@@ -255,6 +258,11 @@ class User_model extends CI_Model {
 			$user = array();
 		}
 		
+		// get from cookie
+		if (count($user) == 0) {
+			$user = $this->get_cookie();
+		}
+		
 		return $user;
 	}
 	
@@ -262,6 +270,8 @@ class User_model extends CI_Model {
 		if (isset($_SESSION['user_login'])) {
 			unset($_SESSION['user_login']);
 		}
+		
+		$this->del_cookie();
 	}
 	
 	function sign_in($param = array()) {
@@ -301,6 +311,31 @@ class User_model extends CI_Model {
 	}
 	
 	/*	End Region Session */
+	
+	/*	Region Cookie */
+	
+	function set_cookie($user) {
+		$cookie_value = mcrypt_encode(json_encode($user));
+		setcookie("user_login", $cookie_value, time() + (60 * 60 * 5), '/');	
+	}
+	
+	function get_cookie() {
+		$user = array( 'is_login' => false );
+		if (isset($_COOKIE["user_login"]) && !empty($_COOKIE["user_login"])) {
+			$user = json_decode(mcrypt_decode($_COOKIE["user_login"]));
+			$user = object_to_array($user);
+			$user['is_login'] = true;
+		}
+		
+		return $user;
+	}
+	
+	function del_cookie() {
+		// delete cookie
+		setcookie("user_login", '', time() + 0, '/');
+	}
+	
+	/*	End Region Cookie */
 	
 	function register($param = array()) {
 		// validate password

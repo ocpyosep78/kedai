@@ -21,3 +21,8 @@
 2014-01-28 :
 - CREATE TABLE IF NOT EXISTS `vehicle_brand` ( `id` int(11) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `alias` varchar(50) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 - CREATE TABLE IF NOT EXISTS `vehicle_type` ( `id` int(11) NOT NULL AUTO_INCREMENT, `vehicle_brand_id` int(11) NOT NULL, `name` varchar(50) NOT NULL, `alias` varchar(50) NOT NULL, PRIMARY KEY (`id`) ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+2014-02-17 : here
+- ALTER TABLE `city` ADD `alias` VARCHAR( 50 ) NOT NULL;
+- ALTER TABLE `advert` ADD `view_count` INT NOT NULL AFTER `negotiable`;
+- ALTER TABLE `advert` ADD `alias` VARCHAR( 200 ) NOT NULL AFTER `name`;

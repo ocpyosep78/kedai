@@ -95,18 +95,34 @@ window.ParsleyConfig = window.ParsleyConfig || {};
           monthLength[1] = 29;
         }
         return day > 0 && day <= monthLength[month - 1];
-      }
+      },
+		letter_only: function ( val, elem, self) {
+			return /^[a-z]+$/i.test(val);
+		},
+		no_special_char: function ( val, elem, self) {
+			return /^[a-z0-9 ]+$/i.test(val);
+		},
+		no_uppercase: function ( val, elem, self) {
+			return !/[A-Z]/.test(val); 
+		},
+		digits: function ( val, elem, self) {
+			return /^[0-9]+$/i.test(val);
+		}
     }
     , messages: {
-        minwords:       "This value should have %s words at least."
-      , maxwords:       "This value should have %s words maximum."
-      , rangewords:     "This value should have between %s and %s words."
-      , greaterthan:    "This value should be greater than %s."
-      , lessthan:       "This value should be less than %s."
-      , beforedate:     "This date should be before %s."
-      , afterdate:      "This date should be after %s."
-      , luhn:           "This value should pass the luhn test."
-      , americandate:	"This value should be a valid date (MM/DD/YYYY)."
+        minwords:       "This value should have %s words at least.",
+		maxwords:       "This value should have %s words maximum.",
+		rangewords:     "This value should have between %s and %s words.",
+		greaterthan:    "This value should be greater than %s.",
+		lessthan:       "This value should be less than %s.",
+		beforedate:     "This date should be before %s.",
+		afterdate:      "This date should be after %s.",
+		luhn:           "This value should pass the luhn test.",
+		americandate:	"This value should be a valid date (MM/DD/YYYY).",
+		letter_only:		"Please enter only letters.",
+		no_special_char:	"Please enter no special character.",
+		no_uppercase:		"Please enter no uppercase character.",
+		digits:			"Please enter only digits."
     }
   });
 }(window.jQuery || window.Zepto));

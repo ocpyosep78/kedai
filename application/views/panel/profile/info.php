@@ -36,11 +36,11 @@
 									
 									<div class="form-group">
 										<label>Phone</label>
-										<input type="text" name="phone" placeholder="Phone" class="form-control" data-required="true" />
+										<input type="text" name="phone" placeholder="Phone" class="form-control" data-required="true" data-digits="true" data-no_special_char="true" maxlength="14" />
 									</div>
 									<div class="form-group">
 										<label>BB PIN</label>
-										<input type="text" name="bb_pin" placeholder="BB PIN" class="form-control" />
+										<input type="text" name="bb_pin" placeholder="BB PIN" class="form-control" maxlength="9" data-no_special_char="true" />
 									</div>
 									<div class="form-group">
 										<label>About</label>

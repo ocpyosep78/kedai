@@ -6,7 +6,7 @@ class Advert_model extends CI_Model {
 		
         $this->field = array(
 			'id', 'user_id', 'city_id', 'condition_id', 'advert_type_id', 'advert_status_id', 'category_sub_id', 'name', 'code', 'content', 'address', 'price',
-			'negotiable', 'metadata', 'thumbnail', 'post_time', 'sold_time', 'is_delete'
+			'negotiable', 'metadata', 'thumbnail', 'post_time', 'sold_time', 'is_delete', 'view_count', 'alias'
 		);
     }
 
@@ -70,6 +70,40 @@ class Advert_model extends CI_Model {
 				WHERE Advert.code = '".$param['code']."'
 				LIMIT 1
 			";
+        } else if (isset($param['alias'])) {
+            $select_query  = "
+				SELECT Advert.*,
+					User.email, User.first_name, User.last_name,
+					City.region_id, City.name city_name, Region.name region_name,
+					Category.name category_name, Category.alias category_alias,
+					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
+				FROM ".ADVERT." Advert
+				LEFT JOIN ".USER." User ON User.id = Advert.user_id
+				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
+				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				WHERE Advert.alias = '".$param['alias']."'
+				LIMIT 1
+			";
+        } else if (isset($param['user_id']) && isset($param['name'])) {
+            $select_query  = "
+				SELECT Advert.*,
+					User.email, User.first_name, User.last_name,
+					City.region_id, City.name city_name, Region.name region_name,
+					Category.name category_name, Category.alias category_alias,
+					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
+				FROM ".ADVERT." Advert
+				LEFT JOIN ".USER." User ON User.id = Advert.user_id
+				LEFT JOIN ".CATEGORY_SUB." CategorySub ON CategorySub.id = Advert.category_sub_id
+				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
+				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
+				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				WHERE
+					Advert.name = '".$param['name']."'
+					AND Advert.user_id = '".$param['user_id']."'
+				LIMIT 1
+			";
         } 
        
         $select_result = mysql_query($select_query) or die(mysql_error());
@@ -123,7 +157,7 @@ class Advert_model extends CI_Model {
 			SELECT SQL_CALC_FOUND_ROWS Advert.*,
 				User.email, User.first_name, User.last_name,
 				AdvertStatus.name advert_status_name, City.name city_name, Region.name region_name,
-				Category.name category_name, CategorySub.name category_sub_name
+				Category.name category_name, Category.thumbnail category_thumbnail, CategorySub.name category_sub_name
 			FROM ".ADVERT." Advert
 			LEFT JOIN ".USER." User ON User.id = Advert.user_id
 			LEFT JOIN ".CITY." City ON City.id = Advert.city_id
@@ -201,9 +235,12 @@ class Advert_model extends CI_Model {
 	function sync($row, $param = array()) {
 		$row = StripArray($row, array( 'post_time', 'sold_time' ));
 		
-		// link
+		if (isset($row['content'])) {
+			$row['content_limit'] = get_length_char($row['content'], 150, ' ...');
+		}
+		
+		// common link
 		$row['edit_link'] = base_url('post/'.$row['id']);
-		$row['advert_link'] = (empty($row['code'])) ? base_url('advert/'.$row['id']) : base_url('advert/'.$row['code']);
 		if (isset($row['category_alias'])) {
 			$row['category_link'] = base_url($row['category_alias']);
 		}
@@ -211,11 +248,22 @@ class Advert_model extends CI_Model {
 			$row['category_sub_link'] = base_url($row['category_alias'].'/'.$row['category_sub_alias']);
 		}
 		
+		// advert link
+		if (!empty($row['alias'])) {
+			$row['advert_link'] = base_url('advert/'.$row['alias']);
+		} else if (!empty($row['code'])) {
+			$row['advert_link'] = base_url('advert/'.$row['code']);
+		} else {
+			$row['advert_link'] = base_url('advert/'.$row['id']);
+		}
+		
 		// thumbnail
 		$file_path = $this->config->item('base_path').'/static/upload/'.$row['thumbnail'];
 		if (file_exists($file_path) && !empty($row['thumbnail'])) {
 			$thumbnail_small = preg_replace('/\.(jpg|jpeg|png|gif)/i', '_s.$1', $row['thumbnail']);
 			$row['thumbnail_link'] = base_url('static/upload/'.$thumbnail_small);
+		} else if (!empty($row['category_thumbnail'])) {
+			$row['thumbnail_link'] = base_url('static/upload/'.$row['category_thumbnail']);
 		} else {
 			$row['thumbnail_link'] = base_url('static/img/no-image.png');
 		}

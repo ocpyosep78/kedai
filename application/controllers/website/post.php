@@ -64,12 +64,23 @@ class post extends KEDAI_Controller {
 				exit;
 			}
 			
+			// check duplicate title for same user
+			$advert = $this->Advert_model->get_by_id(array( 'user_id' => $user['id'], 'name' => $_POST['name'] ));
+			if (empty($_POST['id']) && count($advert) > 0) {
+				$result['status'] = 0;
+				$result['message'] = 'Sorry, you already have advert with same title.';
+				echo json_encode($result);
+				exit;
+			}
+			
 			$advert_update = array();
 			$array_form = array( 'id', 'category_id', 'category_sub_id', 'advert_type_id', 'condition_id', 'region_id', 'city_id', 'address', 'name', 'price', 'negotiable', 'content', 'thumbnail' );
 			
 			// collect param
 			foreach ($array_form as $name) {
-				$advert_update[$name] = $_POST[$name];
+				if (isset($_POST[$name])) {
+					$advert_update[$name] = $_POST[$name];
+				}
 			}
 			
 			// delete unused param
@@ -102,9 +113,10 @@ class post extends KEDAI_Controller {
 			}
 			$advert_update['post_time'] = $this->config->item('current_datetime');
 			
-			// only set code and user id when it's insert
+			// only set code, alias and user id when it's insert
 			if (empty($advert_update['id'])) {
 				$advert_update['code'] = rand(100,999).rand(100,999).rand(100,999);
+				$advert_update['alias'] = get_name($advert_update['name']);
 				$advert_update['user_id'] = $user['id'];
 			}
 			

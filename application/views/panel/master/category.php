@@ -33,14 +33,6 @@
 									<div class="clear"></div>
 									<div style="float: left; width: 85%;"><input type="text" name="thumbnail" class="form-control" placeholder="Thumbnail" /></div>
 									<div style="float: right; width: 15%; text-align: right;"><button type="button" class="btn btn-default browse-thumbnail">Select</button></div>
-									<!--
-									<div class="col-lg-7">
-										<input type="text" name="thumbnail" class="form-control" placeholder="Thumbnail" />
-									</div>
-									<div class="col-lg-3">
-										<button type="button" class="btn btn-default browse-thumbnail">Select</button>
-									</div>
-									-->
 								</div>
 							</div>
 						</section>
@@ -141,11 +133,6 @@ $(document).ready(function() {
 		var value = Func.GetName($(this).val());
 		$('#modal-category [name="alias"]').val(value);
 	});
-	$('.show-dialog').click(function() {
-		$('#modal-category').modal();
-		$('#modal-category form')[0].reset();
-		$('#modal-category [name="id"]').val(0);
-	});
 	$('#modal-category form').submit(function(e) {
 		e.preventDefault();
 		if (! form.isValid()) {
@@ -161,6 +148,13 @@ $(document).ready(function() {
 				$('#modal-category').modal('hide');
 			}
 		});
+	});
+	
+	// helper
+	$('.show-dialog').click(function() {
+		$('#modal-category').modal();
+		$('#modal-category form')[0].reset();
+		$('#modal-category [name="id"]').val(0);
 	});
 	
 	// upload

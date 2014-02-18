@@ -1,12 +1,16 @@
 <?php
 	/*	start up data */
 	$_POST['region_id'] = $region['id'];
+	
+	$search_link = get_search_link();
+	if (!empty($search_link)) {
+		$_POST['namelike'] = $search_link;
+	}
 	/*	end start up data */
 	
 	/* region form */
 	
 	$namelike = (isset($_POST['namelike'])) ? $_POST['namelike'] : '';
-	$city_id = (isset($_POST['city_id'])) ? $_POST['city_id'] : 0;
 	$region_id = (isset($_POST['region_id'])) ? $_POST['region_id'] : 0;
 	$price_min = (isset($_POST['price_min'])) ? $_POST['price_min'] : 0;
 	$price_max = (isset($_POST['price_max'])) ? $_POST['price_max'] : 0;
@@ -34,7 +38,6 @@
 	$param_advert = array(
 		'namelike' => $namelike,
 		'advert_status_id' => ADVERT_STATUS_APPROVE,
-		'city_id' => $city_id,
 		'region_id' => $region_id,
 		'condition' => $condition,
 		'advert_type_id' => $advert_type_id,
@@ -78,10 +81,13 @@
 					<h1>Refine Search</h1>
 					<div class="category-info clearfix">
 						<div class="product-filter clearfix">
-							<div class="display">
+							<div class="display" style="padding-top: 0px;">
 								<div class="limit">
-									<select name="city_id" class="form_submit">
-										<?php echo ShowOption(array( 'Array' => $array_city, 'ArrayID' => 'id', 'ArrayTitle' => 'name', 'LabelEmptySelect' => 'All City', 'Selected' => $city_id )); ?>
+									<select name="city_id" class="change_link">
+										<option value="">All City</option>
+										<?php foreach ($array_city as $row) { ?>
+										<option value="<?php echo $row['id']; ?>" data-city_link="<?php echo $row['city_link']; ?>"><?php echo $row['name']; ?></option>
+										<?php } ?>
 									</select>
 								</div>
 								<div class="limit">
@@ -117,13 +123,11 @@
 					<div class="hidden">
 						<form id="form-hidden" method="post">
 							<input type="hidden" name="namelike" value="<?php echo $namelike; ?>" />
-							<input type="hidden" name="city_id" value="<?php echo $city_id; ?>" />
 							<input type="hidden" name="region_id" value="<?php echo $region_id; ?>" />
 							<input type="hidden" name="price_min" value="<?php echo $price_min; ?>" />
 							<input type="hidden" name="price_max" value="<?php echo $price_max; ?>" />
 							<input type="hidden" name="condition" value="<?php echo $condition; ?>" />
 							<input type="hidden" name="advert_type_id" value="<?php echo $advert_type_id; ?>" />
-							
 							<input type="hidden" name="page_sort" value="<?php echo htmlentities($page_sort); ?>" />
 							<input type="hidden" name="page_active" value="<?php echo 1; ?>" />
 							<input type="hidden" name="page_limit" value="<?php echo $page_limit; ?>" />
@@ -186,16 +190,16 @@
 		var name = $(this).attr('name');
 		var value = $(this).val();
 		$('#form-hidden [name="' + name + '"]').val(value);
-		
-		if (name == 'region_id') {
-			$('#form-hidden [name="city_id"]').val(0);
-		}
 	});
 	$('.form_submit').change(function() {
 		var name = $(this).attr('name');
 		var value = $(this).val();
 		$('#form-hidden [name="' + name + '"]').val(value);
 		$('#form-hidden').submit();
+	});
+	$('.change_link').change(function() {
+		var city_link = $(this).find(":selected").data('city_link');
+		window.location = city_link;
 	});
 	
 	// search

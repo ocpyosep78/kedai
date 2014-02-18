@@ -1,22 +1,35 @@
 <?php
-	preg_match('/\/advert\/([a-z0-9]+)\/?/i', $_SERVER['REQUEST_URI'], $match);
-	$advert_id = (isset($match[1])) ? $match[1] : 0;
-	$advert = $this->Advert_model->get_by_id(array( 'id' => $advert_id ));
+	preg_match('/\/advert\/([a-z0-9\-]+)\/?/i', $_SERVER['REQUEST_URI'], $match);
+	$advert_alias = (isset($match[1])) ? $match[1] : 0;
+	
+	// get from alias
+	$advert = $this->Advert_model->get_by_id(array( 'alias' => $advert_alias ));
 	
 	// get form code
 	if (count($advert) == 0) {
-		$advert = $this->Advert_model->get_by_id(array( 'code' => $advert_id ));
+		$advert = $this->Advert_model->get_by_id(array( 'code' => $advert_alias ));
+	}
+	
+	// get from id
+	if (count($advert) == 0) {
+		$advert = $this->Advert_model->get_by_id(array( 'id' => $advert_alias ));
+	}
+	
+	// redirect for deleted advert or advert not found
+	if (count($advert) == 0 || $advert['is_delete'] == 1) {
+		header("HTTP/1.1 301 Moved Permanently");
+		header('Location: '.base_url());
+		exit;
 	}
 	
 	// user
 	$is_login = $this->User_model->is_login();
 	$user = $this->User_model->get_session();
 	
-	if (count($advert) == 0) {
-		header("HTTP/1.1 301 Moved Permanently");
-		header('Location: '.base_url());
-		exit;
-	}
+	// update view count
+	$update_param['id'] = $advert['id'];
+	$update_param['view_count'] = $advert['view_count'] + 1;
+	$this->Advert_model->update($update_param);
 	
 	// advert detail
 	$advert_pic = $this->Advert_Pic_model->get_array(array( 'advert_id' => $advert['id'] ));
@@ -61,7 +74,7 @@
 									
 									<?php if (isset($advert['condition'])) { ?>| <?php echo $advert['condition']; ?><?php } ?>
 								</div>
-								<div class="results" style="padding-top: 0px;">List-ID: <?php echo $advert['code']; ?></div>
+								<div class="results" style="padding-top: 0px;">List-ID: <?php echo $advert['code']; ?> | Dilihat: <?php echo $advert['view_count']; ?> kali</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-7-single col-sm-7-gambar col-xs-12">
@@ -253,13 +266,7 @@
 				var label = array_input[i].label;
 				var value = page.advert[name];
 				
-				if (array_input[i].input_type_name == 'text') {
-					template += '<div style="margin: 8px 0;">' + label + ' : ' + value + '</div>';
-				}
-				else if (array_input[i].input_type_name == 'select') {
-					template += '<div style="margin: 8px 0;">' + label + ' : ' + value + '</div>';
-				}
-				else if (array_input[i].input_type_name == 'checkbox') {
+				if (Func.InArray(array_input[i].input_type_name, ['checkbox', 'text', 'select'])) {
 					// generate option
 					var cnt_option = '';
 					var array_value = array_input[i].value.split(',');
@@ -271,7 +278,7 @@
 					
 					template += label + '<hr /><div class="text-wrap"><ul class="three-col">';
 					template += cnt_option;
-					template += '</ul></div>';
+					template += '</ul></div><br />';
 				}
 				else if (array_input[i].input_type_name == 'textarea') {
 					template += '<div style="margin: 8px 0;">' + label + ' : ' + value + '</div>';

@@ -32,6 +32,7 @@
 						<li><a href="<?php echo base_url('panel/home/logout'); ?>">Logout</a></li>
 						<?php } else { ?>
 						<li><a href="<?php echo base_url('login'); ?>">Sign in</a></li>
+						<li><a href="<?php echo base_url('forget_password'); ?>">Forget</a></li>
 						<li><a href="<?php echo base_url('register'); ?>">Register</a></li>
 						<?php } ?>
 					</ul>
@@ -160,30 +161,36 @@
 </section>
 
 <script>
+	var search = {
+		action: function(p) {
+			if (p.is_search_page == 0 && $('#form-hidden').length == 1) {
+				// check on search page or not ?
+				var current_link = window.location.href;
+				var array_match = current_link.match(/search/g);
+				if (array_match == null) {
+					current_link = current_link.replace(/\/$/g, '');
+				} else {
+					current_link = current_link.replace(/\/search\/.+/gi, '');
+				}
+				window.location = current_link + '/search/' + Func.GetName(p.value);
+			} else {
+				window.location = web.base + 'search/' + Func.GetName(p.value);
+			}
+		}
+	}
+	
 	// mobile
 	$('#search_mobile .icon-search').click(function() {
 		var value = $('#search_mobile [name="search"]').val();
 		var is_search_page = ($('#form-hidden [name="is_search_page"]').length == 1) ? $('#form-hidden [name="is_search_page"]').val() : 0;
-		
-		if (is_search_page == 0 && $('#form-hidden').length == 1) {
-			$('#form-hidden [name="namelike"]').val(value);
-			$('#form-hidden').submit();
-		} else {
-			window.location = web.base + 'search/' + Func.GetName(value);
-		}
+		search.action({ is_search_page: is_search_page, value: value });
 	});
 	
 	// website
 	$('#search .icon-search').click(function() {
 		var value = $('#search [name="search"]').val();
 		var is_search_page = ($('#form-hidden [name="is_search_page"]').length == 1) ? $('#form-hidden [name="is_search_page"]').val() : 0;
-		
-		if (is_search_page == 0 && $('#form-hidden').length == 1) {
-			$('#form-hidden [name="namelike"]').val(value);
-			$('#form-hidden').submit();
-		} else {
-			window.location = web.base + 'search/' + Func.GetName(value);
-		}
+		search.action({ is_search_page: is_search_page, value: value });
 	});
 	$('.btn-submit').click(function() {
 		$('#search .icon-search').click();

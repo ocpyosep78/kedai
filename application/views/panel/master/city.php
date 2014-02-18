@@ -25,6 +25,10 @@
 									<input type="text" class="form-control" name="name" data-required="true" />
 								</div>
 								<div class="form-group">
+									<label>Alias</label>
+									<input type="text" class="form-control" name="alias" data-required="true" readonly="readonly" />
+								</div>
+								<div class="form-group">
 									<label>Region</label>
 									<select name="region_id" class="form-control" data-required="true">
 										<?php echo ShowOption(array( 'Array' => $array_region, 'ArrayID' => 'id', 'ArrayTitle' => 'name' )); ?>
@@ -74,8 +78,9 @@
 								<table class="table table-striped m-b-none" data-ride="datatable" id="datatable">
 								<thead>
 									<tr>
-										<th width="40%">Title</th>
-										<th width="40%">Region</th>
+										<th width="25%">Title</th>
+										<th width="25%">Alias</th>
+										<th width="30%">Region</th>
 										<th width="20%">&nbsp;</th>
 									</tr>
 								</thead>
@@ -98,16 +103,14 @@ $(document).ready(function() {
 	var param = {
 		id: 'datatable',
 		source: web.base + 'panel/master/city/grid',
-		column: [ { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
+		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '10%' } ],
 		callback: function() {
 			$('#datatable .btn-edit').click(function() {
 				var raw_record = $(this).siblings('.hide').text();
 				eval('var record = ' + raw_record);
 				
 				Func.ajax({ url: web.base + 'panel/master/city/action', param: { action: 'get_by_id', id: record.id }, callback: function(result) {
-					$('#modal-city [name="id"]').val(result.id);
-					$('#modal-city [name="name"]').val(result.name);
-					$('#modal-city [name="region_id"]').val(result.region_id);
+					Func.populate({ cnt: '#modal-city', record: result });
 					$('#modal-city').modal();
 				} });
 			});
@@ -127,10 +130,9 @@ $(document).ready(function() {
 	
 	// form
 	var form = $('#modal-city form').parsley();
-	$('.show-dialog').click(function() {
-		$('#modal-city').modal();
-		$('#modal-city form')[0].reset();
-		$('#modal-city [name="id"]').val(0);
+	$('#modal-city [name="name"]').keyup(function() {
+		var value = Func.GetName($(this).val());
+		$('#modal-city [name="alias"]').val(value);
 	});
 	$('#modal-city form').submit(function(e) {
 		e.preventDefault();
@@ -151,6 +153,13 @@ $(document).ready(function() {
 		} });
 		
 		return false;
+	});
+	
+	// helper
+	$('.show-dialog').click(function() {
+		$('#modal-city').modal();
+		$('#modal-city form')[0].reset();
+		$('#modal-city [name="id"]').val(0);
 	});
 });
 </script>

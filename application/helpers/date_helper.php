@@ -152,18 +152,24 @@ if (! function_exists('show_time_diff')) {
 			$minute = floor($diff_time / 60);
 			$second = $diff_time % 60;
 			$result = $minute.' minute '.$second.' second ago';
-		} else if ($diff_time <= (60 * 60 * 24)) {
+		} else if ($diff_time <= (60 * 60 * 19)) {
 			$hour = floor($diff_time / (60 * 60));
 			$minute = floor(($diff_time / 60) % 60);
 			$result = $hour.' hour '.$minute.' minute ago';
+		} else if ($diff_time <= (60 * 60 * 24 * 2)) {
+			$day = floor($diff_time / (60 * 60 * 24));
+			$hour = floor(($diff_time / (60 * 60)) / 24);
+			$result = 'Yesterday';
 		} else if ($diff_time <= (60 * 60 * 24 * 30)) {
 			$day = floor($diff_time / (60 * 60 * 24));
 			$hour = floor(($diff_time / (60 * 60)) / 24);
 			$result = $day.' day '.$hour.' hour ago';
+			$result = GetFormatDate($date, array( 'FormatDate' => 'j M Y' ));
 		} else if ($diff_time <= (60 * 60 * 24 * 30 * 12)) {
 			$month = floor($diff_time / (60 * 60 * 24 * 30));
 			$day = floor(($diff_time / (60 * 60 * 24)) / 30);
 			$result = $month.' month '.$day.' day ago';
+			$result = GetFormatDate($date, array( 'FormatDate' => 'j M Y' ));
 		} else {
 			$result = 'long time day ago';
 		}

@@ -47,6 +47,18 @@ class advert extends KEDAI_Controller {
 				$result['status'] = '0';
 				$result['message'] = 'Wrong captcha.';
 			} else {
+				// data
+				$advert = $this->Advert_model->get_by_id(array( 'id' => $_POST['advert_id'] ));
+				$report_type = $this->Report_Type_model->get_by_id(array( 'id' => $_POST['report_type_id'] ));
+				
+				// sent mail
+				$param_mail['to'] = $advert['email'];
+				$param_mail['subject'] = 'Report Advert';
+				$param_mail['message'] = $report_type['name'].'<br /><br />'.$_POST['detail'].'<br /><br /><a href="'.$advert['advert_link'].'">'.$advert['advert_link'].'</a>';
+				$param_mail['header']  = 'Cc: ' . EMAIL_CC_ADMIN . "\r\n";
+				sent_mail($param_mail);
+				
+				// insert to db
 				$_POST['post_time'] = $this->config->item('current_datetime');
 				$result = $this->Report_model->update($_POST);
 			}

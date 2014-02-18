@@ -124,6 +124,12 @@
 										<span>Announce</span>
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo base_url('panel/manage/report'); ?>" data-menu-child="report">
+										<i class="fa fa-angle-right"></i>
+										<span>Report</span>
+									</a>
+								</li>
 								<?php } ?>
 							</ul>
 						</li>

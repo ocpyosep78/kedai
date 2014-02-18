@@ -36,6 +36,23 @@ function str_pad(input, pad_length, pad_string, pad_type) {
 	return input.strpad(pad_length, pad_string, pad_type);
 }
 
+// formatMoney('1500000', 0, ',', '.')
+Number.prototype.formatMoney = function(c, d, t) {
+var n = this, 
+	c = isNaN(c = Math.abs(c)) ? 2 : c, 
+	d = d == undefined ? "." : d, 
+	t = t == undefined ? "," : t, 
+	s = n < 0 ? "-" : "", 
+	i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+	j = (j = i.length) > 3 ? j % 3 : 0;
+	return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+};
+function formatMoney(value, c, d, t) {
+	value = value.replace(/[^0-9]+/g, '');
+	value = parseInt(value, 10);
+	return value.formatMoney(c, d, t);
+}
+
 var Site = {
     Host: web.base,
     IsValidEmail: function (Email) {
@@ -865,6 +882,7 @@ function display_item(view) {
 		$('.product-grid').attr('class', 'product-list');
 		$('.products-block .product-block').each(function(index, element) {
 			$(element).parent().addClass("col-fullwidth");
+			$(element).parent().removeClass("col-fullgrid");
 		});
 		
 		$('.product-filter .list').addClass('active');
@@ -872,7 +890,8 @@ function display_item(view) {
 	} else {
 		$('.product-list').attr('class', 'product-grid');
 		$('.products-block .product-block').each(function(index, element) {
-			$(element).parent().removeClass("col-fullwidth");  
+			$(element).parent().addClass("col-fullgrid");
+			$(element).parent().removeClass("col-fullwidth");
 		});
 		
 		$('.product-filter .grid').addClass('active');

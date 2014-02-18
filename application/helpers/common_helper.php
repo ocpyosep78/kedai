@@ -1086,3 +1086,13 @@
 			return $result;
 		}
 	}
+	
+	if (! function_exists('get_search_link')) {
+		function get_search_link() {
+			preg_match('/search\/([a-z0-9\-]+)/', $_SERVER['REQUEST_URI'], $match);
+			$temp = (!empty($match[1])) ? $match[1] : '';
+			$temp = preg_replace('/-/i', ' ', $temp);
+			
+			return $temp;
+		}
+	}

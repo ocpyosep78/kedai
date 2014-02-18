@@ -1,19 +1,19 @@
 <?php
-class city extends PANEL_Controller {
+class report extends PANEL_Controller {
     function __construct() {
         parent::__construct();
     }
     
     function index() {
-		$this->load->view( 'panel/master/city' );
+		$this->load->view( 'panel/manage/report' );
     }
 	
 	function grid() {
-		$_POST['is_edit'] = 1;
-		$_POST['column'] = array( 'name', 'alias', 'region_name' );
+		$_POST['is_manage'] = 'admin';
+		$_POST['column'] = array( 'report_type_name', 'detail', 'post_time' );
 		
-		$array = $this->City_model->get_array($_POST);
-		$count = $this->City_model->get_count();
+		$array = $this->Report_model->get_array($_POST);
+		$count = $this->Report_model->get_count();
 		$grid = array( 'sEcho' => $_POST['sEcho'], 'aaData' => $array, 'iTotalRecords' => $count, 'iTotalDisplayRecords' => $count );
 		
 		echo json_encode($grid);
@@ -24,12 +24,10 @@ class city extends PANEL_Controller {
 		unset($_POST['action']);
 		
 		$result = array();
-		if ($action == 'update') {
-			$result = $this->City_model->update($_POST);
-		} else if ($action == 'get_by_id') {
-			$result = $this->City_model->get_by_id(array( 'id' => $_POST['id'] ));
+		if ($action == 'get_by_id') {
+			$result = $this->Report_model->get_by_id(array( 'id' => $_POST['id'] ));
 		} else if ($action == 'delete') {
-			$result = $this->City_model->delete($_POST);
+			$result = $this->Report_model->delete($_POST);
 		}
 		
 		echo json_encode($result);

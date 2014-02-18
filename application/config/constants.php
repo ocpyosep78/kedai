@@ -50,6 +50,9 @@ define('IMAGE_ADVERT_STAMP',					'static/img/stamp.png');
 /*	EMAIL CC ADMIN */
 define('EMAIL_CC_ADMIN',						'ridwanamirsene@yahoo.com');
 
+/*	EMAIL CC ADMIN */
+define('DEFAULT_ADVERT_TYPE',					8);
+
 define('ADVERT',								'advert');
 define('ADVERT_PIC',							'advert_pic');
 define('ADVERT_STATUS',							'advert_status');

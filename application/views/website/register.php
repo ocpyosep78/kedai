@@ -28,25 +28,25 @@
 										<td>
 											<span class="required">*</span> URL name / Alias:
 										</td>
-										<td><input type="text" name="alias" /></td>
+										<td><input type="text" name="alias" maxlength="30" /></td>
 									</tr>
 									<tr>
 										<td>
 											<span class="required">*</span> First Name:
 										</td>
-										<td><input type="text" name="first_name" /></td>
+										<td><input type="text" name="first_name" maxlength="30" /></td>
 									</tr>
 									<tr>
 										<td>
 											<span class="required">*</span> Last Name:
 										</td>
-										<td><input type="text" name="last_name" /></td>
+										<td><input type="text" name="last_name" maxlength="30" /></td>
 									</tr>
 									<tr>
 										<td>
 											<span class="required">*</span> Telp:
 										</td>
-										<td><input type="text" name="phone" /></td>
+										<td><input type="text" name="phone" class="digits no_special_char" maxlength="14" /></td>
 									</tr>
 									<tr>
 										<td>
