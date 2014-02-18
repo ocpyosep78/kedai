@@ -106,7 +106,7 @@ $(document).ready(function() {
 	
 	// grid
 	var param = {
-		id: 'datatable',
+		id: 'datatable', aaSorting: [[2, 'desc']],
 		source: web.base + 'panel/manage/report/grid',
 		column: [ { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '15%' } ],
 		callback: function() {

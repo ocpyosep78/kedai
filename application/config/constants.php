@@ -48,6 +48,7 @@ define('MAXIMUM_IP_ACCESS_PER_HOUR',			500);
 define('IMAGE_ADVERT_STAMP',					'static/img/stamp.png');
 
 /*	EMAIL CC ADMIN */
+// define('EMAIL_CC_ADMIN',						'her0satr@yahoo.com');					// di test dulu
 define('EMAIL_CC_ADMIN',						'ridwanamirsene@yahoo.com');
 
 /*	EMAIL CC ADMIN */
