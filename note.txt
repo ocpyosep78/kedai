@@ -1,109 +1,17 @@
-All Modul
-ok => - semua button ada tooltips nya
-ok => - select yang dinamis, isi default nya
-
-Advert Post
-ok => - link : http://www.kedaipedia.com/post
-ok => - Untuk pemasangan advert dari member "New Member" ada validasi email dia
-ok => - check javascript browser, pastikan aktif jika tidak aktif ada tulisan <div>please activate your javascript</div>
-ok => - Sub Category jangan keluar dulu jika Category kosong
-ok => - City jangan keluar dulu jika Region kosong
-ok => - Address di hidden
-ok => - Price seperti toko bagus, ada money format nya => pastikan sama dengan MoneyFormat di php
-ok => - Waktu post lagi, cek title yang sama, klo sama ngak bisa insert lagi
-ok => - Ketika berhasil disimpan, form direset
-ok => - Double cek kondisi login dan belum login
-
 Advert Single Page
-ok => - image default jika advert tidak memiliki image maka image diambil dari image pada category
-ok => - iklan yang sudah didelete diarahkan ke halaman index atau ada info "this ad was not available"
-ok => - sample : http://www.tokobagus.com/iklan/luxury-residence-di-area-simprug-nyaman-harga-ok-32882220.html#pn_6c18efcecec62889856a44bae324386b
-ok => - untuk textarea formatnya seperti skr
-ok => - untuk selain textarea formatnya pakai li
+- Desc belum keluar
 
-Category Search
-ok => - link http://www.kedaipedia.com/vehicles/car
-ok => - untuk advert type nya, default nya 'For Sale' jangan 'All'
-ok => - biar langsung keliatan filternya
+Adver Post
+- untuk new member ditambah inputan password
 
-Category Page
-ok => - link http://www.kedaipedia.com/vehicles
-ok => - tidak keluar list item nya
-ok => - nanti ada list item & list category yang ada
+Panel Manage Advert
+- iklan yang keluar disini adalah iklan dari member yang statusnya sudah di approve emailnya
+- jadi amin bisa approve ketika user tersebut sudah mem-validasi emailnya
 
-Forget Password
-ok => - link http://kedaipedia.com/login
-ok => - dibuatkan page terpisah saja jangan jadi satu
+Panel Myad
+- link http://www.kedaipedia.com/panel/myad
+- harusnya versi mobilenya seperti : http://flatfull.com/themes/note/index.html
 
-Session Login
-ok => - dengan domain www atau tidak, user yang sudah login di 1 protocol tidak perlu login lagi di protocol lainnya
-ok => - disimpan di cookies aja
-
-Labeling
-ok => - 19 hour 45 minute ago kalo udah kemarin jadi Yesterday
-ok => - kalo kemarin lusa jadi tanggal saja
-
-User Profile
-ok => - Your Name = max 30 karakter
-ok => - Phone Number = integer only, no spesial karakter, 14 karakter max
-ok => - blackberry = 9 karakter no spesial karakter
-
-User Register
-ok => - Check email yahoo tidak masuk
-ok => - Coba daftar dengan user yahoo yang baru
-ok => - link http://www.kedaipedia.com/register
--------------------------------------------------------------------------------------------------------------------
-Global
-ok => - untuk advert image jika kosong diambilkan dari image milik category yang bersangkutan
-ok => - tambah tooltips untuk semua button di datatables
-ok => - data user disimpan di cookie
-ok => - upload file hanya bisa format gambar => jpg, png, jpg, gif, jpeg
-
-Forget Password
-ok => - link http://kedaipedia.com/forget_password
-ok => - form untuk forget password biar terpisah dengan login
-
-Panel Forget Password
-ok => - lempar aja ke http://kedaipedia.com/forget_password
-
-Advert Deleted
-ok => - iklan yang sudah didelete diredirect ke page dengan info iklan sudah tidak ada atau dilempar ke index
-
-Advert Post
-ok => - upload gambar max 6
-ok => - setelah submit berhasil, form direset
-
-Category Page
-ok => - link http://www.kedaipedia.com/vehicles
-ok => - harusnya ada list sub category nya
-
-Search Page Common
-ok => - link : http://www.kedaipedia.com/search/a
-ok => - link : http://www.kedaipedia.com/appliances/search/a
-ok => - link : http://www.kedaipedia.com/appliances/coffee-makers/search/a
-ok => - link nya seperti diatas
-
-Region Page
-ok => - jika select region dan city maka url nya berubah menyesuaikan
-
-Follow
-ok => - Cek email follow, apa user yang follow masih menerima email ketika iklan di approve
-
-Advert
-ok => - punya status dilihat berapa kali
-ok => - advert punya alias_name jadi bisa diakses dengan link seperti : http://kedaipedia.com/jual-barang-bagus-deh-bro
-
-RSS
-ok => - http://www.kedaipedia.com/rss
-
-Report
-ok => - buat list report dari user
-ok => - ini kirim email ke user dan cc admin
-------------------------------------------------------------------------------------------------------------------------------------------
-Panel Artikel :
-ok => - Link Artikel => ini value nya bisa support seperti /advert/405484742
-ok => - dan ketika diakses dia bisa support '/' (/, ?+)
-ok => - link hasil nanti seperti : http://www.malaysianfair.com/read/advert/459767244
-
-note : untuk link redirect ini tempatnya dimana yaa ? kedaipedia atau malaysianfair ?
-------------------------------------------------------------------------------------------------------------------------------------------
+Page Static
+- link http://www.kedaipedia.com/hotmail
+- iklannya ditampilkan 10 item
