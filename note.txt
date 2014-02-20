@@ -1,5 +1,6 @@
 Advert Single Page
 - Desc belum keluar
+- li model dibalikin ke versi sebelumnya karena terlalu panjang
 
 Adver Post
 - untuk new member ditambah inputan password
@@ -15,3 +16,123 @@ Panel Myad
 Page Static
 - link http://www.kedaipedia.com/hotmail
 - iklannya ditampilkan 10 item
+
+
+-----------------
+
+
+
+halaman
+http://www.kedaipedia.com/advert/152767820
+
+<title>Judul Iklan - harga</title>
+      
+<meta name="Title" content="Judul Iklan, Alamat" />
+   
+<meta name="Description" content="desc, max 200 karakter, allowed any karakter" />
+      
+<meta name="Keywords" content="kota, region, nama url"/> 
+       
+<link rel="canonical" href="url detail link"/> 
+<link rel="image_src" href="image default" />
+<meta name="citation_authors" content="Ridwan Amir">
+
+-------------------------------
+
+
+halaman
+http://www.kedaipedia.com/property/apartment
+
+<title>Samsung - kedaipedia.com</title>
+        
+<meta name="Description" content="Market jual beli <sub kategory> - <subkategory> at kedaipedia.com" />
+      
+<meta name="Keywords" content="<kategory>, <sub kategory> "/> 
+       
+<link rel="canonical" href="url"/> 
+<link rel="image_src" href="<array dari semua list gambar apartment yang tampil>" />
+
+-------------------------------
+
+halaman
+url = http://www.kedaipedia.com/property/apartment/samsung
+
+<title><samsung> - kedaipedia.com </title>
+        
+<meta name="Description" content="Market jual beli <samsung> at kedaipedia.com" />
+      
+<meta name="Keywords" content="<samsung>, <kategory>, <sub kategory>, ambil semua status exp : for sale, wanted, dll "/> 
+       
+<link rel="canonical" href="url"/> 
+<link rel="image_src" href="<array dari semua list gambar samsung yang tampil>" />
+
+
+-------------------------------
+
+halaman
+url = http://www.kedaipedia.com/property
+
+<title><property> - kedaipedia.com </title>
+        
+<meta name="Description" content="Market jual beli <property> at kedaipedia.com" />
+      
+<meta name="Keywords" content="<Ambil 5 sub sub kategory yg bersangkutan>, <exp : house, apartment, commercial property, dll>, ambil semua status exp : for sale, wanted, dll "/> 
+       
+<link rel="canonical" href="url"/> 
+<link rel="image_src" href="<array dari semua list gambar samsung yang tampil>" />
+
+
+-------------------------------
+
+halaman profile
+url = http://shopermarket.com/ridwanamir
+
+<title>ridwan amir - kedaipedia.com </title>
+         
+<meta name="Description" content="<about field>
+ max 200 karakter, allowed any karakter, Alamat"/> 
+     
+<meta name="Keywords" content="nama lengkap, nama toko, judul iklan terbaru ridwan amir 1 saja"/> 
+       
+<link rel="canonical" href="url"/> 
+<link rel="image_src" href="<array dari semua list gambar samsung yang tampil>" />
+<meta name="citation_authors" content="Ridwan Amir">
+
+-------------------------------
+
+halaman page static
+url = http://kedaipedia.com/about-us
+
+<title>About Us/title - kedaipedia.com </title>
+        
+<meta name="Title" content="<title>" />
+  
+<meta name="Description" content="<desc content>, max 200 karakter, allowed any karakter" />
+      
+<meta name="Keywords" content="kedaipedia, about us"/> 
+       
+<link rel="canonical" href="url"/> 
+<link rel="image_src" href="<icon shopermarket>" />
+
+UNTUK HALAMAN page static YANG LAIN SAMA, metanya sama dengan halaman about di atas
+
+-------------------------------
+
+
+halaman page static
+url = www.kedaipedia.com/johor
+
+<title>Johor - kedaipedia.com </title>
+        
+<meta name="Title" content="Johor" />
+  
+<meta name="Description" content="Malaysian market online - johor" />
+      
+<meta name="Keywords" content="johor"/> 
+       
+<link rel="canonical" href="url"/> 
+<link rel="image_src" href="<icon shopermarket>" />
+
+-------------------------------
+
+            
