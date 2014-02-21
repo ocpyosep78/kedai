@@ -1,21 +1,21 @@
 Advert Single Page
-- Desc belum keluar
-- li model dibalikin ke versi sebelumnya karena terlalu panjang
+cek => - Desc belum keluar
+cek => - li model dibalikin ke versi sebelumnya karena terlalu panjang
 
 Adver Post
-- untuk new member ditambah inputan password
+cek => - untuk new member ditambah inputan password
 
 Panel Manage Advert
-- iklan yang keluar disini adalah iklan dari member yang statusnya sudah di approve emailnya
-- jadi amin bisa approve ketika user tersebut sudah mem-validasi emailnya
+cek => - iklan yang keluar disini adalah iklan dari member yang statusnya sudah di approve emailnya
+cek => - jadi admin bisa approve ketika user tersebut sudah mem-validasi emailnya
 
 Panel Myad
-- link http://www.kedaipedia.com/panel/myad
-- harusnya versi mobilenya seperti : http://flatfull.com/themes/note/index.html
+cek => - link http://www.kedaipedia.com/panel/myad
+cek => - harusnya versi mobilenya seperti : http://flatfull.com/themes/note/index.html
 
 Page Static
-- link http://www.kedaipedia.com/hotmail
-- iklannya ditampilkan 10 item
+cek => - link http://www.kedaipedia.com/hotmail
+cek => - iklannya ditampilkan 10 item
 
 
 -----------------
@@ -135,4 +135,46 @@ url = www.kedaipedia.com/johor
 
 -------------------------------
 
-            
+TAMBAHAN YANG KURANG DARI META
+
+URL SEARCH
+
+
+
+halaman page
+url = http://kedaipedia.com/property/apartment/search/samsung
+
+<title>Samsung - kedaipedia.com </title>      
+<meta name="Title" content="malaysian Online Market" />
+<meta name="Description" content="Malaysian Online Market" />
+<meta name="Keywords" content="kedaipedia, samsung, <property>, <apartement>"/>
+<link rel="canonical" href="url"/>
+<link rel="image_src" href="<icon shopermarket>" />
+
+
+-------------------------------------------------------------------------------
+
+halaman page
+url = http://kedaipedia.com/property/search/samsung
+
+<title>Samsung - kedaipedia.com </title>      
+<meta name="Title" content="malaysian Online Market" />
+<meta name="Description" content="Malaysian Online Market" />    
+<meta name="Keywords" content="kedaipedia, samsung, <property>"/>     
+<link rel="canonical" href="url"/>
+<link rel="image_src" href="<icon shopermarket>" />
+
+
+
+-----------------------------------------------------------------------
+
+
+halaman page
+url = http://kedaipedia.com/search/samsung
+
+<title>Samsung - kedaipedia.com </title>   
+<meta name="Title" content="malaysian Online Market>
+<meta name="Description" content="Malaysian Online Market" />   
+<meta name="Keywords" content="kedaipedia, samsung, <property>"/>
+<link rel="canonical" href="url"/>
+<link rel="image_src" href="<icon shopermarket>" />
