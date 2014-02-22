@@ -281,7 +281,7 @@ class Advert_model extends CI_Model {
 		
 		// fullname
 		if (isset($row['first_name']) && isset($row['last_name'])) {
-			$row['fullname'] = $row['first_name'].' '.$row['last_name'];
+			$row['fullname'] = trim($row['first_name'].' '.$row['last_name']);
 		}
 		
 		// decript email

@@ -20,8 +20,29 @@
 	// build breadcrumb
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
 	$param_breadcrumb['title_list'][] = array( 'link' => $user['user_link'], 'title' => $user['fullname'] );
+	
+	/* region seo */
+	
+	$user_address = (empty($user['address'])) ? $user['fullname'].' Address' : $user['address'];
+	$user_about = (empty($user['user_about'])) ? $user['fullname'].' About' : get_length_char($user['user_about'], 200, '');
+	
+	// meta
+	$param_meta = array(
+		'title' => $user['fullname'].' - '.WEBSITE_DOMAIN,
+		'array_meta' => array(
+			array( 'name' => 'Description', 'content' => $user_about.', '.$user_address ),
+			array( 'name' => 'Keywords', 'content' => $user['fullname'].', '.$user['alias'].', (judul iklan terbaru ridwan amir 1 saja **************************)' )
+		),
+		'array_link' => array(
+			array( 'rel' => 'canonical', 'href' => $user['user_link'] ),
+			array( 'rel' => 'image_src', 'href' => base_url(WEBSITE_LOGO) ),
+			array( 'rel' => 'citation_authors', 'content' => $user['fullname'] )
+		)
+	);
+	
+	/* end region seo */
 ?>
-<?php $this->load->view('website/common/meta'); ?>
+<?php $this->load->view( 'website/common/meta', $param_meta ); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
 <section id="page" class="offcanvas-pusher" role="main">
 	<?php $this->load->view('website/common/header'); ?>

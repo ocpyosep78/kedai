@@ -20,7 +20,8 @@ define('SENT_MAIL',								$value);
 
 define('WEBSITE_DOMAIN',						'kedaipedia.com');
 define('WEBSITE_TITLE',							'Kedaipedia');
-define('WEBSITE_DESC',							'The large market online');
+define('WEBSITE_DESC',							'Malaysian Online Market');
+define('WEBSITE_LOGO',							'static/theme/shoper/img/logo.png');
 define('SHA_SECRET',							'OraNgerti');
 define('USER_TYPE_ADMINISTRATOR',				1);
 define('USER_TYPE_EDITOR',						2);

@@ -41,8 +41,23 @@
 	$param_breadcrumb['title_list'][] = array( 'link' => $advert['category_link'], 'title' => $advert['category_name'] );
 	$param_breadcrumb['title_list'][] = array( 'link' => $advert['category_sub_link'], 'title' => $advert['category_sub_name'] );
 	$param_breadcrumb['title_list'][] = array( 'link' => $advert['advert_link'], 'title' => $advert['name'] );
+	
+	// meta
+	$param_meta = array(
+		'title' => $advert['name'].' - '.$advert['price_text'],
+		'array_meta' => array(
+			array( 'name' => 'Title', 'content' => $advert['name'].', '.$advert['address'] ),
+			array( 'name' => 'Description', 'content' => get_length_char($advert['content'], 200, ' ...') ),
+			array( 'name' => 'Keywords', 'content' => $advert['city_name'].', '.$advert['region_name'].', '.$advert['advert_link'] )
+		),
+		'array_link' => array(
+			array( 'rel' => 'canonical', 'href' => $advert['advert_link'] ),
+			array( 'rel' => 'image_src', 'href' => $advert['thumbnail_link'] ),
+			array( 'rel' => 'citation_authors', 'content' => $advert['fullname'] )
+		)
+	);
 ?>
-<?php $this->load->view('website/common/meta'); ?>
+<?php $this->load->view( 'website/common/meta', $param_meta ); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
 <section id="page" class="offcanvas-pusher" role="main">
 	<?php $this->load->view('website/common/header'); ?>

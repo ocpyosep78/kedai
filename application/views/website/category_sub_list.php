@@ -93,8 +93,51 @@
 	$param_advert_view['page_total'] = $page_total;
 	$param_advert_view['total_item'] = $total_item;
 	$param_advert_view['page_offset'] = $page_offset;
+	
+	/* region seo */
+	
+	if (empty($namelike)) {
+		// get string image
+		$string_image = '';
+		$array_check = array();
+		foreach ($array_advert as $row) {
+			if (! in_array($row['thumbnail_link'], $array_check)) {
+				$array_check[] = $row['thumbnail_link'];
+				$string_image .= (empty($string_image)) ? $row['thumbnail_link'] : ', '.$row['thumbnail_link'];
+			}
+		}
+		
+		// meta
+		$param_meta = array(
+			'title' => $category_sub['name'].' - '.WEBSITE_DOMAIN,
+			'array_meta' => array(
+				array( 'name' => 'Description', 'content' => 'Market jual beli '.$category['name'].' - '.$category_sub['name'].' at '.WEBSITE_DOMAIN ),
+				array( 'name' => 'Keywords', 'content' => $category['name'].', '.$category_sub['name'] )
+			),
+			'array_link' => array(
+				array( 'rel' => 'canonical', 'href' => $category_sub['category_sub_link'] ),
+				array( 'rel' => 'image_src', 'href' => $string_image )
+			)
+		);
+	} else {
+		// meta
+		$param_meta = array(
+			'title' => ucfirst($namelike).' - '.WEBSITE_DOMAIN,
+			'array_meta' => array(
+				array( 'name' => 'Title', 'content' => WEBSITE_DESC ),
+				array( 'name' => 'Description', 'content' => WEBSITE_DESC ),
+				array( 'name' => 'Keywords', 'content' => strtolower(WEBSITE_TITLE).', '.strtolower($namelike).', '.strtolower($category['name']).', '.strtolower($category_sub['name']) )
+			),
+			'array_link' => array(
+				array( 'rel' => 'canonical', 'href' => $category['category_link'].'/search/'.strtolower($namelike) ),
+				array( 'rel' => 'image_src', 'href' => base_url(WEBSITE_LOGO) )
+			)
+		);
+	}
+	
+	/* end region seo */
 ?>
-<?php $this->load->view('website/common/meta'); ?>
+<?php $this->load->view( 'website/common/meta', $param_meta ); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
 
 <section id="page" class="offcanvas-pusher" role="main">

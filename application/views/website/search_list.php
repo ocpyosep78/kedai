@@ -66,8 +66,29 @@
 	$param_advert_view['page_total'] = $page_total;
 	$param_advert_view['total_item'] = $total_item;
 	$param_advert_view['page_offset'] = $page_offset;
+	
+	/* region seo */
+	
+	$title = (empty($namelike)) ? WEBSITE_DOMAIN : ucfirst($namelike).' - '.WEBSITE_DOMAIN;
+	$keyword = (empty($namelike)) ? WEBSITE_TITLE : WEBSITE_TITLE.', '.$namelike;
+	
+	// meta
+	$param_meta = array(
+		'title' => $title,
+		'array_meta' => array(
+			array( 'name' => 'Title', 'content' => WEBSITE_DESC ),
+			array( 'name' => 'Description', 'content' => WEBSITE_DESC ),
+			array( 'name' => 'Keywords', 'content' => $keyword )
+		),
+		'array_link' => array(
+			array( 'rel' => 'canonical', 'href' => base_url('search/'.$namelike) ),
+			array( 'rel' => 'image_src', 'href' => base_url(WEBSITE_LOGO) )
+		)
+	);
+	
+	/* end region seo */
 ?>
-<?php $this->load->view('website/common/meta'); ?>
+<?php $this->load->view( 'website/common/meta', $param_meta ); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
 
 <section id="page" class="offcanvas-pusher" role="main">

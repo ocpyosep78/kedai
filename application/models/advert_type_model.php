@@ -76,6 +76,17 @@ class Advert_Type_model extends CI_Model {
 		return $TotalRecord;
     }
 	
+	function get_string($param = array()) {
+		$array = $this->get_array();
+		
+		$result = '';
+		foreach ($array as $row) {
+			$result .= (empty($result)) ? $row['name'] : ', '.$row['name'];
+		}
+		
+		return $result;
+	}
+	
     function delete($param) {
 		$delete_query  = "DELETE FROM ".ADVERT_TYPE." WHERE id = '".$param['id']."' LIMIT 1";
 		$delete_result = mysql_query($delete_query) or die(mysql_error());

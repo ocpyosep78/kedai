@@ -55,8 +55,61 @@
 	
 	// array sub category
 	$array_category_sub = $this->Category_Sub_model->get_array(array( 'category_id' => $category['id'] ));
+	
+	/* region seo */
+	
+	if (empty($namelike)) {
+		// get category sub name
+		$string_category_sub = '';
+		foreach($array_category_sub as $key => $row) {
+			$string_category_sub .= (empty($string_category_sub)) ? $row['name'] : ', '.$row['name'];
+			if ($key >= 4) {
+				break;
+			}
+		}
+		$string_advert_type = $this->Advert_Type_model->get_string();
+		
+		// get string image
+		$string_image = '';
+		$array_check = array();
+		foreach ($array_advert as $row) {
+			if (! in_array($row['thumbnail_link'], $array_check)) {
+				$array_check[] = $row['thumbnail_link'];
+				$string_image .= (empty($string_image)) ? $row['thumbnail_link'] : ', '.$row['thumbnail_link'];
+			}
+		}
+		
+		// meta
+		$param_meta = array(
+			'title' => $category['name'].' - '.WEBSITE_DOMAIN,
+			'array_meta' => array(
+				array( 'name' => 'Description', 'content' => 'Market jual beli '.$category['name'].' at '.WEBSITE_DOMAIN ),
+				array( 'name' => 'Keywords', 'content' => $string_category_sub.', '.$string_advert_type )
+			),
+			'array_link' => array(
+				array( 'rel' => 'canonical', 'href' => $category['category_link'] ),
+				array( 'rel' => 'image_src', 'href' => $string_image )
+			)
+		);
+	} else {
+		// meta
+		$param_meta = array(
+			'title' => ucfirst($namelike).' - '.WEBSITE_DOMAIN,
+			'array_meta' => array(
+				array( 'name' => 'Title', 'content' => WEBSITE_DESC ),
+				array( 'name' => 'Description', 'content' => WEBSITE_DESC ),
+				array( 'name' => 'Keywords', 'content' => strtolower(WEBSITE_TITLE).', '.strtolower($namelike).', '.strtolower($category['name'])  )
+			),
+			'array_link' => array(
+				array( 'rel' => 'canonical', 'href' => $category['category_link'].'/search/'.strtolower($namelike) ),
+				array( 'rel' => 'image_src', 'href' => base_url(WEBSITE_LOGO) )
+			)
+		);
+	}
+	
+	/* end region seo */
 ?>
-<?php $this->load->view('website/common/meta'); ?>
+<?php $this->load->view( 'website/common/meta', $param_meta ); ?>
 <body id="offcanvas-container" class="offcanvas-container layout-fullwidth fs12 page-product">
 
 <section id="page" class="offcanvas-pusher" role="main">

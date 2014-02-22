@@ -1,9 +1,29 @@
 <?php
 	$web['base'] = base_url();
+	
+	// title
+	$title = (isset($title)) ? $title : WEBSITE_TITLE.' - '.WEBSITE_DESC;
+	
+	/*	// array meta
+		e.g. $array_meta = array(
+			array( 'name' => 'Title', 'content' => 'Isi Title' ),
+			array( 'name' => 'Description', 'content' => 'Isi Description' ),
+			array( 'name' => 'Keywords', 'content' => 'Isi Keywords' )
+		);
+	/*	*/
+	$array_meta = (isset($array_meta)) ? $array_meta : array();
+	
+	/*	// array link
+		e.g. $array_link = array(
+			array( 'rel' => 'canonical', 'href' => 'url item' ),
+			array( 'rel' => 'image_src', 'href' => 'image default' )
+		);
+	/*	*/
+	$array_link = (isset($array_link)) ? $array_link : array();
 ?>
 <!DOCTYPE html>
 <html dir="ltr" class="ltr" lang="en"><head>
-	<title>Aeropress with Stainless Filter and Free Liquid Planet Tea Sample - 36.99</title>
+	<title><?php echo $title; ?></title>
 	
 	<meta charset="UTF-8">
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -13,12 +33,16 @@
 	<meta name="viewport" content="width=device-width">
 	
 	<!-- meta -->
-	<meta name="Description" content="Aerobie AeroPress - Single Serve Coffee Maker. If you are looking for great espresso for Lattes, Cappuccinos or Americanos, you have found it. The Aerobie Aeropress is fast, convenient and best of all makes better espresso than many home espresso ...">
-	<meta name="Keywords" content="Aerobie, , Amazon">
+	<?php foreach ($array_meta as $row) { ?>
+	<meta name="<?php echo $row['name']; ?>" content="<?php echo $row['content']; ?>" />
+	<?php } ?>
 	
 	<!-- link -->
-	<meta rel="canonical" href="http://shopermarket.com/item/aeropress-with-stainless-filter-and-free-liquid-planet-tea-sample">
-	<meta rel="image_src" href="http://ecx.images-amazon.com/images/I/416Za1p-V5L._SY300_.jpg">
+	<?php foreach ($array_link as $row) { ?>
+		<?php $href = (isset($row['href'])) ? 'href="'.$row['href'].'" ' : ''; ?>
+		<?php $content = (isset($row['content'])) ? 'content="'.$row['content'].'" ' : ''; ?>
+	<meta rel="<?php echo $row['rel']; ?>" <?php echo $href.$content; ?> />
+	<?php } ?>
 	
 	<link rel="stylesheet" href="<?php echo base_url('static/theme/shoper/css/bootstrap.css'); ?>">
 	<link rel="stylesheet" href="<?php echo base_url('static/theme/shoper/css/stylesheet.css'); ?>">
