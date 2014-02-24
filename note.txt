@@ -1,23 +1,24 @@
 Advert Single Page
-cek => - Desc belum keluar
-cek => - li model dibalikin ke versi sebelumnya karena terlalu panjang
+- Desc belum keluar
+- li model dibalikin ke versi sebelumnya karena terlalu panjang
 
 Adver Post
-cek => - untuk new member ditambah inputan password
+- untuk new member ditambah inputan password
 
 Panel Manage Advert
-cek => - iklan yang keluar disini adalah iklan dari member yang statusnya sudah di approve emailnya
-cek => - jadi admin bisa approve ketika user tersebut sudah mem-validasi emailnya
+- iklan yang keluar disini adalah iklan dari member yang statusnya sudah di approve emailnya
+- jadi admin bisa approve ketika user tersebut sudah mem-validasi emailnya
 
 Panel Myad
-cek => - link http://www.kedaipedia.com/panel/myad
-cek => - harusnya versi mobilenya seperti : http://flatfull.com/themes/note/index.html
+- link http://www.kedaipedia.com/panel/myad
+- harusnya versi mobilenya seperti : http://flatfull.com/themes/note/index.html
 
 Page Static
-cek => - link http://www.kedaipedia.com/hotmail
-cek => - iklannya ditampilkan 10 item
+- link http://www.kedaipedia.com/hotmail
+- iklannya ditampilkan 10 item
+- http://www.kedaipedia.com/her0satr
 ---------------------------------------------------------------------------------------------
-cek => halaman advert
+halaman advert
 http://www.kedaipedia.com/advert/152767820
 
 <title>Judul Iklan - harga</title>
@@ -28,7 +29,7 @@ http://www.kedaipedia.com/advert/152767820
 <link rel="image_src" href="image default" />
 <meta name="citation_authors" content="Ridwan Amir">
 ---------------------------------------------------------------------------------------------
-cek => halaman category
+halaman category
 http://www.kedaipedia.com/property
 
 <title><property> - kedaipedia.com </title>
@@ -37,7 +38,7 @@ http://www.kedaipedia.com/property
 <link rel="canonical" href="url"/> 
 <link rel="image_src" href="<array dari semua list gambar samsung yang tampil>" />
 -------------------------------------------------------------------------------
-cek => halaman category search
+halaman category search
 http://www.kedaipedia.com/property/search/samsung
 
 <title>Samsung - kedaipedia.com </title>      
@@ -47,7 +48,7 @@ http://www.kedaipedia.com/property/search/samsung
 <link rel="canonical" href="url"/>
 <link rel="image_src" href="<icon shopermarket>" />
 -------------------------------
-cek => halaman category sub
+halaman category sub
 http://www.kedaipedia.com/property/apartment
 
 <title>Samsung - kedaipedia.com</title>
@@ -56,7 +57,7 @@ http://www.kedaipedia.com/property/apartment
 <link rel="canonical" href="url"/> 
 <link rel="image_src" href="<array dari semua list gambar apartment yang tampil>" />
 -------------------------------
-cek => halaman sub category search
+halaman sub category search
 http://www.kedaipedia.com/property/apartment/search/samsung
 
 <title>Samsung - kedaipedia.com </title>      
@@ -75,7 +76,7 @@ http://www.kedaipedia.com/property/apartment/samsung
 <link rel="canonical" href="url"/> 
 <link rel="image_src" href="<array dari semua list gambar samsung yang tampil>" />
 -------------------------------
-cek (masih ada yang kurang) => halaman profile
+ok (masih ada yang kurang) => halaman profile
 http://kedaipedia.com/ridwanamir
 
 <title>ridwan amir - kedaipedia.com </title>
@@ -85,7 +86,7 @@ http://kedaipedia.com/ridwanamir
 <link rel="image_src" href="<array dari semua list gambar samsung yang tampil>" />
 <meta name="citation_authors" content="Ridwan Amir">
 -------------------------------
-cek => halaman region
+halaman region
 http://kedaipedia.com/johor
 
 <title>Johor - kedaipedia.com </title>
@@ -95,7 +96,7 @@ http://kedaipedia.com/johor
 <link rel="canonical" href="url"/> 
 <link rel="image_src" href="<icon shopermarket>" />
 -----------------------------------------------------------------------
-cek => halaman page static
+halaman page static
 http://kedaipedia.com/about-us
 
 <title>About Us/title - kedaipedia.com </title>
@@ -106,9 +107,8 @@ http://kedaipedia.com/about-us
 <link rel="image_src" href="<icon shopermarket>" />
 
 UNTUK HALAMAN page static YANG LAIN SAMA, metanya sama dengan halaman about di atas
-
 -------------------------------
-cek => halaman search
+halaman search
 http://kedaipedia.com/search/samsung
 
 <title>Samsung - kedaipedia.com </title>   
@@ -117,18 +117,3 @@ http://kedaipedia.com/search/samsung
 <meta name="Keywords" content="kedaipedia, samsung, <property>"/>
 <link rel="canonical" href="url"/>
 <link rel="image_src" href="<icon shopermarket>" />
-
-
-application/config/constants.php
-application/models/advert_model.php
-application/models/advert_type_model.php
-application/views/website/advert.php
-application/views/website/category_list.php
-application/views/website/category_sub_list.php
-application/views/website/common/meta.php
-application/views/website/page_static.php
-application/views/website/region_city_list.php
-application/views/website/region_list.php
-application/views/website/search_list.php
-application/views/website/user.php
-note.txt

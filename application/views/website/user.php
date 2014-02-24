@@ -34,17 +34,33 @@
 	
 	$user_address = (empty($user['address'])) ? $user['fullname'].' Address' : $user['address'];
 	$user_about = (empty($user['user_about'])) ? $user['fullname'].' About' : get_length_char($user['user_about'], 200, '');
+	$keyword = $user['fullname'].', '.$user['alias'];
+	$image_src = base_url(WEBSITE_LOGO);
+	
+	// page has advert
+	if (count($array_advert) > 0) {
+		$keyword .= ', '.$array_advert[0]['name'];
+		
+		$image_src = '';
+		$array_check = array();
+		foreach ($array_advert as $row) {
+			if (! in_array($row['thumbnail_link'], $array_check)) {
+				$array_check[] = $row['thumbnail_link'];
+				$image_src .= (empty($image_src)) ? $row['thumbnail_link'] : ', '.$row['thumbnail_link'];
+			}
+		}
+	}
 	
 	// meta
 	$param_meta = array(
 		'title' => $user['fullname'].' - '.WEBSITE_DOMAIN,
 		'array_meta' => array(
 			array( 'name' => 'Description', 'content' => $user_about.', '.$user_address ),
-			array( 'name' => 'Keywords', 'content' => $user['fullname'].', '.$user['alias'].', (judul iklan terbaru ridwan amir 1 saja **************************)' )
+			array( 'name' => 'Keywords', 'content' => $keyword )
 		),
 		'array_link' => array(
 			array( 'rel' => 'canonical', 'href' => $user['user_link'] ),
-			array( 'rel' => 'image_src', 'href' => base_url(WEBSITE_LOGO) ),
+			array( 'rel' => 'image_src', 'href' => $image_src ),
 			array( 'rel' => 'citation_authors', 'content' => $user['fullname'] )
 		)
 	);
