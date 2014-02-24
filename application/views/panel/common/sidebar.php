@@ -292,21 +292,3 @@
 		</footer>
 	</section>
 </aside>
-
-<script>
-	$('.link-post').click(function() {
-		window.open(web.base + 'post');
-	});
-
-	var link = window.location.href;
-	var array_link = link.replace(new RegExp('^.+panel\/', 'gi'), '').split('/');
-	if (array_link.length == 2) {
-		// parent
-		$('[data-menu-parent="' + array_link[0] + '"]').addClass('active');
-		$('[data-menu-parent="' + array_link[0] + '"]').children('a').addClass('active');
-		
-		// child
-		$('[data-menu-parent="' + array_link[0] + '"]').find('[data-menu-child="' + array_link[1] + '"]').addClass('active');
-		$('[data-menu-parent="' + array_link[0] + '"]').find('[data-menu-child="' + array_link[1] + '"]').parent('li').addClass('active');
-	}
-</script>

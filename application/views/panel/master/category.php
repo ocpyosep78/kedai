@@ -1,7 +1,6 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
-	<?php $this->load->view( 'panel/common/header' ); ?>
 	<div class="hide">
 		<iframe name="iframe_thumbnail" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail'); ?>"></iframe>
 	</div>
@@ -45,6 +44,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<?php $this->load->view( 'panel/common/header' ); ?>
 	
     <section>
 		<section class="hbox stretch">

@@ -106,13 +106,3 @@
 		</li>
 	</ul>
 </header>
-
-<script>
-$(document).ready(function() {
-	$('#form-search').submit(function(e) {
-		e.preventDefault();
-		var value = $('#form-search [name="search"]').val();
-		window.location = web.base + 'search/' + Func.GetName(value);
-	});
-});
-</script>

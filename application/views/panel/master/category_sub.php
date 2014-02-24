@@ -4,8 +4,6 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
-	<?php $this->load->view( 'panel/common/header' ); ?>
-	
 	<div class="modal fade" id="modal-category-sub">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -49,6 +47,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<?php $this->load->view( 'panel/common/header' ); ?>
 	
     <section>
 		<section class="hbox stretch">

@@ -9,8 +9,8 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
-    <?php $this->load->view( 'panel/common/header' ); ?>
 	<div id="cnt-page" class="hide"><?php echo json_encode($page); ?></div>
+    <?php $this->load->view( 'panel/common/header' ); ?>
 	
 	<section><section class="hbox stretch">
         <?php $this->load->view( 'panel/common/sidebar' ); ?>

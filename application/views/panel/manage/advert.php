@@ -13,7 +13,6 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
-	<?php $this->load->view( 'panel/common/header' ); ?>
 	<div id="cnt-page" class="hide"><?php echo json_encode($page); ?></div>
 	
 	<div class="modal fade" id="modal-message">
@@ -90,6 +89,8 @@
 		</div>
 	</div>
 	
+	<?php $this->load->view( 'panel/common/header' ); ?>
+	
     <section>
 		<section class="hbox stretch">
 			<?php $this->load->view( 'panel/common/sidebar' ); ?>
@@ -164,6 +165,8 @@ $(document).ready(function() {
 		source: web.base + 'panel/manage/advert/grid',
 		column: [ { }, { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '20%' } ],
 		fnServerParams: function ( aoData ) {
+			aoData.push( { "name": "verify_email", "value": 1 } );
+			
 			if (page.data.user_id != null) {
 				aoData.push( { "name": "user_id", "value": page.data.user_id } );
 			}

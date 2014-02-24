@@ -534,7 +534,7 @@
 			$('#form-advert .cnt-fullname').show();
 			$('#form-advert .cnt-email').show();
 			$('#form-advert .cnt-alias').show();
-			$('#form-advert .cnt-password').hide();
+			$('#form-advert .cnt-password').show();
 			$('#form-advert .cnt-id-number').show();
 			$('#form-advert .cnt-phone').show();
 			$('#form-advert .cnt-bb-pin').show();

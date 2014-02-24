@@ -5,7 +5,6 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
-	<?php $this->load->view( 'panel/common/header' ); ?>
 	<input type="hidden" name="category_id" value="0" />
 	<input type="hidden" name="category_sub_id" value="0" />
 	<input type="hidden" name="advert_type_sub_id" value="0" />
@@ -25,6 +24,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<?php $this->load->view( 'panel/common/header' ); ?>
 	
     <section>
 		<section class="hbox stretch">

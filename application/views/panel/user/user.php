@@ -4,11 +4,11 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
-	<?php $this->load->view( 'panel/common/header' ); ?>
 	<div class="hide">
 		<iframe name="iframe_thumbnail_profile" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail_profile'); ?>"></iframe>
 		<iframe name="iframe_thumbnail_banner" src="<?php echo base_url('panel/upload?callback_name=set_thumbnail_banner'); ?>"></iframe>
 	</div>
+	<?php $this->load->view( 'panel/common/header' ); ?>
 	
     <section>
 		<section class="hbox stretch">

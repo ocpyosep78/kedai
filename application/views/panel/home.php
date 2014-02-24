@@ -19,10 +19,8 @@
 <?php $this->load->view( 'panel/common/meta' ); ?>
 <body>
 <section class="vbox">
+	<div class="hide"><div id="cnt-page"><?php echo json_encode($page); ?></div></div>
 	<?php $this->load->view( 'panel/common/header' ); ?>
-	<div class="hide">
-		<div id="cnt-page"><?php echo json_encode($page); ?></div>
-	</div>
 	
 	<section>
 		<section class="hbox stretch">

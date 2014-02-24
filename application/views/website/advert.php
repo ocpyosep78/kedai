@@ -121,6 +121,8 @@
 										</p>
 									</div>
 									
+									<div>Description :<br /><?php echo $advert['content']; ?></div>
+									
 									<div class="cnt-metadata"></div>
 								</div>
 							</div>
@@ -281,10 +283,8 @@
 				var label = array_input[i].label;
 				var value = page.advert[name];
 				
-				if (Func.InArray(array_input[i].input_type_name, ['text', 'select'])) {
-					template += label + '<hr /><div class="text-wrap"><ul class="three-col">';
-					template += '<li>' + value + '</li>';
-					template += '</ul></div><br />';
+				if (Func.InArray(array_input[i].input_type_name, ['text', 'select', 'textarea'])) {
+					template += '<div style="margin: 8px 0;">' + label + ' : ' + value + '</div>';
 				} else if (Func.InArray(array_input[i].input_type_name, ['checkbox'])) {
 					// generate option
 					var cnt_option = '';
@@ -295,12 +295,9 @@
 						}
 					}
 					
-					template += label + '<hr /><div class="text-wrap"><ul class="three-col">';
+					template += '<div style="padding: 20px 0 0 0;">' + label + '<hr /><div class="text-wrap"><ul class="three-col">';
 					template += cnt_option;
-					template += '</ul></div><br />';
-				}
-				else if (array_input[i].input_type_name == 'textarea') {
-					template += '<div style="margin: 8px 0;">' + label + ' : ' + value + '</div>';
+					template += '</ul></div><br /></div>';
 				}
 				else if (array_input[i].input_type_name == 'parent') {
 					var content = '';

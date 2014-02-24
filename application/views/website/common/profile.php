@@ -24,7 +24,7 @@
 		<div class="address">Member Since: <?php echo GetFormatDate($user['register_date'], array( 'FormatDate' => 'd-m-Y' )); ?></div>
 		<hr /><br />
 		<div class="gambarprofile"> 
-			<a class="landingImageWrapper-profil" href="#"><img alt="<?php echo $user['fullname']; ?>" src="<?php echo $user['thumbnail_profile_link']; ?>"></a>
+			<a class="landingImageWrapper-profil" href="<?php echo $user['user_link']; ?>"><img alt="<?php echo $user['fullname']; ?>" src="<?php echo $user['thumbnail_profile_link']; ?>"></a>
 		</div>
 	</article>
 	<div class="box box-product bestseller">

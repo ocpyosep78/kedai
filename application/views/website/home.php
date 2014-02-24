@@ -35,8 +35,8 @@
 						<div class="column col-xs-12-kota col-sm-6 col-lg-3-index">
 							<div class="box contact-us">
 								<div class="box-content">
-									<div style="float:none;padding:10px 0 15px 0">Region</div>
-									<img src="http://localhost/kedai/trunk/static/temp/map.png">
+									<div style="float: none; padding: 21px 0px 0px;">
+									<img src="http://kedaipedia.com/static/img/kedaimalaysia.png"></div>
 								</div>
 							</div>
 						</div>	

@@ -21,6 +21,15 @@
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
 	$param_breadcrumb['title_list'][] = array( 'link' => $user['user_link'], 'title' => $user['fullname'] );
 	
+	// advert
+	$param_advert = array(
+		'user_id' => $user['id'],
+		'advert_status_id' => ADVERT_STATUS_APPROVE,
+		'sort' => '[{"property":"post_time","direction":"DESC"},{"property":"Advert.id","direction":"DESC"}]',
+		'limit' => 10
+	);
+	$array_advert = $this->Advert_model->get_array($param_advert);
+	
 	/* region seo */
 	
 	$user_address = (empty($user['address'])) ? $user['fullname'].' Address' : $user['address'];
@@ -101,7 +110,34 @@
 								</div>
 							</form>
 						</div>
-					</div> 
+					</div>
+					
+					<?php foreach ($array_advert as $row) { ?>
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-fullwidth">
+						<div class="product-block">
+							<div class="image">
+								<a title="<?php echo $row['name']; ?>" rel="colorbox" class="info-view colorbox product-zoom cboxElement" href="<?php echo $row['advert_link']; ?>">
+									<i class="fa fa-search-plus"></i>
+								</a>
+								<div class="image_container">
+									<a class="img front" href="<?php echo $row['advert_link']; ?>"><img class="img-responsive" alt="<?php echo $row['name']; ?>" title="<?php echo $row['name']; ?>" src="<?php echo $row['thumbnail_link']; ?>"></a>
+								</div>
+								<div class="img-overlay"></div>
+							</div>
+							<div class="product-meta">
+								<div class="left">
+									<h3 class="name"><a href="<?php echo $row['advert_link']; ?>"><?php echo get_length_char($row['name'], 40, ' ...'); ?></a></h3>						  
+									<p class="description"><?php echo get_length_char($row['content'], 80, ' ...'); ?></p>
+								</div>
+								<div class="right">
+									<div class="price">
+										<span class="price-tax">Price : <?php echo $row['price_text']; ?></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php } ?>
 				</section>
 				
 				<aside id="oc-column-right" class="col-lg-3 col-md-3 col-sm-12 col-xs-12 offcanvas-sidebar">
