@@ -50,6 +50,7 @@ class post extends KEDAI_Controller {
 				
 				// get user
 				$user = $this->User_model->get_session();
+				$user['show_panel'] = true;
 			}
 			else {
 				$user = $this->User_model->get_session();
@@ -126,6 +127,11 @@ class post extends KEDAI_Controller {
 			
 			// update
 			$result = $this->Advert_model->update($advert_update);
+			
+			// update result with user
+			if (isset($user['show_panel'])) {
+				$result['show_panel'] = $user['show_panel'];
+			}
 			
 			// thumbnail
 			$this->Advert_Pic_model->delete(array( 'advert_id' => $result['id'] ));

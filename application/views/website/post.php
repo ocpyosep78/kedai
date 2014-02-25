@@ -187,6 +187,7 @@
 						<footer>
 							<button type="submit" class="button">Submit</button>
 							<button type="button" class="button button-secondary" onclick="window.history.back();">Cancel</button>
+							<button type="button" class="button button-red btn-panel" style="display:none;" >Panel</button>
 						</footer>
 					</form>
 					
@@ -470,6 +471,9 @@
 				$('#cnt-ic-number .label').text('IC Number');
 				$('#cnt-ic-number input').attr('placeholder', 'IC Number');
 			}
+		},
+		show_button_panel: function() {
+			$('#content footer .btn-panel').attr('style', '');
 		}
 	}
 	
@@ -567,8 +571,17 @@
 				$('#form-advert')[0].reset();
 				$('#form-advert [name="id"]').val(0);
 				$('#form-advert [name="user_action"]').eq(0).click();
+				
+				if (result.show_panel) {
+					page.show_button_panel();
+				}
 			}
 		});
+	});
+	
+	// helper
+	$('.btn-panel').click(function() {
+		window.location = web.base + 'panel';
 	});
 	
 	// upload

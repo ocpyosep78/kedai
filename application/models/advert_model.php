@@ -138,6 +138,7 @@ class Advert_model extends CI_Model {
 		$string_category = (!empty($param['category_id'])) ? "AND CategorySub.category_id = '".$param['category_id']."'" : '';
 		$string_category_sub = (!empty($param['category_sub_id'])) ? "AND Advert.category_sub_id = '".$param['category_sub_id']."'" : '';
 		$string_advert_type = (!empty($param['advert_type_id'])) ? "AND Advert.advert_type_id = '".$param['advert_type_id']."'" : '';
+		$string_active = (isset($param['is_active'])) ? "AND User.is_active = '".$param['is_active']."'" : '';
 		$string_verify_email = (isset($param['verify_email'])) ? "AND User.verify_email = '".$param['verify_email']."'" : '';
 		$string_advert_status = (!empty($param['advert_status_id'])) ? "AND Advert.advert_status_id = '".$param['advert_status_id']."'" : '';
 		$string_category_input = (isset($param['category_input_search'])) ? get_query_category_input($param['category_input_search']) : '';
@@ -170,7 +171,7 @@ class Advert_model extends CI_Model {
 				$string_user $string_city $string_region
 				$string_category $string_category_sub
 				$string_price_min $string_price_max
-				$string_advert_type $string_verify_email $string_advert_status $string_category_input
+				$string_advert_type $string_active $string_verify_email $string_advert_status $string_category_input
 				$string_condition $string_delete $string_filter
 			ORDER BY $string_sorting
 			LIMIT $string_limit

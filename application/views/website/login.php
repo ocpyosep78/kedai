@@ -1,4 +1,11 @@
 <?php
+	$is_login = $this->User_model->is_login();
+	if ($is_login) {
+		header("HTTP/1.1 301 Moved Permanently");
+		header('Location: '.base_url('panel'));
+		exit;
+	}
+	
 	// build breadcrumb
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url(), 'title' => 'Home', 'class' => 'first' );
 	$param_breadcrumb['title_list'][] = array( 'link' => base_url('login'), 'title' => 'login' );

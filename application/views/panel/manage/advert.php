@@ -165,7 +165,7 @@ $(document).ready(function() {
 		source: web.base + 'panel/manage/advert/grid',
 		column: [ { }, { }, { }, { }, { }, { }, { bSortable: false, sClass: 'center', sWidth: '20%' } ],
 		fnServerParams: function ( aoData ) {
-			aoData.push( { "name": "verify_email", "value": 1 } );
+			aoData.push( { "name": "is_active", "value": 1 } );
 			
 			if (page.data.user_id != null) {
 				aoData.push( { "name": "user_id", "value": page.data.user_id } );
