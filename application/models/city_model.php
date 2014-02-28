@@ -57,6 +57,7 @@ class City_model extends CI_Model {
 	
     function get_array($param = array()) {
         $array = array();
+		$param['limit'] = (isset($param['limit'])) ? $param['limit'] : 100;
 		
 		$param['field_replace']['name'] = 'City.name';
 		$param['field_replace']['region_name'] = 'Region.name';

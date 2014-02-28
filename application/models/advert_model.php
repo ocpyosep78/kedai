@@ -43,7 +43,7 @@ class Advert_model extends CI_Model {
 				SELECT Advert.*,
 					User.email, User.first_name, User.last_name,
 					City.region_id, City.name city_name, Region.name region_name,
-					Category.name category_name, Category.alias category_alias,
+					Category.name category_name, Category.alias category_alias, AdvertType.name advert_type_name,
 					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
 				FROM ".ADVERT." Advert
 				LEFT JOIN ".USER." User ON User.id = Advert.user_id
@@ -51,6 +51,7 @@ class Advert_model extends CI_Model {
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
 				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = Advert.advert_type_id
 				WHERE Advert.id = '".$param['id']."'
 				LIMIT 1
 			";
@@ -59,7 +60,7 @@ class Advert_model extends CI_Model {
 				SELECT Advert.*,
 					User.email, User.first_name, User.last_name,
 					City.region_id, City.name city_name, Region.name region_name,
-					Category.name category_name, Category.alias category_alias,
+					Category.name category_name, Category.alias category_alias, AdvertType.name advert_type_name,
 					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
 				FROM ".ADVERT." Advert
 				LEFT JOIN ".USER." User ON User.id = Advert.user_id
@@ -67,6 +68,7 @@ class Advert_model extends CI_Model {
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
 				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = Advert.advert_type_id
 				WHERE Advert.code = '".$param['code']."'
 				LIMIT 1
 			";
@@ -75,7 +77,7 @@ class Advert_model extends CI_Model {
 				SELECT Advert.*,
 					User.email, User.first_name, User.last_name,
 					City.region_id, City.name city_name, Region.name region_name,
-					Category.name category_name, Category.alias category_alias,
+					Category.name category_name, Category.alias category_alias, AdvertType.name advert_type_name,
 					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
 				FROM ".ADVERT." Advert
 				LEFT JOIN ".USER." User ON User.id = Advert.user_id
@@ -83,6 +85,7 @@ class Advert_model extends CI_Model {
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
 				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = Advert.advert_type_id
 				WHERE Advert.alias = '".$param['alias']."'
 				LIMIT 1
 			";
@@ -91,7 +94,7 @@ class Advert_model extends CI_Model {
 				SELECT Advert.*,
 					User.email, User.first_name, User.last_name,
 					City.region_id, City.name city_name, Region.name region_name,
-					Category.name category_name, Category.alias category_alias,
+					Category.name category_name, Category.alias category_alias, AdvertType.name advert_type_name,
 					CategorySub.category_id, CategorySub.name category_sub_name, CategorySub.alias category_sub_alias
 				FROM ".ADVERT." Advert
 				LEFT JOIN ".USER." User ON User.id = Advert.user_id
@@ -99,6 +102,7 @@ class Advert_model extends CI_Model {
 				LEFT JOIN ".CATEGORY." Category ON Category.id = CategorySub.category_id
 				LEFT JOIN ".CITY." City ON City.id = Advert.city_id
 				LEFT JOIN ".REGION." Region ON Region.id = City.region_id
+				LEFT JOIN ".ADVERT_TYPE." AdvertType ON AdvertType.id = Advert.advert_type_id
 				WHERE
 					Advert.name = '".$param['name']."'
 					AND Advert.user_id = '".$param['user_id']."'

@@ -1,10 +1,11 @@
-Buat Redirect :
-cek => - login, register, lost_pass
-cek => - redirect ke panel dia
+ni perbaikan nanti di cek ya mas..
 
-Post Advert
-cek => - http://kedaipedia.com/post untuk registered member
-cek => - setelah submit muncul tulisan panel untuk link ke panel
+region dan city cuma bisa nampung 26 field.. mestinya bisa sampe 50 lebih (karena jika lebih dari 26 dia tidak tampil)
+http://www.kedaipedia.com/advert/459767244 itu desc text harusnya rapi.. nda ada baris baru
+http://www.kedaipedia.com/advert/459767244 di sebelah tanggal di atas foto, tampikan status iklan, di jual atau for sale dll
+http://www.kedaipedia.com/advert/459767244 tampilkan 5 related iklan pada sub kategori yang sedang di buka
 
-Malaysia Fair
-- Redirect di artikel dan user
+
+stelah perbaiki region dan city sampai lebih dari 50.. cek sortir region dan city apakah sama yang muncul..
+
+Terima Kasih ya mas..

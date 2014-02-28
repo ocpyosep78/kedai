@@ -84,10 +84,10 @@
 						<div class="product-info">
 							<div class="pagination">
 								<div class="links">
-									<?php echo $advert['city_name']; ?> Kota, <?php echo $advert['region_name']; ?>
-									| <?php echo $advert['post_time_text']; ?>
+									<?php echo $advert['post_time_text']; ?>
+									| <?php echo $advert['advert_type_name']; ?>
 									
-									<?php if (isset($advert['condition'])) { ?>| <?php echo $advert['condition']; ?><?php } ?>
+								<!--	<?php if (isset($advert['condition'])) { ?>| <?php echo $advert['condition']; ?><?php } ?> -->
 								</div>
 								<div class="results" style="padding-top: 0px;">List-ID: <?php echo $advert['code']; ?> | Dilihat: <?php echo $advert['view_count']; ?> kali</div>
 							</div>
@@ -121,9 +121,14 @@
 										</p>
 									</div>
 									
-									<div>Description :<br /><?php echo $advert['content']; ?></div>
+									<?php if (isset($advert['address'])) { ?>Address : <?php echo $advert['address']; ?><?php } ?> 
+									<br>Location : <?php echo $advert['city_name']; ?> - <?php echo $advert['region_name']; ?>
+									<br><br>
+									<div class="cnt-metadata"></div><br> <br> 
 									
-									<div class="cnt-metadata"></div>
+									<div>Description :<hr><?php echo nl2br($advert['content']); ?></div>
+									
+								<br> <br> <br> 
 								</div>
 							</div>
 						</div>
@@ -250,6 +255,7 @@
 					<div id="column-right" class="sidebar">
 						<?php $this->load->view( 'website/common/profile', array( 'user_id' => $advert['user_id'] ) ); ?>
 						<?php $this->load->view( 'website/common/widget_section' ); ?>
+						<?php $this->load->view( 'website/common/advert_related', array( 'category_sub_id' => $advert['category_sub_id'] ) ); ?>
 					</div>
 				</aside>
 			</div>
@@ -283,8 +289,8 @@
 				var label = array_input[i].label;
 				var value = page.advert[name];
 				
-				if (Func.InArray(array_input[i].input_type_name, ['text', 'select', 'textarea'])) {
-					template += '<div style="margin: 8px 0;">' + label + ' : ' + value + '</div>';
+				if (Func.InArray(array_input[i].input_type_name, ['text', 'select'])) {
+					template += '<div style="margin: 8px 0;"><b>' + label + ' : </b>' + value + '</div>';
 				} else if (Func.InArray(array_input[i].input_type_name, ['checkbox'])) {
 					// generate option
 					var cnt_option = '';
@@ -295,7 +301,7 @@
 						}
 					}
 					
-					template += '<div style="padding: 20px 0 0 0;">' + label + '<hr /><div class="text-wrap"><ul class="three-col">';
+					template += '<br><div style="padding: 20px 0 0 0;">' + label + '<hr /><div class="text-wrap"><ul class="three-col">';
 					template += cnt_option;
 					template += '</ul></div><br /></div>';
 				}
