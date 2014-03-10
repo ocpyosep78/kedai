@@ -52,6 +52,7 @@ class Vehicle_Type_model extends CI_Model {
 	
     function get_array($param = array()) {
         $array = array();
+		$param['limit'] = (isset($param['limit'])) ? $param['limit'] : 100;
 		
 		$param['field_replace']['name'] = 'VehicleType.name';
 		$param['field_replace']['alias'] = 'VehicleType.alias';
